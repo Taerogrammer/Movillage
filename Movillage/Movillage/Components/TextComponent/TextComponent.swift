@@ -12,8 +12,7 @@ final class HeaderLabel: UILabel {
     init() {
         super.init(frame: .zero)
         font = .boldSystemFont(ofSize: 16)
-
-        textColor = .blue
+        numberOfLines = 0
     }
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,7 +28,7 @@ final class ContentRegularLabel: UILabel {
     init() {
         super.init(frame: .zero)
         font = .systemFont(ofSize: 14)
-        textColor = .red
+        numberOfLines = 0
     }
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -45,7 +44,7 @@ final class ContentBoldLabel: UILabel {
     init() {
         super.init(frame: .zero)
         font = .boldSystemFont(ofSize: 14)
-        textColor = .red
+        numberOfLines = 0
     }
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -61,7 +60,7 @@ final class DescriptionLabel: UILabel {
     init() {
         super.init(frame: .zero)
         font = .boldSystemFont(ofSize: 12)
-        textColor = .red
+        numberOfLines = 0
     }
     override init(frame: CGRect) {
         super.init(frame: frame)
