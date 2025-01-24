@@ -7,24 +7,24 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		16BECFDC2D435DC5004BE591 /* Movillage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Movillage.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		16CD70D92D4367D500DC0AB3 /* Movillage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Movillage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		16BECFEE2D435DC7004BE591 /* Exceptions for "Movillage" folder in "Movillage" target */ = {
+		16CD70EB2D4367D700DC0AB3 /* Exceptions for "Movillage" folder in "Movillage" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 16BECFDB2D435DC5004BE591 /* Movillage */;
+			target = 16CD70D82D4367D500DC0AB3 /* Movillage */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		16BECFDE2D435DC5004BE591 /* Movillage */ = {
+		16CD70DB2D4367D500DC0AB3 /* Movillage */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				16BECFEE2D435DC7004BE591 /* Exceptions for "Movillage" folder in "Movillage" target */,
+				16CD70EB2D4367D700DC0AB3 /* Exceptions for "Movillage" folder in "Movillage" target */,
 			);
 			path = Movillage;
 			sourceTree = "<group>";
@@ -32,7 +32,7 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		16BECFD92D435DC5004BE591 /* Frameworks */ = {
+		16CD70D62D4367D500DC0AB3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -42,18 +42,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		16BECFD32D435DC5004BE591 = {
+		16CD70D02D4367D500DC0AB3 = {
 			isa = PBXGroup;
 			children = (
-				16BECFDE2D435DC5004BE591 /* Movillage */,
-				16BECFDD2D435DC5004BE591 /* Products */,
+				16CD70DB2D4367D500DC0AB3 /* Movillage */,
+				16CD70DA2D4367D500DC0AB3 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		16BECFDD2D435DC5004BE591 /* Products */ = {
+		16CD70DA2D4367D500DC0AB3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				16BECFDC2D435DC5004BE591 /* Movillage.app */,
+				16CD70D92D4367D500DC0AB3 /* Movillage.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,64 +61,64 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		16BECFDB2D435DC5004BE591 /* Movillage */ = {
+		16CD70D82D4367D500DC0AB3 /* Movillage */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 16BECFEF2D435DC7004BE591 /* Build configuration list for PBXNativeTarget "Movillage" */;
+			buildConfigurationList = 16CD70EC2D4367D700DC0AB3 /* Build configuration list for PBXNativeTarget "Movillage" */;
 			buildPhases = (
-				16BECFD82D435DC5004BE591 /* Sources */,
-				16BECFD92D435DC5004BE591 /* Frameworks */,
-				16BECFDA2D435DC5004BE591 /* Resources */,
+				16CD70D52D4367D500DC0AB3 /* Sources */,
+				16CD70D62D4367D500DC0AB3 /* Frameworks */,
+				16CD70D72D4367D500DC0AB3 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				16BECFDE2D435DC5004BE591 /* Movillage */,
+				16CD70DB2D4367D500DC0AB3 /* Movillage */,
 			);
 			name = Movillage;
 			packageProductDependencies = (
 			);
 			productName = Movillage;
-			productReference = 16BECFDC2D435DC5004BE591 /* Movillage.app */;
+			productReference = 16CD70D92D4367D500DC0AB3 /* Movillage.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		16BECFD42D435DC5004BE591 /* Project object */ = {
+		16CD70D12D4367D500DC0AB3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
-					16BECFDB2D435DC5004BE591 = {
+					16CD70D82D4367D500DC0AB3 = {
 						CreatedOnToolsVersion = 16.2;
 					};
 				};
 			};
-			buildConfigurationList = 16BECFD72D435DC5004BE591 /* Build configuration list for PBXProject "Movillage" */;
+			buildConfigurationList = 16CD70D42D4367D500DC0AB3 /* Build configuration list for PBXProject "Movillage" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 16BECFD32D435DC5004BE591;
+			mainGroup = 16CD70D02D4367D500DC0AB3;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 16BECFDD2D435DC5004BE591 /* Products */;
+			productRefGroup = 16CD70DA2D4367D500DC0AB3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				16BECFDB2D435DC5004BE591 /* Movillage */,
+				16CD70D82D4367D500DC0AB3 /* Movillage */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		16BECFDA2D435DC5004BE591 /* Resources */ = {
+		16CD70D72D4367D500DC0AB3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -128,7 +128,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		16BECFD82D435DC5004BE591 /* Sources */ = {
+		16CD70D52D4367D500DC0AB3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -138,7 +138,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		16BECFF02D435DC7004BE591 /* Debug */ = {
+		16CD70ED2D4367D700DC0AB3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -151,9 +151,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -161,17 +160,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dev.ted.Movillage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		16BECFF12D435DC7004BE591 /* Release */ = {
+		16CD70EE2D4367D700DC0AB3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -184,9 +179,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -194,17 +188,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dev.ted.Movillage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
-		16BECFF22D435DC7004BE591 /* Debug */ = {
+		16CD70EF2D4367D700DC0AB3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -267,7 +257,7 @@
 			};
 			name = Debug;
 		};
-		16BECFF32D435DC7004BE591 /* Release */ = {
+		16CD70F02D4367D700DC0AB3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -326,25 +316,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		16BECFD72D435DC5004BE591 /* Build configuration list for PBXProject "Movillage" */ = {
+		16CD70D42D4367D500DC0AB3 /* Build configuration list for PBXProject "Movillage" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				16BECFF22D435DC7004BE591 /* Debug */,
-				16BECFF32D435DC7004BE591 /* Release */,
+				16CD70EF2D4367D700DC0AB3 /* Debug */,
+				16CD70F02D4367D700DC0AB3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		16BECFEF2D435DC7004BE591 /* Build configuration list for PBXNativeTarget "Movillage" */ = {
+		16CD70EC2D4367D700DC0AB3 /* Build configuration list for PBXNativeTarget "Movillage" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				16BECFF02D435DC7004BE591 /* Debug */,
-				16BECFF12D435DC7004BE591 /* Release */,
+				16CD70ED2D4367D700DC0AB3 /* Debug */,
+				16CD70EE2D4367D700DC0AB3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 16BECFD42D435DC5004BE591 /* Project object */;
+	rootObject = 16CD70D12D4367D500DC0AB3 /* Project object */;
 }
