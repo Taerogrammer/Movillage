@@ -1,10 +1,3 @@
-//
-//  OnboardingViewController.swift
-//  Movillage
-//
-//  Created by 김태형 on 1/24/25.
-//
-
 import UIKit
 
 final class OnboardingViewController: UIViewController {
@@ -16,6 +9,21 @@ final class OnboardingViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(#function)
+        configureButton()
+    }
+}
+
+// MARK: configure button
+extension OnboardingViewController: ButtonConfiguration {
+    func configureButton() {
+        onboardingView.startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
+    }
+}
+
+// MARK: @objc
+extension OnboardingViewController {
+    @objc private func startButtonTapped() {
+        let vc = ProfileViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

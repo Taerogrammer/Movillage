@@ -13,6 +13,10 @@ protocol ViewConfiguration: AnyObject {
     func configureView()
 }
 
+protocol ButtonConfiguration: AnyObject {
+    func configureButton()
+}
+
 protocol DelegateConfiguration: AnyObject {
     func configureDelegate()
 }
