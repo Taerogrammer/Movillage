@@ -18,7 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         sleep(2)
 
         // 기본 세팅
-        UIView.appearance().backgroundColor = .black
         UIButton.appearance().setTitleColor(.white, for: .normal)
         UILabel.appearance().textColor = .white
         return true
