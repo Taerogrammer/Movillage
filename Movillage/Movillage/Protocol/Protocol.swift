@@ -24,3 +24,8 @@ protocol NavigationConfiguration: AnyObject {
 protocol DelegateConfiguration: AnyObject {
     func configureDelegate()
 }
+
+protocol TabBarConfiguration: AnyObject {
+    func configureTabBar()
+    func configureTabBarAppearance()
+}
