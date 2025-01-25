@@ -1,29 +1,34 @@
-//
-//  ProfileViewController.swift
-//  Movillage
-//
-//  Created by 김태형 on 1/25/25.
-//
-
 import UIKit
 
-class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController {
+    private let profileView = ProfileView()
+
+    override func loadView() {
+        view = profileView
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        configureButton()
     }
-    
+}
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+// MARK: configure button
+extension ProfileViewController: ButtonConfiguration {
+    func configureButton() {
+        profileView.completeButton.addTarget(self, action: #selector(completeButtonTapped), for: .touchUpInside)
     }
-    */
+}
 
+// MARK: method
+extension ProfileViewController {
+    private func configureImage() {
+    }
+}
+
+// MARK: @objc
+extension ProfileViewController {
+    @objc private func completeButtonTapped() {
+        print(#function)
+    }
 }
