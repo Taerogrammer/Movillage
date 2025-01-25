@@ -17,6 +17,10 @@ protocol ButtonConfiguration: AnyObject {
     func configureButton()
 }
 
+protocol NavigationConfiguration: AnyObject {
+    func configureNavigation()
+}
+
 protocol DelegateConfiguration: AnyObject {
     func configureDelegate()
 }

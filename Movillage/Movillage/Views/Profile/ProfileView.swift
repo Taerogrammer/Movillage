@@ -4,12 +4,13 @@ import SnapKit
 final class ProfileView: BaseView {
     // 터치를 위해 VC에서 접근 필요
     let imageView = ProfileImage(frame: CGRect(x: 0, y: 0, width: 32, height: 32))
+    private let cameraImage = UIImageView()
     private let textField = UITextField()
     private let errorLabel = UILabel()
     let completeButton = CustomButton()
 
     override func configureHierarchy() {
-        [imageView, textField, errorLabel, completeButton].forEach { addSubview($0) }
+        [imageView, textField, errorLabel, completeButton, cameraImage].forEach { addSubview($0) }
     }
     override func configureLayout() {
         imageView.snp.makeConstraints {
@@ -31,10 +32,17 @@ final class ProfileView: BaseView {
             $0.top.equalTo(errorLabel.snp.bottom).offset(20)
             $0.horizontalEdges.equalTo(self.safeAreaLayoutGuide).inset(20)
         }
+        cameraImage.snp.makeConstraints {
+            $0.trailing.equalTo(imageView)
+            $0.bottom.equalTo(imageView)
+        }
+
     }
     override func configureView() {
         imageView.backgroundColor = .red
         textField.placeholder = "닉네임을 입력해주세요"
         completeButton.setTitle("완료", for: .normal)
+        cameraImage.image = UIImage(systemName: "camera.circle.fill")
+        cameraImage.tintColor = UIColor.customBlue
     }
 }

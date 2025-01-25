@@ -9,7 +9,7 @@ final class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureButton()
+        [configureButton(), configureNavigation(), configureGesture()].forEach { $0 }
     }
 }
 
@@ -20,15 +20,33 @@ extension ProfileViewController: ButtonConfiguration {
     }
 }
 
-// MARK: method
+// MARK: configure navigation
+extension ProfileViewController: NavigationConfiguration {
+    func configureNavigation() {
+        navigationItem.title = "프로필 설정"
+        navigationItem.backBarButtonItem?.title = ""
+    }
+
+}
+
+// MARK: configure etc
 extension ProfileViewController {
-    private func configureImage() {
+    private func configureGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+        profileView.imageView.isUserInteractionEnabled = true
+        profileView.imageView.addGestureRecognizer(tapGesture)
     }
 }
+
+
 
 // MARK: @objc
 extension ProfileViewController {
     @objc private func completeButtonTapped() {
         print(#function)
+    }
+    @objc private func imageTapped() {
+        let vc = ProfileImageViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
