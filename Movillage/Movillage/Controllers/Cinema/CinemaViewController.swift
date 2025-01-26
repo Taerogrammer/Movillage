@@ -9,7 +9,24 @@ final class CinemaViewController: UIViewController {
     let dummySectionTwo: [TodayMovie] = [
         TodayMovie(posterImage: "heart", title: "스파이더맨", description: "이ㅏㅁ누리ㅏㅜㅇ히마ㅜ힝누링나ㅜ리ㅏ루지다륑나루이나룽ㄴ"),
         TodayMovie(posterImage: "star.fill", title: "인크레더블 헐크", description: "민움니ㅏ움니ㅏㅇ루이ㅏ후민아훋재루ㅐㅈ라ㅜㅇ내ㅏㅁ룬애ㅏㅜㄴ애라ㅜㄴ애ㅏ루"),
-        TodayMovie(posterImage: "person", title: "하얼빈", description: "ㅣㅁ나ㅜ리ㅏㄴ울미ㅏㅜ이ㅏ루미라운리ㅏㅜ디라ㅜ23ㅐㅑ루잳루ㅐ두래ㅑ2루2ㅐ3ㅑ룯ㄹ")
+        TodayMovie(posterImage: "person", title: "하얼빈", description: "ㅣㅁ나ㅜ리ㅏㄴ울미ㅏㅜ이ㅏ루미라운리ㅏㅜ디라ㅜ23ㅐㅑ루잳루ㅐ두래ㅑ2루2ㅐ3ㅑ룯ㄹ"),
+        TodayMovie(posterImage: "heart", title: "스파이더맨", description: "이ㅏㅁ누리ㅏㅜㅇ히마ㅜ힝누링나ㅜ리ㅏ루지다륑나루이나룽ㄴ"),
+        TodayMovie(posterImage: "star.fill", title: "인크레더블 헐크", description: "민움니ㅏ움니ㅏㅇ루이ㅏ후민아훋재루ㅐㅈ라ㅜㅇ내ㅏㅁ룬애ㅏㅜㄴ애라ㅜㄴ애ㅏ루"),
+        TodayMovie(posterImage: "person", title: "하얼빈", description: "ㅣㅁ나ㅜ리ㅏㄴ울미ㅏㅜ이ㅏ루미라운리ㅏㅜ디라ㅜ23ㅐㅑ루잳루ㅐ두래ㅑ2루2ㅐ3ㅑ룯ㄹ"),
+        TodayMovie(posterImage: "heart", title: "스파이더맨", description: "이ㅏㅁ누리ㅏㅜㅇ히마ㅜ힝누링나ㅜ리ㅏ루지다륑나루이나룽ㄴ"),
+        TodayMovie(posterImage: "star.fill", title: "인크레더블 헐크", description: "민움니ㅏ움니ㅏㅇ루이ㅏ후민아훋재루ㅐㅈ라ㅜㅇ내ㅏㅁ룬애ㅏㅜㄴ애라ㅜㄴ애ㅏ루"),
+        TodayMovie(posterImage: "person", title: "하얼빈", description: "ㅣㅁ나ㅜ리ㅏㄴ울미ㅏㅜ이ㅏ루미라운리ㅏㅜ디라ㅜ23ㅐㅑ루잳루ㅐ두래ㅑ2루2ㅐ3ㅑ룯ㄹ"),
+        TodayMovie(posterImage: "heart", title: "스파이더맨", description: "이ㅏㅁ누리ㅏㅜㅇ히마ㅜ힝누링나ㅜ리ㅏ루지다륑나루이나룽ㄴ"),
+        TodayMovie(posterImage: "star.fill", title: "인크레더블 헐크", description: "민움니ㅏ움니ㅏㅇ루이ㅏ후민아훋재루ㅐㅈ라ㅜㅇ내ㅏㅁ룬애ㅏㅜㄴ애라ㅜㄴ애ㅏ루"),
+        TodayMovie(posterImage: "person", title: "하얼빈", description: "ㅣㅁ나ㅜ리ㅏㄴ울미ㅏㅜ이ㅏ루미라운리ㅏㅜ디라ㅜ23ㅐㅑ루잳루ㅐ두래ㅑ2루2ㅐ3ㅑ룯ㄹ"),
+        TodayMovie(posterImage: "heart", title: "스파이더맨", description: "이ㅏㅁ누리ㅏㅜㅇ히마ㅜ힝누링나ㅜ리ㅏ루지다륑나루이나룽ㄴ"),
+        TodayMovie(posterImage: "star.fill", title: "인크레더블 헐크", description: "민움니ㅏ움니ㅏㅇ루이ㅏ후민아훋재루ㅐㅈ라ㅜㅇ내ㅏㅁ룬애ㅏㅜㄴ애라ㅜㄴ애ㅏ루"),
+        TodayMovie(posterImage: "person", title: "하얼빈", description: "ㅣㅁ나ㅜ리ㅏㄴ울미ㅏㅜ이ㅏ루미라운리ㅏㅜ디라ㅜ23ㅐㅑ루잳루ㅐ두래ㅑ2루2ㅐ3ㅑ룯ㄹ"),
+        TodayMovie(posterImage: "heart", title: "스파이더맨", description: "이ㅏㅁ누리ㅏㅜㅇ히마ㅜ힝누링나ㅜ리ㅏ루지다륑나루이나룽ㄴ"),
+        TodayMovie(posterImage: "star.fill", title: "인크레더블 헐크", description: "민움니ㅏ움니ㅏㅇ루이ㅏ후민아훋재루ㅐㅈ라ㅜㅇ내ㅏㅁ룬애ㅏㅜㄴ애라ㅜㄴ애ㅏ루"),
+        TodayMovie(posterImage: "person", title: "하얼빈", description: "ㅣㅁ나ㅜ리ㅏㄴ울미ㅏㅜ이ㅏ루미라운리ㅏㅜ디라ㅜ23ㅐㅑ루잳루ㅐ두래ㅑ2루2ㅐ3ㅑ룯ㄹ"),
+        TodayMovie(posterImage: "heart", title: "스파이더맨", description: "이ㅏㅁ누리ㅏㅜㅇ히마ㅜ힝누링나ㅜ리ㅏ루지다륑나루이나룽ㄴ"),
+        TodayMovie(posterImage: "star.fill", title: "인크레더블 헐크", description: "민움니ㅏ움니ㅏㅇ루이ㅏ후민아훋재루ㅐㅈ라ㅜㅇ내ㅏㅁ룬애ㅏㅜㄴ애라ㅜㄴ애ㅏ루")
     ]
 
     override func loadView() {
