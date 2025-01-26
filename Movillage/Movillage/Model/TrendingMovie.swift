@@ -1,6 +1,6 @@
 import Foundation
 
-struct TodayMovie {
+struct TrendingMovie {
     let posterImage: String
     let title: String
     let description: String
