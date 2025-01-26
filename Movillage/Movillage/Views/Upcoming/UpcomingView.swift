@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 
 final class UpcomingView: BaseView {
-    private let upcomingLabel = ContentRegularLabel()
+    private let upcomingLabel = UILabel().setFont(.contentRegular)
 
     override func configureHierarchy() {
         addSubview(upcomingLabel)

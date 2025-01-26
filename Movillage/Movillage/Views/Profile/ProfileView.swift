@@ -6,7 +6,7 @@ final class ProfileView: BaseView {
     let imageView = ProfileImage(frame: CGRect(x: 0, y: 0, width: 32, height: 32))
     private let cameraImage = UIImageView()
     private let textField = UITextField()
-    private let errorLabel = UILabel()
+    private let errorLabel = UILabel().setFont(.description)
     let completeButton = CustomButton()
 
     override func configureHierarchy() {

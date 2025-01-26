@@ -3,7 +3,7 @@ import SnapKit
 
 final class SearchView: BaseView {
     let searchBar = UISearchBar()
-    let notFoundLabel = ContentRegularLabel()
+    let notFoundLabel = UILabel().setFont(.contentRegular)
 
     override func configureHierarchy() {
         [searchBar, notFoundLabel].forEach { addSubview($0) }

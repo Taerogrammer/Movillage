@@ -3,8 +3,8 @@ import SnapKit
 
 final class ProfileCardView: BaseView {
     private let profileImage = ProfileImage(frame: CGRect())
-    private let nicknameLabel = HeaderLabel()
-    private let registerLabel = DescriptionLabel()
+    private let nicknameLabel = UILabel().setFont(.header)
+    private let registerLabel = UILabel().setFont(.description)
     private let likeCountButton = UIButton()
     private let chevronImage = UIImageView()
 
@@ -18,11 +18,11 @@ final class ProfileCardView: BaseView {
         }
         nicknameLabel.snp.makeConstraints {
             $0.leading.equalTo(profileImage.snp.trailing).offset(12)
-            $0.top.equalTo(profileImage).inset(12)
+            $0.bottom.equalTo(profileImage.snp.centerY).offset(-2)
         }
         registerLabel.snp.makeConstraints {
             $0.leading.equalTo(nicknameLabel)
-            $0.top.equalTo(nicknameLabel.snp.bottom).offset(12)
+            $0.top.equalTo(profileImage.snp.centerY).offset(2)
         }
         chevronImage.snp.makeConstraints {
             $0.trailing.equalTo(self.safeAreaLayoutGuide).inset(12)
@@ -41,6 +41,9 @@ final class ProfileCardView: BaseView {
         layer.cornerRadius = 12
         profileImage.image = UIImage(systemName: "person")
         nicknameLabel.text = "테스트용 이름입니다."
+
+
+
         registerLabel.text = "25.01.24 가입"
         chevronImage.image = UIImage(systemName: "chevron.right")
         chevronImage.tintColor = UIColor.customWhiteGray
