@@ -13,7 +13,7 @@ final class ProfileCardView: BaseView {
     }
     override func configureLayout() {
         profileImage.snp.makeConstraints {
-            $0.leading.top.equalTo(self.safeAreaLayoutGuide).inset(16)
+            $0.leading.top.equalTo(self.safeAreaLayoutGuide).inset(12)
             $0.width.height.equalTo(60)
         }
         nicknameLabel.snp.makeConstraints {
@@ -25,14 +25,14 @@ final class ProfileCardView: BaseView {
             $0.top.equalTo(nicknameLabel.snp.bottom).offset(12)
         }
         chevronImage.snp.makeConstraints {
-            $0.trailing.equalTo(self.safeAreaLayoutGuide).inset(16)
+            $0.trailing.equalTo(self.safeAreaLayoutGuide).inset(12)
             $0.centerY.equalTo(profileImage)
         }
         likeCountButton.snp.makeConstraints {
             $0.leading.equalTo(profileImage)
-            $0.top.equalTo(profileImage.snp.bottom).offset(16)
-            $0.trailing.bottom.equalTo(self.safeAreaLayoutGuide).inset(16)
-            $0.height.lessThanOrEqualTo(36)
+            $0.top.equalTo(profileImage.snp.bottom).offset(12)
+            $0.trailing.bottom.equalTo(self.safeAreaLayoutGuide).inset(12)
+            $0.height.lessThanOrEqualTo(40)
         }
     }
     override func configureView() {
