@@ -31,12 +31,12 @@ extension CinemaViewController: ProfileCardViewGesture {
         cinemaView.profileCardView.addGestureRecognizer(tapGesture)
     }
     @objc func profileCardTapped() {
-        let vc = ProfileEditViewController()
-        if let sheet = vc.sheetPresentationController {
+        let navVC = UINavigationController(rootViewController: ProfileEditViewController())
+        if let sheet = navVC.sheetPresentationController {
             sheet.detents = [.large()]
             sheet.prefersGrabberVisible = true
         }
-        present(vc, animated: true)
+        present(navVC, animated: true)
     }
 }
 

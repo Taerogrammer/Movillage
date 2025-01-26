@@ -10,15 +10,20 @@ final class ProfileEditViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        [configureButton(), configureGesture()].forEach { $0 }
+        [configureNavigation(), configureGesture()].forEach { $0 }
     }
 }
 
-// MARK: configure button
-extension ProfileEditViewController: ButtonConfiguration {
-    func configureButton() {
-        profileEditView.closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
-        profileEditView.saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+// MARK: configure navigation
+extension ProfileEditViewController: NavigationConfiguration {
+    func configureNavigation() {
+        title = "프로필 편집"
+        let closeButton = UIBarButtonItem(image: UIImage(systemName:"xmark"), style: .plain, target: self, action: #selector(closeButtonTapped))
+        let saveButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveButtonTapped))
+        closeButton.tintColor = UIColor.customBlue
+        saveButton.tintColor = UIColor.customBlue
+        navigationItem.leftBarButtonItem = closeButton
+        navigationItem.rightBarButtonItem = saveButton
     }
 }
 
