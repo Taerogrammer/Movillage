@@ -86,10 +86,14 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
         default:
             return UICollectionViewCell()
         }
-
     }
-    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CinemaHeaderView.id, for: indexPath) as! CinemaHeaderView
+        header.configureHeaderTitle(title: dummySection[indexPath.section])
+        header.configureRemoveButton(title: dummySection[indexPath.section])
 
+        return header
+    }
 }
 
 // MARK: configure delegate
@@ -97,6 +101,7 @@ extension CinemaViewController: DelegateConfiguration {
     func configureDelegate() {
         cinemaView.collectionView.delegate = self
         cinemaView.collectionView.dataSource = self
+        cinemaView.collectionView.register(CinemaHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CinemaHeaderView.id)
         cinemaView.collectionView.register(TodayMovieCollectionViewCell.self, forCellWithReuseIdentifier: TodayMovieCollectionViewCell.id)
         cinemaView.collectionView.register(RecentSearchCollectionViewCell.self, forCellWithReuseIdentifier: RecentSearchCollectionViewCell.id)
     }
