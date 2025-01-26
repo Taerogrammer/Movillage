@@ -2,8 +2,7 @@ import UIKit
 import SnapKit
 
 final class ProfileView: BaseView {
-    // 터치를 위해 VC에서 접근 필요
-    let imageView = ProfileImage(frame: CGRect(x: 0, y: 0, width: 32, height: 32))
+    let imageView = ProfileImage(frame: CGRect())
     private let cameraImage = UIImageView()
     private let textField = UITextField()
     private let errorLabel = UILabel().setFont(.description)

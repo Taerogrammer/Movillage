@@ -1,29 +1,20 @@
-//
-//  ProfileImageViewController.swift
-//  Movillage
-//
-//  Created by 김태형 on 1/25/25.
-//
-
 import UIKit
 
-class ProfileImageViewController: UIViewController {
+final class ProfileImageViewController: UIViewController {
+    private let profileImageView = ProfileImageView()
 
+    override func loadView() {
+        view = profileImageView
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        print(#function)
+        configureNavigation()
     }
+}
 
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+// MARK: configure navigation
+extension ProfileImageViewController: NavigationConfiguration {
+    func configureNavigation() {
+        title = "프로필 이미지 편집"
     }
-    */
-
 }

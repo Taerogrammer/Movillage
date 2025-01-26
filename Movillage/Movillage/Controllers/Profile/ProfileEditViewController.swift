@@ -48,6 +48,7 @@ extension ProfileEditViewController {
 extension ProfileEditViewController {
     @objc private func imageTapped() {
         let vc = ProfileImageViewController()
-        present(vc, animated: true)
+        setEmptyTitleBackButton()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
