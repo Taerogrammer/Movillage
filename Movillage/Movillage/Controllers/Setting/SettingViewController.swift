@@ -52,6 +52,7 @@ extension SettingViewController: DelegateConfiguration {
 // MARK: methods
 extension SettingViewController {
     private func withdrawTapped() {
-        print(#function)
+        let alert = UIAlertController.setAlertWithCancel(title: "탈퇴하기", message: "탈퇴를 하면 데이터가 모두 초기화됩니다. 탈퇴 하시겠습니까?")
+        present(alert, animated: true)
     }
 }
