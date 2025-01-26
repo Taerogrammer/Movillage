@@ -4,6 +4,8 @@ final class SettingViewController: UIViewController {
 
     private let settingView = SettingView()
     private let tableViewData: [String] = ["자주 묻는 질문", "1:1 문의", "알림 설정", "탈퇴하기"]
+    // 탈퇴하기 인덱스
+    private let withdrawIndex: Int = 3
 
     override func loadView() {
         view = settingView
@@ -29,14 +31,15 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.id, for: indexPath) as! SettingTableViewCell
-        cell.label.text = tableViewData[indexPath.row]
-        
+        cell.configureCell(content: tableViewData[indexPath.row])
+        cell.selectionStyle = (indexPath.row == withdrawIndex) ? .default : .none
+
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(#function)
         tableView.deselectRow(at: indexPath, animated: true)
-        if indexPath.row == 3 { withdrawTapped() }
+        if indexPath.row == withdrawIndex { withdrawTapped() }
     }
 }
 

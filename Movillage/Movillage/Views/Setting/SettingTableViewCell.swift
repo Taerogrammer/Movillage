@@ -17,3 +17,8 @@ final class SettingTableViewCell: BaseTableViewCell {
     override func configureView() {
     }
 }
+
+// MARK: configure cell data
+extension SettingTableViewCell {
+    func configureCell(content: String) { label.text = content }
+}
