@@ -12,6 +12,7 @@ class BaseView: UIView, ViewConfiguration {
     override init(frame: CGRect) {
         super.init(frame: frame)
         [configureHierarchy(), configureLayout(), configureView()].forEach{ $0 }
+        backgroundColor = .customBlack
     }
 
     @available(*, unavailable)
