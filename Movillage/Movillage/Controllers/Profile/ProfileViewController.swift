@@ -24,7 +24,7 @@ extension ProfileViewController: ButtonConfiguration {
 extension ProfileViewController: NavigationConfiguration {
     func configureNavigation() {
         navigationItem.title = "프로필 설정"
-        navigationItem.backBarButtonItem?.title = ""
+        setEmptyTitleBackButton()
     }
 
 }

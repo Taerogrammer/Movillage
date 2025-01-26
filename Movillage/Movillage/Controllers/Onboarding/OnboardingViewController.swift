@@ -9,7 +9,7 @@ final class OnboardingViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureButton()
+        [configureButton(), configureNavigation()].forEach { $0 }
     }
 }
 
@@ -17,6 +17,13 @@ final class OnboardingViewController: UIViewController {
 extension OnboardingViewController: ButtonConfiguration {
     func configureButton() {
         onboardingView.startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
+    }
+}
+
+// MARK: configure navigation
+extension OnboardingViewController: NavigationConfiguration {
+    func configureNavigation() {
+        setEmptyTitleBackButton()
     }
 }
 
