@@ -32,6 +32,10 @@ extension CinemaViewController: ProfileCardViewGesture {
     }
     @objc func profileCardTapped() {
         let vc = ProfileEditViewController()
+        if let sheet = vc.sheetPresentationController {
+            sheet.detents = [.large()]
+            sheet.prefersGrabberVisible = true
+        }
         present(vc, animated: true)
     }
 }
