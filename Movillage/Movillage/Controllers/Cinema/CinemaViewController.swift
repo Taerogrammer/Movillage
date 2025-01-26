@@ -32,7 +32,7 @@ extension CinemaViewController: ProfileCardViewGesture {
     }
     @objc func profileCardTapped() {
         let vc = ProfileEditViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        present(vc, animated: true)
     }
 }
 
