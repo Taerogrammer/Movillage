@@ -4,7 +4,7 @@ import SnapKit
 final class OnboardingView: BaseView {
     private let imageView = UIImageView()
     private let titleLabel = UILabel()
-    private let contentsLabel = ContentRegularLabel()
+    private let contentsLabel = UILabel().setFont(.contentRegular)
     let startButton = CustomButton()
 
     override func configureHierarchy() {
