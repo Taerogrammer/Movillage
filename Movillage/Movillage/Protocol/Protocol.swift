@@ -29,3 +29,8 @@ protocol TabBarConfiguration: AnyObject {
     func configureTabBar()
     func configureTabBarAppearance()
 }
+
+protocol ProfileCardViewGesture: AnyObject {
+    func profileCardTapped()
+    func configureProfileCard()
+}
