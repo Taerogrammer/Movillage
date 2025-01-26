@@ -15,5 +15,6 @@ final class RecentSearchCollectionViewCell: BaseCollectionViewCell {
     }
     override func configureView() {
         testLabel.text = "스파이더맨"
+        testLabel.backgroundColor = .customBlue
     }
 }

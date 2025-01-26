@@ -27,84 +27,52 @@ final class CinemaView: BaseView {
     }
 
     private func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
-        return UICollectionViewCompositionalLayout(section: createSectionLayout())
+        return UICollectionViewCompositionalLayout { [weak self] sectionNumber, env -> NSCollectionLayoutSection? in
+            switch sectionNumber {
+            case 0:
+                return self?.createRecentSearchSectionLayout()
+            case 1:
+                return self?.createTodayMovieSectionLayout()
+            default:
+                return self?.createTodayMovieSectionLayout()
+            }
+        }
     }
-    private func createSectionLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(160), heightDimension: .absolute(200))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let itemInset: CGFloat = 4
-        item.contentInsets = NSDirectionalEdgeInsets(top: itemInset, leading: itemInset, bottom: itemInset, trailing: itemInset)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(160), heightDimension: .absolute(200))
+    private func createRecentSearchSectionLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(66), heightDimension: .absolute(40))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(3.0), heightDimension: .estimated(54))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        group.interItemSpacing = NSCollectionLayoutSpacing.fixed(16)
 
         let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8)
+        section.interGroupSpacing = 8
         section.orthogonalScrollingBehavior = .continuous
 
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(24))
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(44))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
 
         section.boundarySupplementaryItems = [header]
         return section
     }
+    private func createTodayMovieSectionLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(200), heightDimension: .fractionalHeight(0.8))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(18.0), heightDimension: .fractionalHeight(0.9))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        group.interItemSpacing = .fixed(12)
 
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
 
-
-//    static func getLayout() -> UICollectionViewCompositionalLayout {
-//      UICollectionViewCompositionalLayout { (section, env) -> NSCollectionLayoutSection? in
-//        switch section {
-//        case 0:
-//          let itemFractionalWidthFraction = 1.0 / 3.0 // horizontal 3개의 셀
-//          let groupFractionalHeightFraction = 1.0 / 4.0 // vertical 4개의 셀
-//          let itemInset: CGFloat = 2.5
-//
-//          // Item
-//          let itemSize = NSCollectionLayoutSize(
-//            widthDimension: .fractionalWidth(itemFractionalWidthFraction),
-//            heightDimension: .fractionalHeight(1)
-//          )
-//          let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//          item.contentInsets = NSDirectionalEdgeInsets(top: itemInset, leading: itemInset, bottom: itemInset, trailing: itemInset)
-//
-//          // Group
-//          let groupSize = NSCollectionLayoutSize(
-//            widthDimension: .fractionalWidth(1),
-//            heightDimension: .fractionalHeight(groupFractionalHeightFraction)
-//          )
-//          let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-//
-//          // Section
-//          let section = NSCollectionLayoutSection(group: group)
-//          section.contentInsets = NSDirectionalEdgeInsets(top: itemInset, leading: itemInset, bottom: itemInset, trailing: itemInset)
-//          return section
-//        default:
-//          let itemFractionalWidthFraction = 1.0 / 5.0 // horizontal 5개의 셀
-//          let groupFractionalHeightFraction = 1.0 / 4.0 // vertical 4개의 셀
-//          let itemInset: CGFloat = 2.5
-//
-//          // Item
-//          let itemSize = NSCollectionLayoutSize(
-//            widthDimension: .fractionalWidth(itemFractionalWidthFraction),
-//            heightDimension: .fractionalHeight(1)
-//          )
-//          let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//          item.contentInsets = NSDirectionalEdgeInsets(top: itemInset, leading: itemInset, bottom: itemInset, trailing: itemInset)
-//
-//          // Group
-//          let groupSize = NSCollectionLayoutSize(
-//            widthDimension: .fractionalWidth(1),
-//            heightDimension: .fractionalHeight(groupFractionalHeightFraction)
-//          )
-//          let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-//
-//          // Section
-//          let section = NSCollectionLayoutSection(group: group)
-//          section.contentInsets = NSDirectionalEdgeInsets(top: itemInset, leading: itemInset, bottom: itemInset, trailing: itemInset)
-//          return section
-//        }
-//      }
-//    }
-
-
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(44))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+        section.boundarySupplementaryItems = [header]
+        
+        return section
+    }
 }
