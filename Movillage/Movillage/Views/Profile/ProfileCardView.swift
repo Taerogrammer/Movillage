@@ -51,5 +51,6 @@ final class ProfileCardView: BaseView {
         likeCountButton.titleLabel?.font = .boldSystemFont(ofSize: 14)
         likeCountButton.titleLabel?.textColor = UIColor.customWhite
         likeCountButton.contentEdgeInsets = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        isUserInteractionEnabled = true
     }
 }
