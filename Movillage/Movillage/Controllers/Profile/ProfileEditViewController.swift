@@ -10,7 +10,7 @@ final class ProfileEditViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureButton()
+        [configureButton(), configureGesture()].forEach { $0 }
     }
 }
 
@@ -27,5 +27,22 @@ extension ProfileEditViewController {
     @objc private func closeButtonTapped() { dismiss(animated: true) }
     @objc private func saveButtonTapped() {
         print(#function)
+    }
+}
+
+// MARK: configure etc
+extension ProfileEditViewController {
+    private func configureGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+        profileEditView.profileView.imageView.isUserInteractionEnabled = true
+        profileEditView.profileView.imageView.addGestureRecognizer(tapGesture)
+    }
+}
+
+// MARK: @objc
+extension ProfileEditViewController {
+    @objc private func imageTapped() {
+        let vc = ProfileImageViewController()
+        present(vc, animated: true)
     }
 }

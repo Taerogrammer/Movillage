@@ -5,7 +5,7 @@ final class ProfileEditView: BaseView {
     private let titleBar = UILabel().setFont(.header)
     let closeButton = UIButton()
     let saveButton = UIButton()
-    private let profileView = ProfileView()
+    let profileView = ProfileView()
 
     override func configureHierarchy() {
         [closeButton, titleBar, saveButton, profileView].forEach { addSubview($0) }
