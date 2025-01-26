@@ -2,18 +2,16 @@ import UIKit
 
 final class CinemaViewController: UIViewController {
 
+    private let cinemaView = CinemaView()
+
+    override func loadView() {
+        super.loadView()
+        view = cinemaView
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        [configureButton(), configureNavigation()].forEach { $0 }
+        [configureNavigation(), configureProfileCard()].forEach { $0 }
     }
-}
-
-// MARK: configure button
-extension CinemaViewController: ButtonConfiguration {
-    func configureButton() {
-        print(#function)
-    }
-
 }
 
 // MARK: configure navigation
@@ -23,6 +21,18 @@ extension CinemaViewController: NavigationConfiguration {
         let searchButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchTapped))
         searchButton.tintColor = UIColor.customBlue
         navigationItem.rightBarButtonItem = searchButton
+    }
+}
+
+// MARK: configure profile card
+extension CinemaViewController: ProfileCardViewGesture {
+    func configureProfileCard() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(profileCardTapped))
+        cinemaView.profileCardView.addGestureRecognizer(tapGesture)
+    }
+    @objc func profileCardTapped() {
+        let vc = ProfileEditViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
