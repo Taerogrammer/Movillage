@@ -10,7 +10,7 @@ final class SettingViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        [configureNavigation(), configureDelegate()].forEach { $0 }
+        [configureNavigation(), configureDelegate(), configureProfileCard()].forEach { $0 }
     }
 }
 
@@ -54,5 +54,21 @@ extension SettingViewController {
     private func withdrawTapped() {
         let alert = UIAlertController.setAlertWithCancel(title: "탈퇴하기", message: "탈퇴를 하면 데이터가 모두 초기화됩니다. 탈퇴 하시겠습니까?")
         present(alert, animated: true)
+    }
+}
+
+// MARK: configure profile card
+extension SettingViewController: ProfileCardViewGesture {
+    func configureProfileCard() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(profileCardTapped))
+        settingView.profileCardView.addGestureRecognizer(tapGesture)
+    }
+    @objc func profileCardTapped() {
+        let navVC = UINavigationController(rootViewController: ProfileEditViewController())
+        if let sheet = navVC.sheetPresentationController {
+            sheet.detents = [.large()]
+            sheet.prefersGrabberVisible = true
+        }
+        present(navVC, animated: true)
     }
 }
