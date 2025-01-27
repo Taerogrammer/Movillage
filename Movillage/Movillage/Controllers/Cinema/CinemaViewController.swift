@@ -103,6 +103,8 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
         case 0:
             print("0번", indexPath.section, indexPath.row)
         case 1:
+            let vc = CinemaDetailViewController()
+            navigationController?.pushViewController(vc, animated: true)
             print(#function, indexPath.section, indexPath.row)
         default:
             break
