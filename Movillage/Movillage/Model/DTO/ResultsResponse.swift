@@ -2,7 +2,7 @@ import Foundation
 
 struct ResultsResponse: Decodable {
     let id: Int
-    let backdrop_path: String
+    let backdrop_path: String?
     let title: String
     let overview: String
     let poster_path: String
