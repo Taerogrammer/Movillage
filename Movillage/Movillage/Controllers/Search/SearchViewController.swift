@@ -9,9 +9,6 @@ final class SearchViewController: UIViewController {
     lazy var searchResponse = SearchResponse(page: 1, results: searchData, total_pages: 1, total_results: 1)
     private var searchData: [ResultsResponse] = []
 
-    // TODO: - 위치 수정
-    let imageUrl = "https://image.tmdb.org/t/p/original"
-
     override func loadView() {
         view = searchView
     }
@@ -29,10 +26,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.id) as! SearchTableViewCell
-        let url = URL(string: imageUrl + searchData[indexPath.row].poster_path)!
-        cell.posterImage.kf.setImage(with: url)
-        cell.titleLabel.text = searchData[indexPath.row].title
-        cell.releaseLabel.text = searchData[indexPath.row].release_date
+        cell.configureCell(with: searchData[indexPath.row])
         return cell
     }
 }

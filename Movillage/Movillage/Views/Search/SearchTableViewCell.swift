@@ -1,5 +1,6 @@
 import UIKit
 import SnapKit
+import Kingfisher
 
 final class SearchTableViewCell: BaseTableViewCell {
     static let id = "SearchTableViewCell"
@@ -10,6 +11,9 @@ final class SearchTableViewCell: BaseTableViewCell {
 
     //TODO: likeImage 중 결정하기
     let likeButton = UIButton()
+
+    // TODO: - 위치 수정
+    let imageUrl = "https://image.tmdb.org/t/p/original"
 
     override func configureHierarchy() {
         [posterImage, titleLabel, releaseLabel, genreStackView, likeButton].forEach { contentView.addSubview($0) }
@@ -49,6 +53,14 @@ final class SearchTableViewCell: BaseTableViewCell {
 
         likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
         likeButton.tintColor = UIColor.customBlue
+    }
+}
 
+extension SearchTableViewCell {
+    func configureCell(with row: ResultsResponse) {
+        let url = URL(string: imageUrl + row.poster_path)
+        posterImage.kf.setImage(with: url)
+        titleLabel.text = row.title
+        releaseLabel.text = row.release_date
     }
 }
