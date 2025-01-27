@@ -25,6 +25,7 @@ final class TodayMovieCollectionViewCell: BaseCollectionViewCell {
             $0.top.equalTo(posterImage.snp.bottom).offset(4)
             $0.leading.equalTo(self.safeAreaLayoutGuide).offset(4)
             $0.trailing.lessThanOrEqualTo(likeImage.snp.leading).inset(8)
+            $0.height.equalTo(16)
         }
         likeImage.snp.makeConstraints {
             $0.centerY.equalTo(titleLabel)
