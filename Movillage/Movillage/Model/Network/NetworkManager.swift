@@ -7,39 +7,39 @@ final class NetworkManager {
 
     let header: HTTPHeaders = ["Authorization" : "Bearer \(APIKey.TMDB.rawValue)"]
 
-    func fetchTrending(completionHandler: @escaping (Result<TrendingDTO, Error>) -> Void) {
+    func fetchTrending(completionHandler: @escaping (Result<TrendingResponse, Error>) -> Void) {
         print(#function)
         let url = URL(string: "https://api.themoviedb.org/3/trending/movie/day?language=ko-KR&page=1")!
         AF.request(url, method: .get, headers: header)
-            .responseDecodable(of: TrendingDTO.self) { response in
+            .responseDecodable(of: TrendingResponse.self) { response in
                 completionHandler(response.result.mapError { $0 as Error })
             }
     }
-    func fetchSearch(query: String, completionHandler: @escaping (Result<SearchDTO, Error>) -> Void) {
-        let url = URL(string: "https://api.themoviedb.org/3/search/movie?query=\(query)&include_adult=false&language=ko-KR&page=1")!
+    func fetchSearch(query: String, page: Int, completionHandler: @escaping (Result<SearchResponse, Error>) -> Void) {
+        let url = URL(string: "https://api.themoviedb.org/3/search/movie?query=\(query)&include_adult=false&language=ko-KR&page=\(page)")!
         AF.request(url, method: .get, headers: header)
-            .responseDecodable(of: SearchDTO.self) { response in
+            .responseDecodable(of: SearchResponse.self) { response in
                 completionHandler(response.result.mapError { $0 as Error })
             }
     }
-    func fetchImage(movieID: String, completionHandler: @escaping (Result<ImageDTO, Error>) -> Void) {
+    func fetchImage(movieID: String, completionHandler: @escaping (Result<ImageResponse, Error>) -> Void) {
         let url = URL(string: "https://api.themoviedb.org/3/movie/\(movieID)/images")!
         AF.request(url, method: .get, headers: header)
-            .responseDecodable(of: ImageDTO.self) { response in
+            .responseDecodable(of: ImageResponse.self) { response in
                 completionHandler(response.result.mapError { $0 as Error })
             }
     }
-    func fetchCredit(movieID: String, completionHandler: @escaping (Result<CreditDTO, Error>) -> Void) {
+    func fetchCredit(movieID: String, completionHandler: @escaping (Result<CreditResponse, Error>) -> Void) {
         let url = URL(string: "https://api.themoviedb.org/3/movie/\(movieID)/credits?language=ko-KR")!
         AF.request(url, method: .get, headers: header)
-            .responseDecodable(of: CreditDTO.self) { response in
+            .responseDecodable(of: CreditResponse.self) { response in
                 completionHandler(response.result.mapError { $0 as Error })
             }
     }
-    func fetchFavorite(completionHandler: @escaping (Result<FavoriteDTO, Error>) -> Void) {
+    func fetchFavorite(completionHandler: @escaping (Result<FavoriteResponse, Error>) -> Void) {
         let url = URL(string: "https://api.themoviedb.org/3/account/\(APIKey.TMDB.rawValue)/favorite/movies")!
         AF.request(url, method: .get, headers: header)
-            .responseDecodable(of: FavoriteDTO.self) { response in
+            .responseDecodable(of: FavoriteResponse.self) { response in
                 completionHandler(response.result.mapError { $0 as Error })
             }
     }
@@ -50,14 +50,14 @@ final class NetworkManager {
         "favorite": true
     ]
 
-    func postFavorite(completionHandler: @escaping (Result<ResponseDTO, Error>) -> Void) {
+    func postFavorite(media_id: Int, favorite: Bool, completionHandler: @escaping (Result<ResponseResponse, Error>) -> Void) {
         let url = URL(string: "https://api.themoviedb.org/3/account/\(APIKey.TMDB.rawValue)/favorite")!
         AF.request(url,
                    method: .post,
                    parameters: parameter,
                    encoding: URLEncoding(destination: .httpBody),
                    headers: header)
-        .responseDecodable(of: ResponseDTO.self) { response in
+        .responseDecodable(of: ResponseResponse.self) { response in
             switch response.result {
             case .success(let success):
                 print("성공 ---> ", success)
@@ -68,10 +68,29 @@ final class NetworkManager {
             }
         }
     }
+
+
+
+
+    func fetchItem<T: Decodable>(api: TMDBRequest,
+                                 type: T.Type,
+                                 completionHandler: @escaping (Result<T, Error>) -> Void) {
+        AF.request(
+            api.endPoint,
+            method: api.method,
+            parameters: api.parameter,
+            encoding: api.encoding)
+        .cURLDescription { print($0) }
+        .responseDecodable(of: T.self) { response in
+            switch response.result {
+            case .success(let data):
+                completionHandler(.success(data))
+            case .failure(let fail):
+                completionHandler(.failure(fail))
+            }
+        }
+    }
 }
-
-
-
 /*
 fetchTrending
  NetworkManager.shared.fetchTrending { result in

@@ -1,8 +1,8 @@
 import Foundation
 
-struct SearchDTO: Decodable {
+struct SearchResponse: Decodable {
     let page: Int
-    let results: [ResultsDTO]
+    let results: [ResultsResponse]
     let total_pages: Int
     let total_results: Int
 }

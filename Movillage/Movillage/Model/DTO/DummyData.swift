@@ -1,10 +1,10 @@
 import Foundation
 
 // 더미 데이터
-let dummyTrendingMovies = TrendingDTO(
+let dummyTrendingMovies = TrendingResponse(
     page: 1,
     results: [
-        ResultsDTO(
+        ResultsResponse(
             id: 939243,
             backdrop_path: "/b85bJfrTOSJ7M5Ox0yp4lxIxdG1.jpg",
             title: "수퍼 소닉 3",
@@ -14,7 +14,7 @@ let dummyTrendingMovies = TrendingDTO(
             release_date: "2024-12-19",
             vote_average: 7.823
         ),
-        ResultsDTO(
+        ResultsResponse(
             id: 1114894,
             backdrop_path: "/3SOunz2Z0qcOVlrkYFj20HquziB.jpg",
             title: "스타 트렉: 섹션 31",
@@ -24,7 +24,7 @@ let dummyTrendingMovies = TrendingDTO(
             release_date: "2025-01-15",
             vote_average: 4.883
         ),
-        ResultsDTO(
+        ResultsResponse(
             id: 426063,
             backdrop_path: "/fYnEbgoNCxW9kL0IgOgtJb9JTBU.jpg",
             title: "노스페라투",
@@ -34,7 +34,7 @@ let dummyTrendingMovies = TrendingDTO(
             release_date: "2024-12-25",
             vote_average: 6.616
         ),
-        ResultsDTO(
+        ResultsResponse(
             id: 728949,
             backdrop_path: "/2ICMZZVcwboF8Z9V7aaJY3CVh9w.jpg",
             title: "나이트비치",
@@ -44,7 +44,7 @@ let dummyTrendingMovies = TrendingDTO(
             release_date: "2024-12-06",
             vote_average: 6.0
         ),
-        ResultsDTO(
+        ResultsResponse(
             id: 507241,
             backdrop_path: "/zGLQmrmIB56kMZPnzqReIOBay1B.jpg",
             title: "킬러의 게임",
@@ -54,7 +54,7 @@ let dummyTrendingMovies = TrendingDTO(
             release_date: "2024-09-12",
             vote_average: 6.5
         ),
-        ResultsDTO(
+        ResultsResponse(
             id: 939243,
             backdrop_path: "/b85bJfrTOSJ7M5Ox0yp4lxIxdG1.jpg",
             title: "수퍼 소닉 3",
@@ -64,7 +64,7 @@ let dummyTrendingMovies = TrendingDTO(
             release_date: "2024-12-19",
             vote_average: 7.823
         ),
-        ResultsDTO(
+        ResultsResponse(
             id: 1114894,
             backdrop_path: "/3SOunz2Z0qcOVlrkYFj20HquziB.jpg",
             title: "스타 트렉: 섹션 31",
@@ -74,7 +74,7 @@ let dummyTrendingMovies = TrendingDTO(
             release_date: "2025-01-15",
             vote_average: 4.883
         ),
-        ResultsDTO(
+        ResultsResponse(
             id: 426063,
             backdrop_path: "/fYnEbgoNCxW9kL0IgOgtJb9JTBU.jpg",
             title: "노스페라투",
@@ -84,7 +84,7 @@ let dummyTrendingMovies = TrendingDTO(
             release_date: "2024-12-25",
             vote_average: 6.616
         ),
-        ResultsDTO(
+        ResultsResponse(
             id: 728949,
             backdrop_path: "/2ICMZZVcwboF8Z9V7aaJY3CVh9w.jpg",
             title: "나이트비치",
@@ -94,7 +94,7 @@ let dummyTrendingMovies = TrendingDTO(
             release_date: "2024-12-06",
             vote_average: 6.0
         ),
-        ResultsDTO(
+        ResultsResponse(
             id: 507241,
             backdrop_path: "/zGLQmrmIB56kMZPnzqReIOBay1B.jpg",
             title: "킬러의 게임",
@@ -104,7 +104,7 @@ let dummyTrendingMovies = TrendingDTO(
             release_date: "2024-09-12",
             vote_average: 6.5
         ),
-        ResultsDTO(
+        ResultsResponse(
             id: 939243,
             backdrop_path: "/b85bJfrTOSJ7M5Ox0yp4lxIxdG1.jpg",
             title: "수퍼 소닉 3",
@@ -114,7 +114,7 @@ let dummyTrendingMovies = TrendingDTO(
             release_date: "2024-12-19",
             vote_average: 7.823
         ),
-        ResultsDTO(
+        ResultsResponse(
             id: 1114894,
             backdrop_path: "/3SOunz2Z0qcOVlrkYFj20HquziB.jpg",
             title: "스타 트렉: 섹션 31",
@@ -124,7 +124,7 @@ let dummyTrendingMovies = TrendingDTO(
             release_date: "2025-01-15",
             vote_average: 4.883
         ),
-        ResultsDTO(
+        ResultsResponse(
             id: 426063,
             backdrop_path: "/fYnEbgoNCxW9kL0IgOgtJb9JTBU.jpg",
             title: "노스페라투",
@@ -134,7 +134,7 @@ let dummyTrendingMovies = TrendingDTO(
             release_date: "2024-12-25",
             vote_average: 6.616
         ),
-        ResultsDTO(
+        ResultsResponse(
             id: 728949,
             backdrop_path: "/2ICMZZVcwboF8Z9V7aaJY3CVh9w.jpg",
             title: "나이트비치",
@@ -144,7 +144,7 @@ let dummyTrendingMovies = TrendingDTO(
             release_date: "2024-12-06",
             vote_average: 6.0
         ),
-        ResultsDTO(
+        ResultsResponse(
             id: 507241,
             backdrop_path: "/zGLQmrmIB56kMZPnzqReIOBay1B.jpg",
             title: "킬러의 게임",
@@ -154,7 +154,7 @@ let dummyTrendingMovies = TrendingDTO(
             release_date: "2024-09-12",
             vote_average: 6.5
         ),
-        ResultsDTO(
+        ResultsResponse(
             id: 939243,
             backdrop_path: "/b85bJfrTOSJ7M5Ox0yp4lxIxdG1.jpg",
             title: "수퍼 소닉 3",
@@ -164,7 +164,7 @@ let dummyTrendingMovies = TrendingDTO(
             release_date: "2024-12-19",
             vote_average: 7.823
         ),
-        ResultsDTO(
+        ResultsResponse(
             id: 1114894,
             backdrop_path: "/3SOunz2Z0qcOVlrkYFj20HquziB.jpg",
             title: "스타 트렉: 섹션 31",
@@ -174,7 +174,7 @@ let dummyTrendingMovies = TrendingDTO(
             release_date: "2025-01-15",
             vote_average: 4.883
         ),
-        ResultsDTO(
+        ResultsResponse(
             id: 426063,
             backdrop_path: "/fYnEbgoNCxW9kL0IgOgtJb9JTBU.jpg",
             title: "노스페라투",
@@ -184,7 +184,7 @@ let dummyTrendingMovies = TrendingDTO(
             release_date: "2024-12-25",
             vote_average: 6.616
         ),
-        ResultsDTO(
+        ResultsResponse(
             id: 728949,
             backdrop_path: "/2ICMZZVcwboF8Z9V7aaJY3CVh9w.jpg",
             title: "나이트비치",
@@ -194,7 +194,7 @@ let dummyTrendingMovies = TrendingDTO(
             release_date: "2024-12-06",
             vote_average: 6.0
         ),
-        ResultsDTO(
+        ResultsResponse(
             id: 507241,
             backdrop_path: "/zGLQmrmIB56kMZPnzqReIOBay1B.jpg",
             title: "킬러의 게임",

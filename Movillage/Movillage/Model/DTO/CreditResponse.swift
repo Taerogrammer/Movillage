@@ -1,11 +1,11 @@
 import Foundation
 
-struct CreditDTO: Decodable {
+struct CreditResponse: Decodable {
     let id: Int
-    let cast: [CastDTO]
+    let cast: [CastResponse]
 }
 
-struct CastDTO: Decodable {
+struct CastResponse: Decodable {
     let name: String
     let character: String
     let profile_path: String?
