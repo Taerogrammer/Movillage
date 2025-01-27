@@ -36,7 +36,38 @@ final class NetworkManager {
                 completionHandler(response.result.mapError { $0 as Error })
             }
     }
+    func fetchFavorite(completionHandler: @escaping (Result<FavoriteDTO, Error>) -> Void) {
+        let url = URL(string: "https://api.themoviedb.org/3/account/\(APIKey.TMDB.rawValue)/favorite/movies")!
+        AF.request(url, method: .get, headers: header)
+            .responseDecodable(of: FavoriteDTO.self) { response in
+                completionHandler(response.result.mapError { $0 as Error })
+            }
+    }
 
+    let parameter: [String: Any] = [
+        "media_type": "movie",
+        "media_id": 550,
+        "favorite": true
+    ]
+
+    func postFavorite(completionHandler: @escaping (Result<ResponseDTO, Error>) -> Void) {
+        let url = URL(string: "https://api.themoviedb.org/3/account/\(APIKey.TMDB.rawValue)/favorite")!
+        AF.request(url,
+                   method: .post,
+                   parameters: parameter,
+                   encoding: URLEncoding(destination: .httpBody),
+                   headers: header)
+        .responseDecodable(of: ResponseDTO.self) { response in
+            switch response.result {
+            case .success(let success):
+                print("성공 ---> ", success)
+                completionHandler(.success(success))
+            case .failure(let failure):
+                print("실패 --> ", failure)
+                completionHandler(.failure(failure))
+            }
+        }
+    }
 }
 
 
@@ -85,5 +116,15 @@ fetchTrending
      }
  }
 
+
+ postFavorite
+ NetworkManager.shared.postFavorite { result in
+     switch result {
+     case .success(let success):
+         print("success -> ", success)
+     case .failure(let failure):
+         print(failure)
+     }
+ }
 
  */
