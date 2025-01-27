@@ -8,6 +8,11 @@ final class CinemaDetailView: BaseView {
     var pageControl = UIPageControl()
     let emptyView = UIView()
     let label = UILabel()
+    var backdropArray: [String] = [] {
+        didSet {
+            print("변경됨")
+        }
+    }
 
     override func configureHierarchy() {
         addSubview(scrollView)
