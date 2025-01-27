@@ -7,6 +7,7 @@ final class ProfileView: BaseView {
     private let textField = UITextField()
     private let errorLabel = UILabel().setFont(.description)
     let completeButton = CustomButton()
+    var imageIndex: Int?
 
     override func configureHierarchy() {
         [imageView, textField, errorLabel, completeButton, cameraImage].forEach { addSubview($0) }
@@ -38,10 +39,22 @@ final class ProfileView: BaseView {
 
     }
     override func configureView() {
-        imageView.backgroundColor = .red
+        imageView.backgroundColor = UIColor.customBlack
         textField.placeholder = "닉네임을 입력해주세요"
         completeButton.setTitle("완료", for: .normal)
         cameraImage.image = UIImage(systemName: "camera.circle.fill")
         cameraImage.tintColor = UIColor.customBlue
+
+        // userDefaults 없을 때 호출
+        getRandomImage()
+    }
+}
+
+// MARK: method
+extension ProfileView {
+    /// userDefaults에 프로필 이미지 설정이 없을 때 랜덤으로 보여주기
+    private func getRandomImage() {
+        self.imageIndex = (0...11).randomElement()!
+        imageView.image = UIImage(named: "profile_\(imageIndex ?? 0)")
     }
 }

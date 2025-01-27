@@ -5,6 +5,10 @@ final class ProfileImageView: BaseView {
     private let presentImage = ProfileImage(frame: CGRect())
     private let cameraImage = UIImageView()
 
+    var imageIndex: Int? {
+        didSet { updateImage() }
+    }
+
     override func configureHierarchy() {
         [presentImage, cameraImage].forEach { addSubview($0) }
     }
@@ -21,7 +25,11 @@ final class ProfileImageView: BaseView {
     }
     override func configureView() {
         cameraImage.image = UIImage(systemName: "camera.circle.fill")
-        presentImage.backgroundColor = .gray
+        presentImage.backgroundColor = .customBlack
         cameraImage.tintColor = UIColor.customBlue
+    }
+    func updateImage() {
+        guard let index = imageIndex else { return }
+        presentImage.image = UIImage(named: "profile_\(index)")
     }
 }

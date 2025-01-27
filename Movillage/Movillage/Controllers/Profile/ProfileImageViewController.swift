@@ -1,7 +1,7 @@
 import UIKit
 
 final class ProfileImageViewController: UIViewController {
-    private let profileImageView = ProfileImageView()
+    let profileImageView = ProfileImageView()
 
     override func loadView() {
         view = profileImageView
