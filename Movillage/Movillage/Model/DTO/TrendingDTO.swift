@@ -1,6 +1,6 @@
 import Foundation
 
-struct TrendingDTO {
+struct TrendingDTO: Decodable {
     let page: Int
     let results: [ResultsDTO]
 }

@@ -1,6 +1,6 @@
 import Foundation
 
-struct ResultsDTO {
+struct ResultsDTO: Decodable {
     let id: Int
     let backdrop_path: String
     let title: String

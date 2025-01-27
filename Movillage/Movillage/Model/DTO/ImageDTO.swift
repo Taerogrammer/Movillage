@@ -1,15 +1,15 @@
 import Foundation
 
-struct ImageDTO {
+struct ImageDTO: Decodable {
     let id: Int
     let backdrops: [BackDropsDTO]
     let posters: [PostersDTO]
 }
 
-struct BackDropsDTO {
+struct BackDropsDTO: Decodable {
     let file_path: String
 }
 
-struct PostersDTO {
+struct PostersDTO: Decodable {
     let file_path: String
 }
