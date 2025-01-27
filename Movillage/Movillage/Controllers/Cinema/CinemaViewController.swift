@@ -98,6 +98,16 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
             return UICollectionViewCell()
         }
     }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch indexPath.section {
+        case 0:
+            print("0번", indexPath.section, indexPath.row)
+        case 1:
+            print(#function, indexPath.section, indexPath.row)
+        default:
+            break
+        }
+    }
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CinemaHeaderView.id, for: indexPath) as! CinemaHeaderView
         header.configureHeaderTitle(title: dummySection[indexPath.section])
