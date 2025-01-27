@@ -1,12 +1,16 @@
 import UIKit
+import Kingfisher
 import SnapKit
 
 final class TodayMovieCollectionViewCell: BaseCollectionViewCell {
     static let id = "TodayMovieCollectionViewCell"
-    private let posterImage = UIImageView()
-    private let titleLabel = UILabel().setFont(.contentBold)
-    private let likeImage = UIImageView()
-    private let descriptionLabel = UILabel().setFont(.description)
+    let posterImage = UIImageView()
+    let titleLabel = UILabel().setFont(.contentBold)
+    let likeImage = UIImageView()
+    let descriptionLabel = UILabel().setFont(.description)
+
+    // TODO: - 위치 수정
+    let imageUrl = "https://image.tmdb.org/t/p/original"
 
     override func configureHierarchy() {
         [posterImage, titleLabel, likeImage, descriptionLabel].forEach { contentView.addSubview($0) }
@@ -37,10 +41,18 @@ final class TodayMovieCollectionViewCell: BaseCollectionViewCell {
         posterImage.clipsToBounds = true
         posterImage.layer.cornerRadius = 8
         posterImage.backgroundColor = .customBlue
-        titleLabel.text = "테스트테스트"
-        descriptionLabel.text = "설명에 대한 테스zzㅡㅡ틔루미ㅏㄹowdfnwoifnozzㅡㅡ틔wein내야ㅜ배쟈우배쟈류zzㅡㅡ틔대ㅑㅠ래뱌ㅠㅐㅂ쟈ㅠ"
         descriptionLabel.numberOfLines = 2
         likeImage.image = UIImage(systemName: "heart")
         likeImage.tintColor = UIColor.customBlue
+    }
+}
+
+// MARK: configure cell
+extension TodayMovieCollectionViewCell {
+    func configureCell(with row: ResultsResponse) {
+        titleLabel.text = row.title
+        descriptionLabel.text = row.overview
+        let url = URL(string: imageUrl + "\(row.poster_path)")
+        posterImage.kf.setImage(with: url)
     }
 }

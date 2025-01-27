@@ -7,9 +7,14 @@ final class CinemaViewController: UIViewController {
     let dummySection = ["최근검색어", "오늘의 영화"]
     let dummySectionOne = ["스파이더맨", "배트맨", "슈퍼맨", "아이언맨", "인크레더블 헐크", "되게 긴 외국 영화"]
 
-    private var searchData = SearchResponse(page: 1, results: [], total_pages: 1, total_results: 1)
-    private var searchDto = SearchDTO(query: "해리", page: 1)
-
+    private var trendingDTO = TrendingDTO()
+    private var trendingMovie = TrendingResponse(page: 1, results: []) {
+        didSet {
+            DispatchQueue.main.async {
+                self.cinemaView.collectionView.reloadSections(IndexSet(integer: 1))
+            }
+        }
+    }
 
     override func loadView() {
         super.loadView()
@@ -18,6 +23,9 @@ final class CinemaViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         [configureNavigation(), configureProfileCard(),configureDelegate()].forEach { $0 }
+        DispatchQueue.global().async {
+            self.fetchTrending()
+        }
     }
 }
 
@@ -67,12 +75,12 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
         case 0:
             return dummySectionOne.count
         case 1:
-            return dummyTrendingMovies.results.count
+            return trendingMovie.results.count
         default:
             return 0
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
         case 0:
@@ -81,6 +89,10 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
             return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayMovieCollectionViewCell.id, for: indexPath) as! TodayMovieCollectionViewCell
+
+            let row = trendingMovie.results[indexPath.row]
+            cell.configureCell(with: row)
+
             return cell
         default:
             return UICollectionViewCell()
@@ -103,5 +115,20 @@ extension CinemaViewController: DelegateConfiguration {
         cinemaView.collectionView.register(CinemaHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CinemaHeaderView.id)
         cinemaView.collectionView.register(TodayMovieCollectionViewCell.self, forCellWithReuseIdentifier: TodayMovieCollectionViewCell.id)
         cinemaView.collectionView.register(RecentSearchCollectionViewCell.self, forCellWithReuseIdentifier: RecentSearchCollectionViewCell.id)
+    }
+}
+
+// MARK: method
+extension CinemaViewController {
+    private func fetchTrending() {
+        NetworkManager.shared.fetchItem(api: trendingDTO.toRequest(),
+                                        type: TrendingResponse.self) { result in
+            switch result {
+            case .success(let success):
+                self.trendingMovie = success
+            case .failure(let failure):
+                print(failure)
+            }
+        }
     }
 }
