@@ -15,6 +15,7 @@ final class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         [configureNavigation(), configureDelegate()].forEach { $0 }
+        searchView.searchBar.becomeFirstResponder()
     }
 }
 
@@ -29,6 +30,11 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.id) as! SearchTableViewCell
         cell.configureCell(with: searchData[indexPath.row])
         return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let vc = CinemaDetailViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
