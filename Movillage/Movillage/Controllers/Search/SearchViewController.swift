@@ -1,5 +1,4 @@
 import UIKit
-import Kingfisher
 
 final class SearchViewController: UIViewController {
 
@@ -19,8 +18,10 @@ final class SearchViewController: UIViewController {
     }
 }
 
+//MARK: configure table view
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(#function)
         return searchData.count
     }
     
@@ -38,6 +39,7 @@ extension SearchViewController: NavigationConfiguration {
     }
 }
 
+// MARK: configure delegate
 extension SearchViewController: DelegateConfiguration {
     func configureDelegate() {
         searchView.searchBar.delegate = self
@@ -47,6 +49,7 @@ extension SearchViewController: DelegateConfiguration {
     }
 }
 
+// MARK: configure search bar
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         print(#function, searchBar.text!)
@@ -60,10 +63,24 @@ extension SearchViewController: UISearchBarDelegate {
             case .success(let success):
                 self.searchResponse = success
                 self.searchData = success.results
+                self.notFoundLabelVisibility()
                 self.searchView.searchTableView.reloadData()
             case .failure(let failure):
                 print("실패 ", failure)
             }
+        }
+    }
+}
+
+// MARK: method
+extension SearchViewController {
+    private func notFoundLabelVisibility() {
+        if searchData.count == 0 {
+            searchView.notFoundLabel.isHidden = false
+            searchView.searchTableView.isHidden = true
+        } else {
+            searchView.notFoundLabel.isHidden = true
+            searchView.searchTableView.isHidden = false
         }
     }
 }
