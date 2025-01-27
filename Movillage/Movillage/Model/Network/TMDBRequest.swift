@@ -10,6 +10,7 @@ enum TMDBRequest {
     case postFavorite(media_id: Int, favorite: Bool)
 
     var baseUrl: String { return "https://api.themoviedb.org/3" }
+    var header: HTTPHeaders { return ["Authorization" : "Bearer \(APIKey.TMDB.rawValue)"] }
     var endPoint: URL {
         switch self {
         case .trending:

@@ -7,6 +7,10 @@ final class CinemaViewController: UIViewController {
     let dummySection = ["최근검색어", "오늘의 영화"]
     let dummySectionOne = ["스파이더맨", "배트맨", "슈퍼맨", "아이언맨", "인크레더블 헐크", "되게 긴 외국 영화"]
 
+    private var searchData = SearchResponse(page: 1, results: [], total_pages: 1, total_results: 1)
+    private var searchDto = SearchDTO(query: "해리", page: 1)
+
+
     override func loadView() {
         super.loadView()
         view = cinemaView

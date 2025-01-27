@@ -79,15 +79,11 @@ final class NetworkManager {
             api.endPoint,
             method: api.method,
             parameters: api.parameter,
-            encoding: api.encoding)
+            encoding: api.encoding,
+            headers: api.header)
         .cURLDescription { print($0) }
         .responseDecodable(of: T.self) { response in
-            switch response.result {
-            case .success(let data):
-                completionHandler(.success(data))
-            case .failure(let fail):
-                completionHandler(.failure(fail))
-            }
+            completionHandler(response.result.mapError { $0 as Error })
         }
     }
 }
