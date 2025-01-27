@@ -7,6 +7,9 @@ final class CinemaViewController: UIViewController {
     let dummySection = ["최근검색어", "오늘의 영화"]
     let dummySectionOne = ["스파이더맨", "배트맨", "슈퍼맨", "아이언맨", "인크레더블 헐크", "되게 긴 외국 영화"]
 
+    // TODO: 위치 수정
+    let imageUrl = "https://image.tmdb.org/t/p/original"
+
     private var trendingDTO = TrendingDTO()
     private var trendingMovie = TrendingResponse(page: 1, results: []) {
         didSet {
@@ -104,6 +107,21 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
             print("0번", indexPath.section, indexPath.row)
         case 1:
             let vc = CinemaDetailViewController()
+            let detailView = CinemaDetailView()
+
+            NetworkManager.shared.fetchItem(api: ImageDTO(movieID: trendingMovie.results[indexPath.row].id).toRequest(),
+                                            type: ImageResponse.self) { result in
+                switch result {
+                case .success(let success):
+                    var array: [String] = []
+                    for i in 0..<5 {
+                        array.append(self.imageUrl + success.backdrops[i].file_path)
+                    }
+                    detailView.backdropArray = array
+                case .failure(let failure):
+                    print("실패 ", failure)
+                }
+            }
             navigationController?.pushViewController(vc, animated: true)
             print(#function, indexPath.section, indexPath.row)
         default:

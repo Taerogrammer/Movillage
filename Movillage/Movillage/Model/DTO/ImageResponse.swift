@@ -13,3 +13,11 @@ struct BackDropsResponse: Decodable {
 struct PostersResponse: Decodable {
     let file_path: String
 }
+
+struct ImageDTO {
+    var movieID: Int
+
+    func toRequest() -> TMDBRequest {
+        return .image(movieID: movieID)
+    }
+}

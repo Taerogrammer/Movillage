@@ -12,6 +12,3 @@ final class CinemaDetailViewController: UIViewController {
         title = "상세 정보"
     }
 }
-
-extension CinemaDetailViewController: UIScrollViewDelegate {
-}

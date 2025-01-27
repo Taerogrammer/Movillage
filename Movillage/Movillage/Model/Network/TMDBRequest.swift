@@ -4,7 +4,7 @@ import Alamofire
 enum TMDBRequest {
     case trending
     case search(query: String, page: Int)
-    case image(movieID: String)
+    case image(movieID: Int)
     case credit(movieID: String)
     case getFavorite
     case postFavorite(media_id: Int, favorite: Bool)
