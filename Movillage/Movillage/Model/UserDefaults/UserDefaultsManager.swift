@@ -14,8 +14,12 @@ struct UserDefault<T> {
 
 final class UserDefaultsManager {
     enum Key: String {
-        case isStart
+        case isStart, profileImage, nickname
     }
     @UserDefault(key: Key.isStart.rawValue, defaultValue: false, storage: .standard)
     static var didStart: Bool
+    @UserDefault(key: Key.profileImage.rawValue, defaultValue: nil, storage: .standard)
+    static var profileImage: String?
+    @UserDefault(key: Key.nickname.rawValue, defaultValue: nil, storage: .standard)
+    static var nickname: String?
 }
