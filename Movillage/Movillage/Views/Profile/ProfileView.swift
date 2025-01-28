@@ -40,6 +40,7 @@ final class ProfileView: BaseView {
     }
     override func configureView() {
         imageView.backgroundColor = UIColor.customBlack
+        imageView.didImageSelected(isHighlighted: true)
         textField.placeholder = "닉네임을 입력해주세요"
         completeButton.setTitle("완료", for: .normal)
         cameraImage.image = UIImage(systemName: "camera.circle.fill")

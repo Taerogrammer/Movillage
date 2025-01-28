@@ -15,6 +15,16 @@ final class ProfileImageCollectionViewCell: BaseCollectionViewCell {
     }
     override func configureView() {
         imageView.backgroundColor = UIColor.customBlack
+        imageView.didImageSelected(isHighlighted: false)
+    }
+    override var isSelected: Bool {
+        didSet {
+            if isSelected {
+                imageView.didImageSelected(isHighlighted: true)
+            } else {
+                imageView.didImageSelected(isHighlighted: false)
+            }
+        }
     }
 }
 

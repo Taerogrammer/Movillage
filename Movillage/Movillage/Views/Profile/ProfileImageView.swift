@@ -33,7 +33,7 @@ final class ProfileImageView: BaseView {
     }
     override func configureView() {
         cameraImage.image = UIImage(systemName: "camera.circle.fill")
-        presentImage.backgroundColor = .customBlack
+        presentImage.didImageSelected(isHighlighted: true)
         cameraImage.tintColor = UIColor.customBlue
         profileImageCollectionView.isScrollEnabled = false
     }
