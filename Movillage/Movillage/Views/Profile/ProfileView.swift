@@ -5,14 +5,14 @@ final class ProfileView: BaseView {
     let imageView = ProfileImage(frame: CGRect())
     private let cameraImage = UIImageView()
     let textField = UITextField()
-    private let errorLabel = UILabel().setFont(.description)
+    private let textInfoLabel = UILabel().setFont(.description)
     let completeButton = CustomButton()
     var imageIndex: Int? {
         didSet { updateProfileImage() }
     }
 
     override func configureHierarchy() {
-        [imageView, textField, errorLabel, completeButton, cameraImage].forEach { addSubview($0) }
+        [imageView, textField, textInfoLabel, completeButton, cameraImage].forEach { addSubview($0) }
     }
     override func configureLayout() {
         imageView.snp.makeConstraints {
@@ -25,12 +25,12 @@ final class ProfileView: BaseView {
             $0.top.equalTo(imageView.snp.bottom).offset(24)
             $0.horizontalEdges.equalTo(self.safeAreaLayoutGuide).inset(20)
         }
-        errorLabel.snp.makeConstraints {
-            $0.top.equalTo(textField.snp.bottom).offset(16)
+        textInfoLabel.snp.makeConstraints {
+            $0.top.equalTo(textField.snp.bottom).offset(40)
             $0.leading.equalTo(textField).inset(12)
         }
         completeButton.snp.makeConstraints {
-            $0.top.equalTo(errorLabel.snp.bottom).offset(20)
+            $0.top.equalTo(textInfoLabel.snp.bottom).offset(20)
             $0.horizontalEdges.equalTo(self.safeAreaLayoutGuide).inset(20)
         }
         cameraImage.snp.makeConstraints {
@@ -48,14 +48,12 @@ final class ProfileView: BaseView {
         cameraImage.tintColor = UIColor.customBlue
 
         // userDefaults 없을 때 호출
-        getRandomImage()
+        [getRandomImage(), configureDelegate(), configureTextField()].forEach { $0 }
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        print(#function)
         textField.underlined(viewSize: textField.frame.width, color: UIColor.customGray)
-
     }
 }
 
@@ -69,5 +67,27 @@ extension ProfileView {
     private func updateProfileImage() {
         guard let index = imageIndex else { return }
         imageView.image = UIImage(named: "profile_\(index)")
+    }
+
+}
+
+
+// MARK: delegate
+extension ProfileView: DelegateConfiguration {
+    func configureDelegate() {
+        textField.delegate = self
+    }
+}
+
+// MARK: text field delegate
+extension ProfileView: UITextFieldDelegate {
+    func configureTextField() {
+        textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+    }
+}
+
+// MARK: @objc
+extension ProfileView {
+    @objc private func textFieldDidChange(_ textField: UITextField) {
     }
 }

@@ -38,8 +38,6 @@ extension ProfileViewController {
     }
 }
 
-
-
 // MARK: @objc
 extension ProfileViewController {
     @objc private func completeButtonTapped() {
