@@ -2,13 +2,18 @@ import UIKit
 
 final class ProfileImageViewController: UIViewController {
     let profileImageView = ProfileImageView()
+    let profileImageList: [String] = [
+        "profile_0", "profile_1", "profile_2", "profile_3",
+        "profile_4", "profile_5", "profile_6", "profile_7",
+        "profile_8", "profile_9", "profile_10", "profile_11"
+    ]
 
     override func loadView() {
         view = profileImageView
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNavigation()
+        [configureNavigation(), configureDelegate()].forEach { $0 }
     }
 }
 
@@ -26,5 +31,28 @@ extension ProfileImageViewController: NavigationConfiguration {
 extension ProfileImageViewController {
     @objc private func backButtonTapped() {
         navigationController?.popViewController(animated: true)
+    }
+}
+
+// MARK: configure delegate
+extension ProfileImageViewController: DelegateConfiguration {
+    func configureDelegate() {
+        profileImageView.profileImageCollectionView.delegate = self
+        profileImageView.profileImageCollectionView.dataSource = self
+        profileImageView.profileImageCollectionView.register(ProfileImageCollectionViewCell.self, forCellWithReuseIdentifier: ProfileImageCollectionViewCell.id)
+    }
+}
+
+// MARK: configure collection view
+extension ProfileImageViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+
+        return profileImageList.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileImageCollectionViewCell.id, for: indexPath) as! ProfileImageCollectionViewCell
+
+        return cell
     }
 }
