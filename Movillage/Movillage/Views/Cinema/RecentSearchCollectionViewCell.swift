@@ -3,18 +3,24 @@ import SnapKit
 
 final class RecentSearchCollectionViewCell: BaseCollectionViewCell {
     static let id = "RecentSearchCollectionViewCell"
-    private let testLabel = UILabel()
+    let researchLabel = RecentSearchButton()
 
     override func configureHierarchy() {
-        contentView.addSubview(testLabel)
+        contentView.addSubview(researchLabel)
     }
     override func configureLayout() {
-        testLabel.snp.makeConstraints {
+        researchLabel.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
     override func configureView() {
-        testLabel.text = "스파이더맨"
-        testLabel.backgroundColor = .customBlue
+        researchLabel.isUserInteractionEnabled = false
+    }
+}
+
+// MARK: configure cell
+extension RecentSearchCollectionViewCell {
+    func configureCell(text: String) {
+        researchLabel.setTitle(text + " ", for: .normal)
     }
 }

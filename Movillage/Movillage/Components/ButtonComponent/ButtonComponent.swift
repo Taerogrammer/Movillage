@@ -5,7 +5,7 @@ final class CustomButton: UIButton {
     init() {
         super.init(frame: .zero)
         setTitleColor(UIColor.customBlue, for: .normal)
-        titleLabel?.font = .boldSystemFont(ofSize: 14)
+        titleLabel?.font = UIFont.contentBold
         clipsToBounds = true
         layer.borderWidth = 3
         layer.cornerRadius = 24

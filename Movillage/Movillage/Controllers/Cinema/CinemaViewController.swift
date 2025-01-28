@@ -93,6 +93,8 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchCollectionViewCell.id, for: indexPath) as! RecentSearchCollectionViewCell
 
+            cell.configureCell(text: dummySectionOne[indexPath.item])
+
             return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayMovieCollectionViewCell.id, for: indexPath) as! TodayMovieCollectionViewCell
