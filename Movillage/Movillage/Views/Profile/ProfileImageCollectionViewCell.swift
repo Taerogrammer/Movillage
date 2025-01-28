@@ -3,7 +3,7 @@ import SnapKit
 
 final class ProfileImageCollectionViewCell: BaseCollectionViewCell {
     static let id = "ProfileImageCollectionViewCell"
-    private let imageView = UIImageView()
+    private let imageView = ProfileImage(frame: CGRect())
 
     override func configureHierarchy() {
         contentView.addSubview(imageView)
@@ -14,6 +14,13 @@ final class ProfileImageCollectionViewCell: BaseCollectionViewCell {
         }
     }
     override func configureView() {
-        imageView.backgroundColor = .red
+        imageView.backgroundColor = UIColor.customBlack
+    }
+}
+
+// MARK: configure cell
+extension ProfileImageCollectionViewCell {
+    func configureCell(index: String) {
+        imageView.image = UIImage(named: index)
     }
 }
