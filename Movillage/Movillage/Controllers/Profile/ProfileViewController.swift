@@ -41,6 +41,8 @@ extension ProfileViewController {
 // MARK: @objc
 extension ProfileViewController {
     @objc private func completeButtonTapped() {
+        guard let nickname = profileView.textField.text else { return }
+        UserDefaultsManager.nickname = nickname
         guard let index = profileView.imageIndex else { return }
         UserDefaultsManager.profileImage = "profile_\(index)"
         UserDefaultsManager.didStart.toggle()
