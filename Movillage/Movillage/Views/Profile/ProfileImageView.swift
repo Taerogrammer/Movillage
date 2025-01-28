@@ -2,14 +2,10 @@ import UIKit
 import SnapKit
 
 final class ProfileImageView: BaseView {
-    private let presentImage = ProfileImage(frame: CGRect())
+    let presentImage = ProfileImage(frame: CGRect())
     private let cameraImage = UIImageView()
     lazy var profileImageCollectionView = UICollectionView(frame: .zero,
                                                       collectionViewLayout: configureFlowLayout())
-
-    var imageIndex: Int? {
-        didSet { updateImage() }
-    }
 
     override func configureHierarchy() {
         [presentImage, cameraImage, profileImageCollectionView].forEach { addSubview($0) }
@@ -37,9 +33,8 @@ final class ProfileImageView: BaseView {
         cameraImage.tintColor = UIColor.customBlue
         profileImageCollectionView.isScrollEnabled = false
     }
-    func updateImage() {
-        guard let index = imageIndex else { return }
-        presentImage.image = UIImage(named: "profile_\(index)")
+    func configureProfileImage(to profileName: String) {
+        presentImage.image = UIImage(named: profileName)
     }
     func configureFlowLayout() -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
@@ -55,6 +50,5 @@ final class ProfileImageView: BaseView {
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 
         return layout
-
     }
 }

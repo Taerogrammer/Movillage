@@ -7,6 +7,9 @@ final class ProfileImageViewController: UIViewController {
         "profile_4", "profile_5", "profile_6", "profile_7",
         "profile_8", "profile_9", "profile_10", "profile_11"
     ]
+    var imageIndex: Int? {
+        didSet { updateProfileImage() }
+    }
 
     override func loadView() {
         view = profileImageView
@@ -54,5 +57,13 @@ extension ProfileImageViewController: UICollectionViewDelegate, UICollectionView
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileImageCollectionViewCell.id, for: indexPath) as! ProfileImageCollectionViewCell
         cell.configureCell(index: profileImageList[indexPath.item])
         return cell
+    }
+}
+
+// MARK: method
+extension ProfileImageViewController {
+    private func updateProfileImage() {
+        guard let index = imageIndex else { return }
+        profileImageView.configureProfileImage(to: "profile_\(index)")
     }
 }
