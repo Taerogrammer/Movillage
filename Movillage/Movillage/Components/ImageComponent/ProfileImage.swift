@@ -9,14 +9,10 @@ final class ProfileImage: UIImageView {
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-
-        clipsToBounds = true
     }
     override func layoutSubviews() {
         super.layoutSubviews()
         layer.cornerRadius = bounds.height / 2
-        layer.borderWidth = 3
-
     }
     func didImageSelected(isHighlighted: Bool) {
         layer.borderWidth = isHighlighted ? 3 : 1

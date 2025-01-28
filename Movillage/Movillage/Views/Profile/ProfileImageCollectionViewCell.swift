@@ -30,7 +30,8 @@ final class ProfileImageCollectionViewCell: BaseCollectionViewCell {
 
 // MARK: configure cell
 extension ProfileImageCollectionViewCell {
-    func configureCell(index: String) {
+    func configureCell(index: String, isSelected: Bool) {
         imageView.image = UIImage(named: index)
+        imageView.didImageSelected(isHighlighted: isSelected)
     }
 }

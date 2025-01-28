@@ -55,8 +55,12 @@ extension ProfileImageViewController: UICollectionViewDelegate, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileImageCollectionViewCell.id, for: indexPath) as! ProfileImageCollectionViewCell
-        cell.configureCell(index: profileImageList[indexPath.item])
+        cell.configureCell(index: profileImageList[indexPath.item], isSelected: indexPath.item == imageIndex)
         return cell
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        imageIndex = indexPath.item
+        collectionView.reloadData()
     }
 }
 

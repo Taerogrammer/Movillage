@@ -32,6 +32,7 @@ final class ProfileImageView: BaseView {
         presentImage.didImageSelected(isHighlighted: true)
         cameraImage.tintColor = UIColor.customBlue
         profileImageCollectionView.isScrollEnabled = false
+        profileImageCollectionView.allowsMultipleSelection = false
     }
     func configureProfileImage(to profileName: String) {
         presentImage.image = UIImage(named: profileName)
