@@ -49,7 +49,7 @@ final class ProfileView: BaseView {
         completeButton.isEnabled = false
 
         // userDefaults 없을 때 호출
-        [getRandomImage(), configureDelegate(), configureTextField()].forEach { $0 }
+        [getProfileImage(), configureDelegate(), configureTextField()].forEach { $0 }
     }
 
     override func layoutSubviews() {
@@ -60,6 +60,13 @@ final class ProfileView: BaseView {
 
 // MARK: method
 extension ProfileView {
+    private func getProfileImage() {
+        if UserDefaultsManager.profileImage == nil {
+            getRandomImage()
+        } else {
+            imageView.image = UIImage(named: UserDefaultsManager.profileImage ?? "profile_0")
+        }
+    }
     /// userDefaults에 프로필 이미지 설정이 없을 때 랜덤으로 보여주기
     private func getRandomImage() {
         self.imageIndex = (0...11).randomElement()!

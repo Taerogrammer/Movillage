@@ -10,6 +10,8 @@ struct UserDefault<T> {
         get { self.storage.object(forKey: self.key) as? T ?? self.defaultValue }
         set { self.storage.set(newValue, forKey: self.key) }
     }
+
+    func removeObject() { storage.removeObject(forKey: key) }
 }
 
 final class UserDefaultsManager {

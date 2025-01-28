@@ -61,6 +61,10 @@ extension SettingViewController {
         let cancelAction = UIAlertAction(title: "확인", style: .destructive) { _ in
             UserDefaultsManager.didStart.toggle()
 
+            // 직접 선언하기
+            var userDefaults = UserDefault<String?>(key: "profileImage", defaultValue: nil, storage: .standard)
+            userDefaults.removeObject()
+
             guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else { return }
             window.rootViewController = UINavigationController(rootViewController: OnboardingViewController())
             window.makeKeyAndVisible()
