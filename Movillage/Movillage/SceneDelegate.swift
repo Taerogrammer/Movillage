@@ -15,17 +15,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
-        var nav = UINavigationController()
 
-        print(#function, UserDefaultsManager.didStart)
         if UserDefaultsManager.didStart {
-            nav = UINavigationController(rootViewController: TabBarController())
+            window?.rootViewController = TabBarController()
         } else {
-            nav = UINavigationController(rootViewController: OnboardingViewController())
+            window?.rootViewController = UINavigationController(rootViewController: OnboardingViewController())
         }
-//        let nav = UINavigationController(rootViewController: OnboardingViewController())
-//        let nav = UINavigationController(rootViewController: TabBarController())
-        window?.rootViewController = nav
         window?.makeKeyAndVisible()
     }
 
