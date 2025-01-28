@@ -14,15 +14,14 @@ final class ProfileImageCollectionViewCell: BaseCollectionViewCell {
         }
     }
     override func configureView() {
-        imageView.backgroundColor = UIColor.customBlack
-        imageView.didImageSelected(isHighlighted: false)
+        imageView.isEnabledOrHighlighted(isHighlighted: false)
     }
     override var isSelected: Bool {
         didSet {
             if isSelected {
-                imageView.didImageSelected(isHighlighted: true)
+                imageView.isEnabledOrHighlighted(isHighlighted: true)
             } else {
-                imageView.didImageSelected(isHighlighted: false)
+                imageView.isEnabledOrHighlighted(isHighlighted: false)
             }
         }
     }
@@ -32,6 +31,6 @@ final class ProfileImageCollectionViewCell: BaseCollectionViewCell {
 extension ProfileImageCollectionViewCell {
     func configureCell(index: String, isSelected: Bool) {
         imageView.image = UIImage(named: index)
-        imageView.didImageSelected(isHighlighted: isSelected)
+        imageView.isEnabledOrHighlighted(isHighlighted: isSelected)
     }
 }

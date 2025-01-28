@@ -41,6 +41,8 @@ extension ProfileViewController {
 // MARK: @objc
 extension ProfileViewController {
     @objc private func completeButtonTapped() {
+        guard let index = profileView.imageIndex else { return }
+        UserDefaultsManager.profileImage = "profile_\(index)"
         UserDefaultsManager.didStart.toggle()
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else { return }
 

@@ -5,6 +5,7 @@ final class ProfileImage: UIImageView {
         super.init(frame: frame)
 
         clipsToBounds = true
+        backgroundColor = UIColor.customBlack
     }
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
@@ -14,7 +15,7 @@ final class ProfileImage: UIImageView {
         super.layoutSubviews()
         layer.cornerRadius = bounds.height / 2
     }
-    func didImageSelected(isHighlighted: Bool) {
+    func isEnabledOrHighlighted(isHighlighted: Bool) {
         layer.borderWidth = isHighlighted ? 3 : 1
         layer.borderColor = isHighlighted ? UIColor.customBlue.cgColor : UIColor.customGray.cgColor
         alpha = isHighlighted ? 1.0 : 0.5

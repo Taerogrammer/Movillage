@@ -39,10 +39,10 @@ final class ProfileCardView: BaseView {
         clipsToBounds = true
         backgroundColor = UIColor.customGray
         layer.cornerRadius = 12
-        profileImage.image = UIImage(systemName: "person")
+        // TODO: 보완 필요
+        profileImage.image = UIImage(named: UserDefaultsManager.profileImage ?? "profile_0")
+        profileImage.isEnabledOrHighlighted(isHighlighted: true)
         nicknameLabel.text = "테스트용 이름입니다."
-
-
 
         registerLabel.text = "25.01.24 가입"
         chevronImage.image = UIImage(systemName: "chevron.right")
