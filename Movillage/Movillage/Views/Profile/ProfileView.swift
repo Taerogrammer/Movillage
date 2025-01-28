@@ -7,7 +7,9 @@ final class ProfileView: BaseView {
     private let textField = UITextField()
     private let errorLabel = UILabel().setFont(.description)
     let completeButton = CustomButton()
-    var imageIndex: Int?
+    var imageIndex: Int? {
+        didSet { updateProfileImage() }
+    }
 
     override func configureHierarchy() {
         [imageView, textField, errorLabel, completeButton, cameraImage].forEach { addSubview($0) }
@@ -57,5 +59,9 @@ extension ProfileView {
     private func getRandomImage() {
         self.imageIndex = (0...11).randomElement()!
         imageView.image = UIImage(named: "profile_\(imageIndex ?? 0)")
+    }
+    private func updateProfileImage() {
+        guard let index = imageIndex else { return }
+        imageView.image = UIImage(named: "profile_\(index)")
     }
 }

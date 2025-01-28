@@ -10,6 +10,7 @@ final class ProfileImageViewController: UIViewController {
     var imageIndex: Int? {
         didSet { updateProfileImage() }
     }
+    var contents: ((Int) -> Void)?
 
     override func loadView() {
         view = profileImageView
@@ -33,6 +34,8 @@ extension ProfileImageViewController: NavigationConfiguration {
 // MARK: @objc
 extension ProfileImageViewController {
     @objc private func backButtonTapped() {
+        print(#function, imageIndex)
+        contents?(imageIndex!)
         navigationController?.popViewController(animated: true)
     }
 }

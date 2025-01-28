@@ -55,6 +55,10 @@ extension ProfileViewController {
     @objc private func imageTapped() {
         let vc = ProfileImageViewController()
         vc.imageIndex = profileView.imageIndex
+
+        vc.contents = { value in
+            self.profileView.imageIndex = value
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
 }
