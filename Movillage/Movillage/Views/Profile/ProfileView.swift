@@ -4,7 +4,7 @@ import SnapKit
 final class ProfileView: BaseView {
     let imageView = ProfileImage(frame: CGRect())
     private let cameraImage = UIImageView()
-    private let textField = UITextField()
+    let textField = UITextField()
     private let errorLabel = UILabel().setFont(.description)
     let completeButton = CustomButton()
     var imageIndex: Int? {
@@ -24,7 +24,7 @@ final class ProfileView: BaseView {
         textField.snp.makeConstraints {
             $0.top.equalTo(imageView.snp.bottom).offset(24)
             $0.horizontalEdges.equalTo(self.safeAreaLayoutGuide).inset(20)
-            $0.centerX.equalToSuperview()
+//            $0.centerX.equalToSuperview()
         }
         errorLabel.snp.makeConstraints {
             $0.top.equalTo(textField.snp.bottom).offset(16)
@@ -50,6 +50,13 @@ final class ProfileView: BaseView {
 
         // userDefaults 없을 때 호출
         getRandomImage()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        print(#function)
+        textField.underlined(viewSize: textField.frame.width, color: UIColor.customGray)
+
     }
 }
 
