@@ -25,6 +25,8 @@ final class ProfileImageViewController: UIViewController {
 extension ProfileImageViewController: NavigationConfiguration {
     func configureNavigation() {
         title = "프로필 이미지 편집"
+
+        // TODO: 스와이프로 처리해보기
         let backButton = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(backButtonTapped))
         backButton.tintColor = UIColor.customBlue
         navigationItem.leftBarButtonItem = backButton
@@ -34,7 +36,6 @@ extension ProfileImageViewController: NavigationConfiguration {
 // MARK: @objc
 extension ProfileImageViewController {
     @objc private func backButtonTapped() {
-        print(#function, imageIndex)
         contents?(imageIndex!)
         navigationController?.popViewController(animated: true)
     }
