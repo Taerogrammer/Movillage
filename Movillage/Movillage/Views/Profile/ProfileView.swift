@@ -47,6 +47,7 @@ final class ProfileView: BaseView {
         cameraImage.image = UIImage(systemName: "camera.circle.fill")
         cameraImage.tintColor = UIColor.customBlue
         textInfoLabel.textColor = UIColor.customBlue
+        completeButton.isEnabled = false
 
         // userDefaults 없을 때 호출
         [getRandomImage(), configureDelegate(), configureTextField()].forEach { $0 }
@@ -100,12 +101,16 @@ extension ProfileView {
         /// 문구는 글자 수가 특수문자보다 우선순위로 두어, 만약 두 조건을 위배한다면 글자 수 관련 문구가 나타납니다.
         if text.count < 2 || text.count >= 10 {
             textInfoLabel.text = "2글자 이상 10글자 미만으로 설정해주세요"
+            completeButton.isEnabled = false
         } else if containsSpecialCharacter(text: text) {
             textInfoLabel.text = "닉네임에 @, #, $, % 는 포함할 수 없어요"
+            completeButton.isEnabled = false
         } else if containsNumber(text: text) {
             textInfoLabel.text = "닉네임에 숫자는 포함할 수 없어요"
+            completeButton.isEnabled = false
         } else {
             textInfoLabel.text = "사용할 수 있는 닉네임이에요"
+            completeButton.isEnabled = true
         }
     }
 }

@@ -19,4 +19,11 @@ final class CustomButton: UIButton {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    /// isEnabled에 따른 선명도
+    override var isEnabled: Bool {
+        didSet {
+            self.alpha = isEnabled ? 1.0 : 0.5
+        }
+    }
 }
