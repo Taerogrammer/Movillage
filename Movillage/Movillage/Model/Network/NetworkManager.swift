@@ -81,7 +81,7 @@ final class NetworkManager {
             parameters: api.parameter,
             encoding: api.encoding,
             headers: api.header)
-        .cURLDescription { print($0) }
+//        .cURLDescription { print($0) }
         .responseDecodable(of: T.self) { response in
             completionHandler(response.result.mapError { $0 as Error })
         }

@@ -49,6 +49,11 @@ extension ProfileEditViewController {
     @objc private func imageTapped() {
         let vc = ProfileImageViewController()
         setEmptyTitleBackButton()
+
+        vc.imageIndex = profileEditView.imageIndex
+        vc.contents = { value in
+            self.profileEditView.profileView.imageIndex = value
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
 }
