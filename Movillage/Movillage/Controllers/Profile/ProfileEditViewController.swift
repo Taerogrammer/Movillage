@@ -31,7 +31,12 @@ extension ProfileEditViewController: NavigationConfiguration {
 extension ProfileEditViewController {
     @objc private func closeButtonTapped() { dismiss(animated: true) }
     @objc private func saveButtonTapped() {
-        print(#function)
+        // 예외 처리
+        guard let imageIndex = profileEditView.profileView.imageIndex else { return }
+        guard let nickname = profileEditView.profileView.textField.text else { return }
+        UserDefaultsManager.profileImage = "profile_\(imageIndex)"
+        UserDefaultsManager.nickname = nickname
+        dismiss(animated: true)
     }
 }
 
