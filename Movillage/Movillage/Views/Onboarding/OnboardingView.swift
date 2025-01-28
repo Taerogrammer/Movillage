@@ -38,6 +38,7 @@ final class OnboardingView: BaseView {
         titleLabel.font = .italicSystemFont(ofSize: 44)
 
         contentsLabel.text = "당신이 원하는 영화가 가득한 마을," + "\n" + "Movillage를 시작해보세요!"
+        contentsLabel.numberOfLines = 2
         contentsLabel.textAlignment = .center
 
         startButton.setTitle("시작하기", for: .normal)

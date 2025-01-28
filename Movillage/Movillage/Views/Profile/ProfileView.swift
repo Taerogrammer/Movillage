@@ -24,7 +24,6 @@ final class ProfileView: BaseView {
         textField.snp.makeConstraints {
             $0.top.equalTo(imageView.snp.bottom).offset(24)
             $0.horizontalEdges.equalTo(self.safeAreaLayoutGuide).inset(20)
-//            $0.centerX.equalToSuperview()
         }
         errorLabel.snp.makeConstraints {
             $0.top.equalTo(textField.snp.bottom).offset(16)
