@@ -62,9 +62,9 @@ extension SettingViewController {
             UserDefaultsManager.didStart.toggle()
 
             // 직접 선언하기
-            var userDefaultsProfileImage = UserDefault<String?>(key: "profileImage", defaultValue: nil, storage: .standard)
+            let userDefaultsProfileImage = UserDefault<String?>(key: "profileImage", defaultValue: nil, storage: .standard)
             userDefaultsProfileImage.removeObject()
-            var userDefaultsNickname = UserDefault<String?>(key: "nickname", defaultValue: nil, storage: .standard)
+            let userDefaultsNickname = UserDefault<String?>(key: "nickname", defaultValue: nil, storage: .standard)
             userDefaultsNickname.removeObject()
 
             guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else { return }
