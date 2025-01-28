@@ -49,7 +49,7 @@ final class ProfileView: BaseView {
         completeButton.isEnabled = false
 
         // userDefaults 없을 때 호출
-        [getProfileImage(), configureDelegate(), configureTextField()].forEach { $0 }
+        [getNickname(), getProfileImage(), configureDelegate(), configureTextField()].forEach { $0 }
     }
 
     override func layoutSubviews() {
@@ -81,6 +81,12 @@ extension ProfileView {
     }
     private func containsNumber(text: String) -> Bool {
         return text.filter({ $0.isNumber }).count > 0
+    }
+    private func getNickname() {
+        if UserDefaultsManager.nickname != nil {
+            textField.text = UserDefaultsManager.nickname
+            textInfoLabel.text = "사용할 수 있는 닉네임이에요"  // 사용할 수 있는 닉네임이었기 때문에 설정 가능했던 것
+        }
     }
 }
 
