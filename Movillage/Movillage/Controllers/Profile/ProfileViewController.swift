@@ -41,14 +41,11 @@ extension ProfileViewController {
 // MARK: @objc
 extension ProfileViewController {
     @objc private func completeButtonTapped() {
-        // window - 첫번째 UIWindow를 가져올 수 있는 지
+        UserDefaultsManager.didStart.toggle()
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else { return }
 
         window.rootViewController = UINavigationController(rootViewController: TabBarController())
         window.makeKeyAndVisible()
-
-        let vc = TabBarController()
-        navigationController?.pushViewController(vc, animated: true)
     }
     @objc private func imageTapped() {
         let vc = ProfileImageViewController()

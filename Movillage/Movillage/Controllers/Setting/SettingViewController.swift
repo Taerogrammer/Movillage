@@ -54,9 +54,22 @@ extension SettingViewController: DelegateConfiguration {
 
 // MARK: methods
 extension SettingViewController {
-    private func withdrawTapped() {
-        let alert = UIAlertController.setAlertWithCancel(title: "탈퇴하기", message: "탈퇴를 하면 데이터가 모두 초기화됩니다. 탈퇴 하시겠습니까?")
-        present(alert, animated: true)
+    private func withdrawTapped() { present(withdrawAlertController(), animated: true) }
+    private func withdrawAlertController() -> UIAlertController {
+        let alert = UIAlertController.setDefaultAlert(title: "탈퇴하기", message: "탈퇴를 하면 데이터가 모두 초기화됩니다. 탈퇴하시겠습니까?")
+
+        let cancelAction = UIAlertAction(title: "확인", style: .destructive) { _ in
+            UserDefaultsManager.didStart.toggle()
+
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else { return }
+            window.rootViewController = UINavigationController(rootViewController: OnboardingViewController())
+            window.makeKeyAndVisible()
+        }
+        let confirmAction = UIAlertAction(title: "취소", style: .cancel)
+        alert.addAction(cancelAction)
+        alert.addAction(confirmAction)
+
+        return alert
     }
 }
 
