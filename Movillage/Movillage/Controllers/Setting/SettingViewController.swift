@@ -12,7 +12,7 @@ final class SettingViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        [configureNavigation(), configureDelegate(), configureProfileCard()].forEach { $0 }
+        [configureNavigation(), configureDelegate(), configureProfileCard(), configureNotification()].forEach { $0 }
     }
 }
 
@@ -92,5 +92,16 @@ extension SettingViewController: ProfileCardViewGesture {
             sheet.prefersGrabberVisible = true
         }
         present(navVC, animated: true)
+    }
+    @objc private func updatedProfileReceived() {
+        settingView.profileCardView.profileImage.image = UIImage(named: UserDefaultsManager.profileImage ?? "profile_0")
+        settingView.profileCardView.nicknameLabel.text = UserDefaultsManager.nickname
+    }
+}
+
+// MARK: configure notification
+extension SettingViewController: NotificationConfiguration {
+    func configureNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(updatedProfileReceived), name: NSNotification.Name("updateProfile"), object: nil)
     }
 }

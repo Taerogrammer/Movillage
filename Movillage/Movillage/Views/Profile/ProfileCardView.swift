@@ -2,10 +2,10 @@ import UIKit
 import SnapKit
 
 final class ProfileCardView: BaseView {
-    private let profileImage = ProfileImage(frame: CGRect())
-    private let nicknameLabel = UILabel().setFont(.header)
+    let profileImage = ProfileImage(frame: CGRect())
+    let nicknameLabel = UILabel().setFont(.header)
     private let registerLabel = UILabel().setFont(.description)
-    private let likeCountButton = UIButton()
+    let likeCountButton = UIButton()
     private let chevronImage = UIImageView()
 
     override func configureHierarchy() {

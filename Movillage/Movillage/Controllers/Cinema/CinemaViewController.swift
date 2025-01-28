@@ -25,7 +25,8 @@ final class CinemaViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        [configureNavigation(), configureProfileCard(),configureDelegate()].forEach { $0 }
+        print(#function)
+        [configureNavigation(), configureProfileCard(),configureDelegate(), configureNotification()].forEach { $0 }
         DispatchQueue.global().async {
             self.fetchTrending()
         }
@@ -64,6 +65,10 @@ extension CinemaViewController {
         let vc = SearchViewController()
         navigationController?.pushViewController(vc, animated: true)
         setEmptyTitleBackButton()
+    }
+    @objc private func updatedProfileReceived() {
+        cinemaView.profileCardView.profileImage.image = UIImage(named: UserDefaultsManager.profileImage ?? "profile_0")
+        cinemaView.profileCardView.nicknameLabel.text = UserDefaultsManager.nickname
     }
 }
 
@@ -160,5 +165,12 @@ extension CinemaViewController {
                 print(failure)
             }
         }
+    }
+}
+
+// MARK: configure notification
+extension CinemaViewController: NotificationConfiguration {
+    func configureNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(updatedProfileReceived), name: NSNotification.Name("updateProfile"), object: nil)
     }
 }

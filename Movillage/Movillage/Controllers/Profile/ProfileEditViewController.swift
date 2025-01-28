@@ -39,6 +39,8 @@ extension ProfileEditViewController {
         }
         guard let nickname = profileEditView.profileView.textField.text else { print("nickname Nil error"); return }
         UserDefaultsManager.nickname = nickname
+
+        configureNotification()
         dismiss(animated: true)
     }
 }
@@ -64,4 +66,9 @@ extension ProfileEditViewController {
         }
         navigationController?.pushViewController(vc, animated: true)
     }
+}
+
+// MARK: configure notification
+extension ProfileEditViewController: NotificationConfiguration {
+    func configureNotification() { NotificationCenter.default.post(name: NSNotification.Name("updateProfile"), object: nil) }
 }

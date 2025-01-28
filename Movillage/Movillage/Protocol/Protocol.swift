@@ -34,3 +34,7 @@ protocol ProfileCardViewGesture: AnyObject {
     func profileCardTapped()
     func configureProfileCard()
 }
+
+protocol NotificationConfiguration: AnyObject {
+    func configureNotification()
+}
