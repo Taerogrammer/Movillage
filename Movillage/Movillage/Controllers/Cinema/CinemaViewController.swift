@@ -25,7 +25,6 @@ final class CinemaViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(#function)
         [configureNavigation(), configureProfileCard(),configureDelegate(), configureNotification()].forEach { $0 }
         DispatchQueue.global().async {
             self.fetchTrending()
@@ -128,7 +127,6 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 }
             }
             navigationController?.pushViewController(vc, animated: true)
-            print(#function, indexPath.section, indexPath.row)
         default:
             break
         }

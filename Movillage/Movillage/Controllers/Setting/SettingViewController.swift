@@ -60,13 +60,7 @@ extension SettingViewController {
 
         let cancelAction = UIAlertAction(title: "확인", style: .destructive) { _ in
             UserDefaultsManager.didStart.toggle()
-
-            // 직접 선언하기
-            let userDefaultsProfileImage = UserDefault<String?>(key: "profileImage", defaultValue: nil, storage: .standard)
-            userDefaultsProfileImage.removeObject()
-            let userDefaultsNickname = UserDefault<String?>(key: "nickname", defaultValue: nil, storage: .standard)
-            userDefaultsNickname.removeObject()
-
+            self.removeUserDefaultsData()
             guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else { return }
             window.rootViewController = UINavigationController(rootViewController: OnboardingViewController())
             window.makeKeyAndVisible()
@@ -76,6 +70,12 @@ extension SettingViewController {
         alert.addAction(confirmAction)
 
         return alert
+    }
+    // 직접 선언해서 제거
+    private func removeUserDefaultsData() {
+        ["profileImage", "nickname", "registerDate"].forEach {
+            UserDefault<String?>(key: $0, defaultValue: nil, storage: .standard).removeObject()
+        }
     }
 }
 

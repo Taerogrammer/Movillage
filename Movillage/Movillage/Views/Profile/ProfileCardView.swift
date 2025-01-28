@@ -44,7 +44,8 @@ final class ProfileCardView: BaseView {
         profileImage.isEnabledOrHighlighted(isHighlighted: true)
         nicknameLabel.text = UserDefaultsManager.nickname
 
-        registerLabel.text = "25.01.24 가입"
+        registerLabel.text = "\(UserDefaultsManager.registerDate ?? Date().description) 가입"
+        registerLabel.textColor = UIColor.customWhiteGray
         chevronImage.image = UIImage(systemName: "chevron.right")
         chevronImage.tintColor = UIColor.customWhiteGray
         likeCountButton.setTitle("0개의 무비박스 보관중", for: .normal)
