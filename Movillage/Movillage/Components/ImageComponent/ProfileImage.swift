@@ -19,7 +19,6 @@ final class ProfileImage: UIImageView {
 
     }
     func didImageSelected(isHighlighted: Bool) {
-        print(#function, isHighlighted)
         layer.borderWidth = isHighlighted ? 3 : 1
         layer.borderColor = isHighlighted ? UIColor.customBlue.cgColor : UIColor.customGray.cgColor
         alpha = isHighlighted ? 1.0 : 0.5
