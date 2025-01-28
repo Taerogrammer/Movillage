@@ -4,7 +4,7 @@ final class CinemaViewController: UIViewController {
 
     private let cinemaView = CinemaView()
 
-    let dummySection = ["최근검색어", "오늘의 영화"]
+    private let cinemaSection = ["최근검색어", "오늘의 영화"]
     let dummySectionOne = ["스파이더맨", "배트맨", "슈퍼맨", "아이언맨", "인크레더블 헐크", "되게 긴 외국 영화"]
 
     // TODO: 위치 수정
@@ -75,7 +75,7 @@ extension CinemaViewController {
 extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
 
-        return dummySection.count
+        return cinemaSection.count
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
@@ -133,8 +133,8 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CinemaHeaderView.id, for: indexPath) as! CinemaHeaderView
-        header.configureHeaderTitle(title: dummySection[indexPath.section])
-        header.configureRemoveButton(title: dummySection[indexPath.section])
+        header.configureHeaderTitle(title: cinemaSection[indexPath.section])
+        header.configureRemoveButton(title: cinemaSection[indexPath.section])
 
         return header
     }
