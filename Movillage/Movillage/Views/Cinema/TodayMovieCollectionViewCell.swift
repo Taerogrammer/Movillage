@@ -51,9 +51,11 @@ final class TodayMovieCollectionViewCell: BaseCollectionViewCell {
 // MARK: configure cell
 extension TodayMovieCollectionViewCell {
     func configureCell(with row: ResultsResponse) {
-        titleLabel.text = row.title
-        descriptionLabel.text = row.overview
         let url = URL(string: imageUrl + "\(row.poster_path)")
-        posterImage.kf.setImage(with: url)
+        DispatchQueue.main.async {
+            self.posterImage.kf.setImage(with: url)
+            self.titleLabel.text = row.title
+            self.descriptionLabel.text = row.overview
+        }
     }
 }

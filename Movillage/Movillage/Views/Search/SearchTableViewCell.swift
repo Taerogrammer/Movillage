@@ -48,9 +48,7 @@ final class SearchTableViewCell: BaseTableViewCell {
         posterImage.clipsToBounds = true
         posterImage.layer.cornerRadius = 12
         posterImage.contentMode = .scaleToFill
-
         releaseLabel.textColor = UIColor.customGray
-
         likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
         likeButton.tintColor = UIColor.customBlue
     }
@@ -59,8 +57,10 @@ final class SearchTableViewCell: BaseTableViewCell {
 extension SearchTableViewCell {
     func configureCell(with row: ResultsResponse) {
         let url = URL(string: imageUrl + row.poster_path)
-        posterImage.kf.setImage(with: url)
-        titleLabel.text = row.title
-        releaseLabel.text = row.release_date
+        DispatchQueue.main.async {
+            self.posterImage.kf.setImage(with: url)
+            self.titleLabel.text = row.title
+            self.releaseLabel.text = row.release_date
+        }
     }
 }
