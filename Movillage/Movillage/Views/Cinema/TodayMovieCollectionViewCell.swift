@@ -12,6 +12,8 @@ final class TodayMovieCollectionViewCell: BaseCollectionViewCell {
     // TODO: - 위치 수정
     let imageUrl = "https://image.tmdb.org/t/p/original"
 
+    var didLikeButtonTapped: (() -> Void)?
+
     override func configureHierarchy() {
         [posterImage, titleLabel, likeButton, descriptionLabel].forEach { contentView.addSubview($0) }
     }
@@ -44,18 +46,29 @@ final class TodayMovieCollectionViewCell: BaseCollectionViewCell {
         posterImage.backgroundColor = UIColor.customBlue
         descriptionLabel.numberOfLines = 2
         likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        likeButton.setImage(UIImage(systemName: "heart.fill"), for: .highlighted)
         likeButton.tintColor = UIColor.customBlue
+        likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
     }
 }
 
 // MARK: configure cell
 extension TodayMovieCollectionViewCell {
-    func configureCell(with row: ResultsResponse) {
-        let url = URL(string: imageUrl + "\(row.poster_path)")
+    func configureCell(with item: ResultsResponse) {
+        let url = URL(string: imageUrl + "\(item.poster_path)")
         DispatchQueue.main.async {
             self.posterImage.kf.setImage(with: url)
-            self.titleLabel.text = row.title
-            self.descriptionLabel.text = row.overview
+            self.titleLabel.text = item.title
+            self.descriptionLabel.text = item.overview
         }
+        configureFavorite(by: item.id)
     }
+    func configureFavorite(by id: Int) {
+        likeButton.isHighlighted = UserDefaultsManager.favoriteMovie.contains(id) ? true : false
+    }
+}
+
+// MARK: @objc
+extension TodayMovieCollectionViewCell {
+    @objc private func likeButtonTapped() { didLikeButtonTapped?() }
 }

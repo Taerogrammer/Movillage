@@ -28,6 +28,7 @@ final class CinemaViewController: UIViewController {
         DispatchQueue.global().async {
             self.fetchTrending()
         }
+        print("--------------- ", UserDefaultsManager.favoriteMovie)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -112,9 +113,16 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
             let item = trendingMovie.results[indexPath.item]
             cell.configureCell(with: item)
 
-            
-
-            print(#function, indexPath.item)
+            cell.didLikeButtonTapped = {
+                let clickedID = self.trendingMovie.results[indexPath.item].id
+                // 만약 이미 있으면 제거
+                if UserDefaultsManager.favoriteMovie.contains(clickedID) {
+                    UserDefaultsManager.favoriteMovie.removeAll(where: { $0 == clickedID })
+                } else {    // 없다면 추가
+                    UserDefaultsManager.favoriteMovie.append(clickedID)
+                }
+                collectionView.reloadSections(IndexSet(integer: 1))
+            }
 
             return cell
         default:
