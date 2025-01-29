@@ -4,9 +4,11 @@ final class SearchViewController: UIViewController {
 
     private let searchView = SearchView()
     private var searchDTO = SearchDTO(query: "", page: 1)
-    private var page = 1
+    private var totalPages = 1
     lazy var searchResponse = SearchResponse(page: 1, results: searchData, total_pages: 1, total_results: 1)
-    private var searchData: [ResultsResponse] = []
+    private var searchData: [ResultsResponse] = [] {
+        didSet { searchView.searchTableView.reloadData() }
+    }
 
     override func loadView() {
         view = searchView
@@ -22,7 +24,6 @@ final class SearchViewController: UIViewController {
 //MARK: configure table view
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(#function)
         return searchData.count
     }
     
@@ -52,6 +53,34 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+// MARK: configure pagination
+extension SearchViewController {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let contentOffsetY = scrollView.contentOffset.y
+        let tableViewHeight = searchView.searchTableView.contentSize.height
+        let pagination = tableViewHeight * 0.2
+
+        // 스크롤 80%일 때와 전체 페이지보다 작을 때 데이터 로드
+        if contentOffsetY > tableViewHeight - pagination && searchDTO.page < totalPages {
+            loadMoreData()
+        }
+    }
+    private func resetPage() { self.searchDTO.page = 1 }
+    private func loadMoreData() {
+        print(#function, self.searchDTO.query, self.searchDTO.page)
+        self.searchDTO.page += 1
+        NetworkManager.shared.fetchItem(api: self.searchDTO.toRequest(),
+                                        type: SearchResponse.self) { result in
+            switch result {
+            case .success(let success):
+                self.searchData.append(contentsOf: success.results)
+            case .failure(let failure):
+                print("실패 -> ", failure)
+            }
+        }
+    }
+}
+
 // MARK: configure navigation
 extension SearchViewController: NavigationConfiguration {
     func configureNavigation() {
@@ -72,14 +101,12 @@ extension SearchViewController: DelegateConfiguration {
 // MARK: configure search bar
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print(#function, searchBar.text!)
         let searchText = searchBar.text!
         UserDefaultsManager.recentSearch.removeAll { $0 == searchText } // 중복 제거
         UserDefaultsManager.recentSearch.insert(searchBar.text!, at: 0)
         view.endEditing(true)
         searchDTO.query = searchBar.text!
-        searchDTO.page = self.page
-
+        resetPage()
         DispatchQueue.global().async {
             NetworkManager.shared.fetchItem(api: self.searchDTO.toRequest(),
                                             type: SearchResponse.self) { result in
@@ -87,14 +114,21 @@ extension SearchViewController: UISearchBarDelegate {
                 case .success(let success):
                     self.searchResponse = success
                     self.searchData = success.results
+                    self.totalPages = success.total_pages
                     DispatchQueue.main.async {
                         self.notFoundLabelVisibility()
-                        self.searchView.searchTableView.reloadData()
                     }
                 case .failure(let failure):
                     print("실패 ", failure)
                 }
             }
+        }
+        // 상태바 누르면 top으로 이동
+        searchView.searchTableView.scrollsToTop = true
+        // tableview가 생기기도 전에 스크롤을 하려고해서 문제가 발생할 수 있음
+        // tableview의 y offset이 0보다 크면 어쨋든 존재하기 때문에 scrollToRow 가능
+        if searchView.searchTableView.contentOffset.y > 0 {
+            searchView.searchTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
         }
     }
 }
