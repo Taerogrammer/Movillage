@@ -2,7 +2,7 @@ import UIKit
 
 final class SearchViewController: UIViewController {
 
-    private let searchView = SearchView()
+    let searchView = SearchView()
     private var searchDTO = SearchDTO(query: "", page: 1)
     private var totalPages = 1
     lazy var searchResponse = SearchResponse(page: 1, results: searchData, total_pages: 1, total_results: 1)

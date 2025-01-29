@@ -137,7 +137,11 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-            print(indexPath.item)
+            print(UserDefaultsManager.recentSearch[indexPath.item])
+            let vc = SearchViewController()
+            vc.searchView.searchBar.text = UserDefaultsManager.recentSearch[indexPath.item]
+            setEmptyTitleBackButton()
+            navigationController?.pushViewController(vc, animated: true)
 
         case 1:
             let vc = CinemaDetailViewController()
