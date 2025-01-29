@@ -17,11 +17,6 @@ final class CinemaViewController: UIViewController {
             }
         }
     }
-//    private var recentSearchDTO: [String]? = UserDefaultsManager.recentSearch {
-//        didSet {
-//            print("바뀜 -> ", recentSearchDTO)
-//        }
-//    }
 
     override func loadView() {
         super.loadView()
