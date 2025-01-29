@@ -5,7 +5,7 @@ final class CinemaViewController: UIViewController {
     private let cinemaView = CinemaView()
 
     private let cinemaSection = ["최근검색어", "오늘의 영화"]
-    let dummySectionOne = ["스파이더맨", "배트맨", "슈퍼맨", "아이언맨", "인크레더블 헐크", "되게 긴 외국 영화"]
+    var dummySectionOne = ["스파이더맨", "배트맨", "슈퍼맨", "아이언맨", "인크레더블 헐크", "되게 긴 외국 영화"]
 
     // TODO: 위치 수정
     let imageUrl = "https://image.tmdb.org/t/p/original"
@@ -110,7 +110,13 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-            print("0번", indexPath.section, indexPath.row)
+            dummySectionOne.remove(at: indexPath.item)
+            Task { @MainActor [weak self] in
+               guard let self else { return }
+               UIView.performWithoutAnimation {
+                   collectionView.reloadSections(IndexSet(integer: 0))
+               }
+            }
         case 1:
             let vc = CinemaDetailViewController()
             let detailView = CinemaDetailView()
