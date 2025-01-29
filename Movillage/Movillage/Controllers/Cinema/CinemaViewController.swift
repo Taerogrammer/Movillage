@@ -25,9 +25,16 @@ final class CinemaViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        [configureNavigation(), configureProfileCard(),configureDelegate(), configureNotification(), sendDataToCollectionView()].forEach { $0 }
+        [configureNavigation(), configureProfileCard(),configureDelegate(), configureNotification()].forEach { $0 }
         DispatchQueue.global().async {
             self.fetchTrending()
+        }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        DispatchQueue.main.async {
+            self.sendDataToCollectionView()
+            self.cinemaView.collectionView.reloadSections(IndexSet(integer: 0)) // 최근검색어 불러오기
         }
     }
 }
@@ -80,7 +87,7 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return max(dummySectionOne.count, 1)    // 데이터가 없을 때에도 item의 개수가 1이어야 라벨이 나타남 (0이면 아예 없는 것으로 간주)
+            return max(UserDefaultsManager.recentSearch.count, 1)    // 데이터가 없을 때에도 item의 개수가 1이어야 라벨이 나타남 (0이면 아예 없는 것으로 간주)
         case 1:
             return trendingMovie.results.count
         default:
@@ -91,12 +98,12 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
         case 0:
-            if dummySectionOne.count == 0 {
+            if UserDefaultsManager.recentSearch.count == 0 {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchEmptyCell.id, for: indexPath) as! RecentSearchEmptyCell
                 return cell
             } else {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchCollectionViewCell.id, for: indexPath) as! RecentSearchCollectionViewCell
-                cell.configureCell(text: dummySectionOne[indexPath.item])
+                cell.configureCell(text: UserDefaultsManager.recentSearch[indexPath.item])
 
                 return cell
             }
@@ -114,9 +121,9 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-            if dummySectionOne.count > 0 {
-                dummySectionOne.remove(at: indexPath.item)
-                cinemaView.data = getDataCount(data: dummySectionOne)
+            if UserDefaultsManager.recentSearch.count > 0 {
+                UserDefaultsManager.recentSearch.remove(at: indexPath.item)
+                sendDataToCollectionView()
                 Task { @MainActor [weak self] in
                     guard self != nil else { return }
                     UIView.performWithoutAnimation {
@@ -150,7 +157,7 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CinemaHeaderView.id, for: indexPath) as! CinemaHeaderView
         header.configureHeaderTitle(title: cinemaSection[indexPath.section])
         header.configureRemoveButton(title: cinemaSection[indexPath.section])
-        if !isDataExists(data: dummySectionOne.count) { header.removeButton.isHidden = true }
+        if !isDataExists(data: UserDefaultsManager.recentSearch.count) { header.removeButton.isHidden = true }
         return header
     }
 }
@@ -181,7 +188,7 @@ extension CinemaViewController {
         }
     }
     // 최근검색어 여부 전달
-    private func sendDataToCollectionView() { cinemaView.data = getDataCount(data: dummySectionOne) }
+    private func sendDataToCollectionView() { cinemaView.data = getDataCount(data: UserDefaultsManager.recentSearch) }
     private func isDataExists(data: Int) -> Bool { return data > 0 }
     private func getDataCount(data: [String]) -> Int { return data.count }
 }

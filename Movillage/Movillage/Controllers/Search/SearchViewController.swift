@@ -59,6 +59,7 @@ extension SearchViewController: DelegateConfiguration {
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         print(#function, searchBar.text!)
+        UserDefaultsManager.recentSearch.append(searchBar.text!)
         view.endEditing(true)
         searchDTO.query = searchBar.text!
         searchDTO.page = self.page
