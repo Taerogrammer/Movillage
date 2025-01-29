@@ -59,6 +59,8 @@ extension SearchViewController: DelegateConfiguration {
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         print(#function, searchBar.text!)
+        let searchText = searchBar.text!
+        UserDefaultsManager.recentSearch.removeAll { $0 == searchText } // 중복 제거
         UserDefaultsManager.recentSearch.insert(searchBar.text!, at: 0)
         view.endEditing(true)
         searchDTO.query = searchBar.text!
