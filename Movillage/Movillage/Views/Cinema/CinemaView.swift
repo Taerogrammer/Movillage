@@ -4,6 +4,8 @@ import SnapKit
 final class CinemaView: BaseView {
 
     let profileCardView = ProfileCardView()
+    // data 개수에 따라서 처음에 초기화 진행하기
+    var data: Int?
     lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: createCompositionalLayout())
@@ -40,10 +42,11 @@ final class CinemaView: BaseView {
     }
 
     private func createRecentSearchSectionLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(66), heightDimension: .absolute(40))
+
+        let itemSize = NSCollectionLayoutSize(widthDimension: self.data == nil || self.data == 0 ? .fractionalWidth(1.0) : .estimated(66), heightDimension: .absolute(40))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(3.0), heightDimension: .estimated(54))
+        let groupSize = NSCollectionLayoutSize(widthDimension: self.data == nil || self.data == 0 ? .fractionalWidth(1.0) : .fractionalWidth(3.0), heightDimension: .estimated(54))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         group.interItemSpacing = NSCollectionLayoutSpacing.fixed(16)
 
