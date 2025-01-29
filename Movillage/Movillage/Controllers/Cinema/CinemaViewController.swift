@@ -5,7 +5,6 @@ final class CinemaViewController: UIViewController {
     private let cinemaView = CinemaView()
 
     private let cinemaSection = ["최근검색어", "오늘의 영화"]
-    var dummySectionOne: [String] = ["ㄴ미루니ㅏ", "ㅐ2ㅑ1개ㅑ쥬"]
 
     // TODO: 위치 수정
     let imageUrl = "https://image.tmdb.org/t/p/original"
@@ -16,6 +15,11 @@ final class CinemaViewController: UIViewController {
             DispatchQueue.main.async {
                 self.cinemaView.collectionView.reloadSections(IndexSet(integer: 1))
             }
+        }
+    }
+    private var recentSearchDTO: [String]? = UserDefaultsManager.recentSearch {
+        didSet {
+            print("바뀜 -> ", recentSearchDTO)
         }
     }
 

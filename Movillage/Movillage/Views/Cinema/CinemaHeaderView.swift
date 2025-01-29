@@ -38,7 +38,17 @@ extension CinemaHeaderView: ViewConfiguration {
         removeButton.setTitle("전체 삭제", for: .normal)
         removeButton.titleLabel?.font = UIFont.contentBold
         removeButton.setTitleColor(UIColor.customBlue, for: .normal)
+        removeButton.addTarget(self, action: #selector(removeButtonTapped), for: .touchUpInside)
     }
     func configureHeaderTitle(title: String) { titleLabel.text = title }
     func configureRemoveButton(title: String) { removeButton.isHidden = (title != "최근검색어") }
+}
+
+// MARK: @objc
+extension CinemaHeaderView {
+    @objc private func removeButtonTapped() {
+        ["recentSearch"].forEach {
+            UserDefault<[String]>(key: $0, defaultValue: [], storage: .standard).removeObject()
+        }
+    }
 }

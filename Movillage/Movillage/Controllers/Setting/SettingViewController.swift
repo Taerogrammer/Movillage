@@ -76,6 +76,9 @@ extension SettingViewController {
         ["profileImage", "nickname", "registerDate"].forEach {
             UserDefault<String?>(key: $0, defaultValue: nil, storage: .standard).removeObject()
         }
+        ["recentSearch"].forEach {
+            UserDefault<[String]>(key: $0, defaultValue: [], storage: .standard).removeObject()
+        }
     }
 }
 
