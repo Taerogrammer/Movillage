@@ -109,8 +109,12 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayMovieCollectionViewCell.id, for: indexPath) as! TodayMovieCollectionViewCell
 
-            let row = trendingMovie.results[indexPath.row]
-            cell.configureCell(with: row)
+            let item = trendingMovie.results[indexPath.item]
+            cell.configureCell(with: item)
+
+            
+
+            print(#function, indexPath.item)
 
             return cell
         default:

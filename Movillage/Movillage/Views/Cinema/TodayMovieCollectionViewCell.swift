@@ -6,14 +6,14 @@ final class TodayMovieCollectionViewCell: BaseCollectionViewCell {
     static let id = "TodayMovieCollectionViewCell"
     let posterImage = UIImageView()
     let titleLabel = UILabel().setFont(.contentBold)
-    let likeImage = UIImageView()
+    let likeButton = UIButton()
     let descriptionLabel = UILabel().setFont(.description)
 
     // TODO: - 위치 수정
     let imageUrl = "https://image.tmdb.org/t/p/original"
 
     override func configureHierarchy() {
-        [posterImage, titleLabel, likeImage, descriptionLabel].forEach { contentView.addSubview($0) }
+        [posterImage, titleLabel, likeButton, descriptionLabel].forEach { contentView.addSubview($0) }
     }
     override func configureLayout() {
         posterImage.snp.makeConstraints {
@@ -24,10 +24,10 @@ final class TodayMovieCollectionViewCell: BaseCollectionViewCell {
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(posterImage.snp.bottom).offset(4)
             $0.leading.equalTo(self.safeAreaLayoutGuide).offset(4)
-            $0.trailing.lessThanOrEqualTo(likeImage.snp.leading).inset(8)
+            $0.trailing.lessThanOrEqualTo(likeButton.snp.leading).inset(8)
             $0.height.equalTo(16)
         }
-        likeImage.snp.makeConstraints {
+        likeButton.snp.makeConstraints {
             $0.centerY.equalTo(titleLabel)
             $0.trailing.equalTo(self.safeAreaLayoutGuide).inset(8)
             $0.width.height.equalTo(16)
@@ -43,8 +43,8 @@ final class TodayMovieCollectionViewCell: BaseCollectionViewCell {
         posterImage.layer.cornerRadius = 8
         posterImage.backgroundColor = UIColor.customBlue
         descriptionLabel.numberOfLines = 2
-        likeImage.image = UIImage(systemName: "heart")
-        likeImage.tintColor = UIColor.customBlue
+        likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        likeButton.tintColor = UIColor.customBlue
     }
 }
 

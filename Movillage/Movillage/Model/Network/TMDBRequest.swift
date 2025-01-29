@@ -38,7 +38,7 @@ enum TMDBRequest {
         case .credit(_):
             return ["language": "ko-KR"]
         case .getFavorite:
-            return [:]
+            return ["language":"ko-KR"]
         case .postFavorite(let media_id, let favorite):
             return ["media_type": "movie", "media_id": media_id, "favorite": favorite]
         }
