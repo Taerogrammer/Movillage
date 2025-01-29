@@ -5,7 +5,7 @@ final class CinemaHeaderView: UICollectionReusableView {
     static let id = "CinemaHeaderView"
 
     private let titleLabel = UILabel().setFont(.header)
-    private let removeButton = UIButton()
+    let removeButton = UIButton()
 
     override init(frame: CGRect) {
         super.init(frame: frame)

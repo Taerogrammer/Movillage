@@ -80,6 +80,7 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0:
+            print(#function, dummySectionOne.count)
             return dummySectionOne.count
         case 1:
             return trendingMovie.results.count
@@ -143,7 +144,7 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CinemaHeaderView.id, for: indexPath) as! CinemaHeaderView
         header.configureHeaderTitle(title: cinemaSection[indexPath.section])
         header.configureRemoveButton(title: cinemaSection[indexPath.section])
-
+        if !isDataExists(data: dummySectionOne.count) { header.removeButton.isHidden = true }
         return header
     }
 }
@@ -172,6 +173,7 @@ extension CinemaViewController {
             }
         }
     }
+    private func isDataExists(data: Int) -> Bool { return data > 0 }
 }
 
 // MARK: configure notification
