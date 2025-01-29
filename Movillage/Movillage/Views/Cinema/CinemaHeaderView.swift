@@ -6,6 +6,7 @@ final class CinemaHeaderView: UICollectionReusableView {
 
     private let titleLabel = UILabel().setFont(.header)
     let removeButton = UIButton()
+    var removeAllRecentSearch: (() -> Void)?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -46,9 +47,5 @@ extension CinemaHeaderView: ViewConfiguration {
 
 // MARK: @objc
 extension CinemaHeaderView {
-    @objc private func removeButtonTapped() {
-        ["recentSearch"].forEach {
-            UserDefault<[String]>(key: $0, defaultValue: [], storage: .standard).removeObject()
-        }
-    }
+    @objc private func removeButtonTapped() { removeAllRecentSearch?() }
 }

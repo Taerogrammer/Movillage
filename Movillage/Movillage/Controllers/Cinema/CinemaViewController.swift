@@ -17,11 +17,11 @@ final class CinemaViewController: UIViewController {
             }
         }
     }
-    private var recentSearchDTO: [String]? = UserDefaultsManager.recentSearch {
-        didSet {
-            print("바뀜 -> ", recentSearchDTO)
-        }
-    }
+//    private var recentSearchDTO: [String]? = UserDefaultsManager.recentSearch {
+//        didSet {
+//            print("바뀜 -> ", recentSearchDTO)
+//        }
+//    }
 
     override func loadView() {
         super.loadView()
@@ -162,6 +162,15 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
         header.configureHeaderTitle(title: cinemaSection[indexPath.section])
         header.configureRemoveButton(title: cinemaSection[indexPath.section])
         if !isDataExists(data: UserDefaultsManager.recentSearch.count) { header.removeButton.isHidden = true }
+
+        header.removeAllRecentSearch = {
+            ["recentSearch"].forEach {
+                UserDefault<[String]>(key: $0, defaultValue: [], storage: .standard).removeObject()
+            }
+            self.sendDataToCollectionView()
+            collectionView.reloadSections(IndexSet(integer: 0))
+        }
+
         return header
     }
 }
