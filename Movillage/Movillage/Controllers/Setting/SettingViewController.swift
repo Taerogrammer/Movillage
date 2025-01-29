@@ -73,6 +73,9 @@ extension SettingViewController {
     }
     // 직접 선언해서 제거
     private func removeUserDefaultsData() {
+
+        /// removeAll을 사용하면 nil이 아닌 Optional("")이 반환되어 구현하고자 하는 방향과 일치하지 않음
+        /// recentSearch는 가능하나, 가독성을 위해 removeObject 사용
         ["profileImage", "nickname", "registerDate"].forEach {
             UserDefault<String?>(key: $0, defaultValue: nil, storage: .standard).removeObject()
         }
