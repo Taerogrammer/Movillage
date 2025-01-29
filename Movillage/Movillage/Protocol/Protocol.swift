@@ -38,3 +38,7 @@ protocol ProfileCardViewGesture: AnyObject {
 protocol NotificationConfiguration: AnyObject {
     func configureNotification()
 }
+
+protocol RecentSearchCloseDelegate: AnyObject {
+    func recentSearchCloseButtonTapped(at index: Int)
+}

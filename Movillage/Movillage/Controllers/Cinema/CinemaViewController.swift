@@ -28,7 +28,6 @@ final class CinemaViewController: UIViewController {
         DispatchQueue.global().async {
             self.fetchTrending()
         }
-        print("--------------- ", UserDefaultsManager.favoriteMovie)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -105,6 +104,8 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
             } else {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchCollectionViewCell.id, for: indexPath) as! RecentSearchCollectionViewCell
                 cell.configureCell(text: UserDefaultsManager.recentSearch[indexPath.item])
+                cell.closeButtonDelegate = self
+                cell.xButton.tag = indexPath.item
 
                 return cell
             }
@@ -136,31 +137,25 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-            if UserDefaultsManager.recentSearch.count > 0 {
-                UserDefaultsManager.recentSearch.remove(at: indexPath.item)
-                sendDataToCollectionView()
-                Task { @MainActor [weak self] in
-                    guard self != nil else { return }
-                    UIView.performWithoutAnimation {
-                        collectionView.reloadSections(IndexSet(integer: 0))
-                    }
-                }
-            }
+            print(indexPath.item)
+
         case 1:
             let vc = CinemaDetailViewController()
             let detailView = CinemaDetailView()
 
-            NetworkManager.shared.fetchItem(api: ImageDTO(movieID: trendingMovie.results[indexPath.row].id).toRequest(),
-                                            type: ImageResponse.self) { result in
-                switch result {
-                case .success(let success):
-                    var array: [String] = []
-                    for i in 0..<5 {
-                        array.append(self.imageUrl + success.backdrops[i].file_path)
+            DispatchQueue.global().async {
+                NetworkManager.shared.fetchItem(api: ImageDTO(movieID: self.trendingMovie.results[indexPath.row].id).toRequest(),
+                                                type: ImageResponse.self) { result in
+                    switch result {
+                    case .success(let success):
+                        var array: [String] = []
+                        for i in 0..<5 {
+                            array.append(self.imageUrl + success.backdrops[i].file_path)
+                        }
+                        detailView.backdropArray = array
+                    case .failure(let failure):
+                        print("실패 ", failure)
                     }
-                    detailView.backdropArray = array
-                case .failure(let failure):
-                    print("실패 ", failure)
                 }
             }
             navigationController?.pushViewController(vc, animated: true)
@@ -224,5 +219,21 @@ extension CinemaViewController {
 extension CinemaViewController: NotificationConfiguration {
     func configureNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(updatedProfileReceived), name: NSNotification.Name("updateProfile"), object: nil)
+    }
+}
+
+// MARK: configure protocol delegate
+extension CinemaViewController: RecentSearchCloseDelegate {
+    func recentSearchCloseButtonTapped(at index: Int) {
+        if UserDefaultsManager.recentSearch.count > 0 {
+            UserDefaultsManager.recentSearch.remove(at: index)
+            sendDataToCollectionView()
+            Task { @MainActor [weak self] in
+                guard self != nil else { return }
+                UIView.performWithoutAnimation {
+                    self?.cinemaView.collectionView.reloadSections(IndexSet(integer: 0))
+                }
+            }
+        }
     }
 }
