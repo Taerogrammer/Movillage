@@ -41,7 +41,6 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(#function)
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.row == withdrawIndex { withdrawTapped() }
     }

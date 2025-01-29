@@ -8,7 +8,6 @@ final class NetworkManager {
     let header: HTTPHeaders = ["Authorization" : "Bearer \(APIKey.TMDB.rawValue)"]
 
     func fetchTrending(completionHandler: @escaping (Result<TrendingResponse, Error>) -> Void) {
-        print(#function)
         let url = URL(string: "https://api.themoviedb.org/3/trending/movie/day?language=ko-KR&page=1")!
         AF.request(url, method: .get, headers: header)
             .responseDecodable(of: TrendingResponse.self) { response in

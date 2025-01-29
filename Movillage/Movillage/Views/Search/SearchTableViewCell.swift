@@ -85,7 +85,6 @@ extension SearchTableViewCell {
             }
             genreStackView.addArrangedSubview(label)
         }
-        print(#function, genreID)
     }
     func configureFavorite(by id: Int) {
         likeButton.isHighlighted = UserDefaultsManager.favoriteMovie.contains(id) ? true : false
