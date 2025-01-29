@@ -8,12 +8,13 @@ final class GenreLabel: UILabel {
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        clipsToBounds = true
     }
     override func layoutSubviews() {
         super.layoutSubviews()
+        clipsToBounds = true
         font = UIFont.description
         textColor = UIColor.customWhite
+        textAlignment = .center
         backgroundColor = UIColor.customGray
         layer.cornerRadius = 6
     }
@@ -21,6 +22,6 @@ final class GenreLabel: UILabel {
     // 양 옆 간격 제공
     override var intrinsicContentSize: CGSize {
         let size = super.intrinsicContentSize
-        return CGSize(width: size.width + 8, height: size.height + 4)
+        return CGSize(width: size.width + 16, height: size.height + 8)
     }
 }

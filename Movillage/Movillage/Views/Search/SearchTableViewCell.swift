@@ -51,6 +51,11 @@ final class SearchTableViewCell: BaseTableViewCell {
         releaseLabel.textColor = UIColor.customGray
         likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
         likeButton.tintColor = UIColor.customBlue
+
+        genreStackView.axis = .horizontal
+        genreStackView.spacing = 12
+        genreStackView.alignment = .leading
+        genreStackView.distribution = .fillProportionally
     }
 }
 
@@ -62,5 +67,20 @@ extension SearchTableViewCell {
             self.titleLabel.text = row.title
             self.releaseLabel.text = row.release_date
         }
+        configureGenre(genre: row.genre_ids)
+    }
+    func configureGenre(genre: [Int]) {
+        // 셀 재사용 시 다른 장르 들어올 수도 있기 때문에 장르 정보 제거
+        genreStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        let genreID = genre.prefix(2)
+        for id in genreID {
+            let label = GenreLabel()
+            label.text = MovieGenre.genreDescription(id: id)
+            label.snp.makeConstraints {
+                $0.width.greaterThanOrEqualTo(24)
+            }
+            genreStackView.addArrangedSubview(label)
+        }
+        print(#function, genreID)
     }
 }

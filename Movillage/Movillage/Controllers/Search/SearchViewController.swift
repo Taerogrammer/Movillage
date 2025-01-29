@@ -66,16 +66,20 @@ extension SearchViewController: UISearchBarDelegate {
         searchDTO.query = searchBar.text!
         searchDTO.page = self.page
 
-        NetworkManager.shared.fetchItem(api: searchDTO.toRequest(),
-                                        type: SearchResponse.self) { result in
-            switch result {
-            case .success(let success):
-                self.searchResponse = success
-                self.searchData = success.results
-                self.notFoundLabelVisibility()
-                self.searchView.searchTableView.reloadData()
-            case .failure(let failure):
-                print("실패 ", failure)
+        DispatchQueue.global().async {
+            NetworkManager.shared.fetchItem(api: self.searchDTO.toRequest(),
+                                            type: SearchResponse.self) { result in
+                switch result {
+                case .success(let success):
+                    self.searchResponse = success
+                    self.searchData = success.results
+                    DispatchQueue.main.async {
+                        self.notFoundLabelVisibility()
+                        self.searchView.searchTableView.reloadData()
+                    }
+                case .failure(let failure):
+                    print("실패 ", failure)
+                }
             }
         }
     }
