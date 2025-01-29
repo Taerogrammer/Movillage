@@ -48,6 +48,7 @@ final class SearchTableViewCell: BaseTableViewCell {
         posterImage.clipsToBounds = true
         posterImage.layer.cornerRadius = 12
         posterImage.contentMode = .scaleToFill
+        titleLabel.numberOfLines = 2
         releaseLabel.textColor = UIColor.customGray
         likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
         likeButton.tintColor = UIColor.customBlue
