@@ -35,6 +35,7 @@ final class CinemaViewController: UIViewController {
         DispatchQueue.main.async {
             self.sendDataToCollectionView()
             self.cinemaView.collectionView.reloadSections(IndexSet(integer: 0)) // 최근검색어 불러오기
+            self.getFavoriteMovieCount() // 무비박스 불러오기
         }
     }
 }
@@ -126,6 +127,7 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
                     collectionView.reloadItems(at: [indexPath])
                 }
             }
+            getFavoriteMovieCount()
             return cell
         default:
             return UICollectionViewCell()
@@ -213,6 +215,9 @@ extension CinemaViewController {
     private func sendDataToCollectionView() { cinemaView.data = getDataCount(data: UserDefaultsManager.recentSearch) }
     private func isDataExists(data: Int) -> Bool { return data > 0 }
     private func getDataCount(data: [String]) -> Int { return data.count }
+    private func getFavoriteMovieCount() {
+        cinemaView.profileCardView.likeCountButton.setTitle("\(UserDefaultsManager.favoriteMovie.count)개의 무비박스 보관중", for: .normal)
+    }
 }
 
 // MARK: configure notification

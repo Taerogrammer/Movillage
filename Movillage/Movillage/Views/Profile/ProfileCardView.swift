@@ -48,7 +48,7 @@ final class ProfileCardView: BaseView {
         registerLabel.textColor = UIColor.customWhiteGray
         chevronImage.image = UIImage(systemName: "chevron.right")
         chevronImage.tintColor = UIColor.customWhiteGray
-        likeCountButton.setTitle("0개의 무비박스 보관중", for: .normal)
+        likeCountButton.setTitle("\(UserDefaultsManager.favoriteMovie.count)개의 무비박스 보관중", for: .normal)
         likeCountButton.clipsToBounds = true
         likeCountButton.backgroundColor = UIColor.customBlue
         likeCountButton.layer.cornerRadius = 8

@@ -14,6 +14,10 @@ final class SettingViewController: UIViewController {
         super.viewDidLoad()
         [configureNavigation(), configureDelegate(), configureProfileCard(), configureNotification()].forEach { $0 }
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getFavoriteMovieCount()
+    }
 }
 
 // MARK: configure navigation
@@ -85,6 +89,9 @@ extension SettingViewController {
         ["favoriteMovie"].forEach {
             UserDefault<[Int]>(key: $0, defaultValue: [], storage: .standard).removeObject()
         }
+    }
+    private func getFavoriteMovieCount() {
+        settingView.profileCardView.likeCountButton.setTitle("\(UserDefaultsManager.favoriteMovie.count)개의 무비박스 보관중", for: .normal)
     }
 }
 
