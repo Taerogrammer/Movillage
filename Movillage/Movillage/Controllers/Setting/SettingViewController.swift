@@ -82,6 +82,9 @@ extension SettingViewController {
         ["recentSearch"].forEach {
             UserDefault<[String]>(key: $0, defaultValue: [], storage: .standard).removeObject()
         }
+        ["favoriteMovie"].forEach {
+            UserDefault<[Int]>(key: $0, defaultValue: [], storage: .standard).removeObject()
+        }
     }
 }
 

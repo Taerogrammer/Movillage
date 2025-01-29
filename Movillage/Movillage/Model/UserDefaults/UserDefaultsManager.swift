@@ -16,7 +16,7 @@ struct UserDefault<T> {
 
 final class UserDefaultsManager {
     enum Key: String {
-        case isStart, profileImage, nickname, registerDate, recentSearch
+        case isStart, profileImage, nickname, registerDate, recentSearch, favoriteMovie
     }
     @UserDefault(key: Key.isStart.rawValue, defaultValue: false, storage: .standard)
     static var didStart: Bool
@@ -28,4 +28,6 @@ final class UserDefaultsManager {
     static var registerDate: String?
     @UserDefault(key: Key.recentSearch.rawValue, defaultValue: [], storage: .standard)
     static var recentSearch: [String]
+    @UserDefault(key: Key.favoriteMovie.rawValue, defaultValue: [], storage: .standard)
+    static var favoriteMovie: [Int]
 }
