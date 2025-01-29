@@ -8,9 +8,9 @@ final class SearchTableViewCell: BaseTableViewCell {
     let titleLabel = UILabel().setFont(.contentBold)
     let releaseLabel = UILabel().setFont(.description)
     let genreStackView = UIStackView()
-
-    //TODO: likeImage 중 결정하기
     let likeButton = UIButton()
+
+    var didLikeButtonTapped: (() -> Void)?
 
     // TODO: - 위치 수정
     let imageUrl = "https://image.tmdb.org/t/p/original"
@@ -51,7 +51,9 @@ final class SearchTableViewCell: BaseTableViewCell {
         titleLabel.numberOfLines = 2
         releaseLabel.textColor = UIColor.customGray
         likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        likeButton.setImage((UIImage(systemName: "heart.fill")), for: .highlighted)
         likeButton.tintColor = UIColor.customBlue
+        likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
 
         genreStackView.axis = .horizontal
         genreStackView.spacing = 12
@@ -69,6 +71,7 @@ extension SearchTableViewCell {
             self.releaseLabel.text = row.release_date
         }
         configureGenre(genre: row.genre_ids)
+        configureFavorite(by: row.id)
     }
     func configureGenre(genre: [Int]) {
         // 셀 재사용 시 다른 장르 들어올 수도 있기 때문에 장르 정보 제거
@@ -84,4 +87,12 @@ extension SearchTableViewCell {
         }
         print(#function, genreID)
     }
+    func configureFavorite(by id: Int) {
+        likeButton.isHighlighted = UserDefaultsManager.favoriteMovie.contains(id) ? true : false
+    }
+}
+
+// MARK: @objc
+extension SearchTableViewCell {
+    @objc private func likeButtonTapped() { didLikeButtonTapped?() }
 }
