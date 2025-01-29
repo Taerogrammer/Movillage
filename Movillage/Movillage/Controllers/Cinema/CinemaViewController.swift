@@ -121,9 +121,11 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 } else {    // 없다면 추가
                     UserDefaultsManager.favoriteMovie.append(clickedID)
                 }
-                collectionView.reloadSections(IndexSet(integer: 1))
+                // 깜빡이는 애니메이션 제거
+                UIView.performWithoutAnimation {
+                    collectionView.reloadItems(at: [indexPath])
+                }
             }
-
             return cell
         default:
             return UICollectionViewCell()
