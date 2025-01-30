@@ -7,6 +7,7 @@ final class CinemaDetailHeaderView: UICollectionReusableView {
 
     private let titleLabel = UILabel().setFont(.header)
     let moreButton = UIButton()
+    var moreButtonToggle: (() -> Void)?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,7 +38,6 @@ extension CinemaDetailHeaderView: ViewConfiguration {
     
     func configureView() {
         moreButton.setTitle("More", for: .normal)
-        moreButton.setTitle("Hide", for: .selected)
         moreButton.setTitleColor(UIColor.customBlue, for: .normal)
         moreButton.addTarget(self, action: #selector(moreButtonTapped), for: .touchUpInside)
     }
@@ -50,5 +50,5 @@ extension CinemaDetailHeaderView: ViewConfiguration {
 
 // MARK: @objc
 extension CinemaDetailHeaderView {
-    @objc private func moreButtonTapped() { }
+    @objc private func moreButtonTapped() { moreButtonToggle?() }
 }

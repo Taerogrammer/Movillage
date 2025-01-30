@@ -163,6 +163,8 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 /// results - overview, genre_ids, release_date, vote_average
                 vc.footerDTO = FooterDTO(overview: footerData.overview, genre_ids: footerData.genre_ids, release_date: footerData.release_date, vote_average: footerData.vote_average)
 
+                /// Synopsis
+                vc.synopsisDTO = self.trendingMovie.results[indexPath.item].overview
 
 //                NetworkManager.shared.fetchItem(api: CreditDTO(movieID: self.trendingMovie.results[indexPath.row].id).toRequest(),
 //                                                type: CreditResponse.self) { result in

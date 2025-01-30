@@ -5,20 +5,15 @@ final class CinemaDetailViewController: UIViewController {
     private let detailSection = ["", "Synopsis", "Cast", "Poster"]
     var backdropArray: [String]? {
         /// completionHandler로 값을 받기 때문에 이미 메인 스레드에서 실행됨 -> main.async에서 호출하면 에러 발생
+        /// 첫 호출 때는 없기 때문에 didSet으로 감지를 적용해야 함
         didSet {
             self.cinemaDetailView.collectionView.reloadSections(IndexSet(integer: 0))
         }
     }
-    var footerDTO: FooterDTO = FooterDTO(overview: "", genre_ids: [], release_date: "", vote_average: 0.0) {
-        didSet {
-            /// global().aync에서 값을 변경하였기 때문에 UI 업데이트를 위해 main.async에서 수행
-            /// (수행하지 않으면 에러 발생)
-            DispatchQueue.main.async {
-                self.cinemaDetailView.collectionView.reloadSections(IndexSet(integer: 0))
-            }
-            print("GGG ", footerDTO.genre_ids)
-        }
-    }
+    var footerDTO: FooterDTO = FooterDTO(overview: "", genre_ids: [], release_date: "", vote_average: 0.0)
+    var synopsisDTO: String = ""
+    // false -> 3줄 (More Tapped가 false)
+    var isMoreTapped = false
     var posterArray: [String]? {
         didSet {
             self.cinemaDetailView.collectionView.reloadSections(IndexSet(integer: 3))
@@ -66,6 +61,9 @@ extension CinemaDetailViewController: UICollectionViewDelegate, UICollectionView
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SynopsisCollectionViewCell.id, for: indexPath) as! SynopsisCollectionViewCell
 
+            cell.configureCell(with: synopsisDTO)
+            cell.synopsisLabel.numberOfLines = isMoreTapped ? 0 : 3
+
             return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CastCollectionViewCell.id, for: indexPath) as! CastCollectionViewCell
@@ -89,6 +87,12 @@ extension CinemaDetailViewController: UICollectionViewDelegate, UICollectionView
 
             header.configureHeaderTitle(title: detailSection[indexPath.section])
             header.configureMoreButton(title: detailSection[indexPath.section])
+
+            header.moreButtonToggle = {
+                self.isMoreTapped.toggle()
+                header.moreButton.setTitle(self.isMoreTapped ? "Hide" : "More", for: .normal)
+                self.cinemaDetailView.collectionView.reloadItems(at: [indexPath])
+            }
             return header
         } else {
             let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: CinemaDetailFooterView.id, for: indexPath) as! CinemaDetailFooterView
