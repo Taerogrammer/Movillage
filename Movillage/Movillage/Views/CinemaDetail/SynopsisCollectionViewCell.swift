@@ -21,6 +21,6 @@ final class SynopsisCollectionViewCell: BaseCollectionViewCell {
 
 extension SynopsisCollectionViewCell {
     func configureCell(with data: String) {
-        synopsisLabel.text = data
+        synopsisLabel.text = (data == "") ? "줄거리 정보가 존재하지 않습니다" : data
     }
 }

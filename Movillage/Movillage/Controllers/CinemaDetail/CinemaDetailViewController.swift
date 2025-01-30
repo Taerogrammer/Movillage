@@ -11,7 +11,11 @@ final class CinemaDetailViewController: UIViewController {
         }
     }
     var footerDTO: FooterDTO = FooterDTO(overview: "", genre_ids: [], release_date: "", vote_average: 0.0)
-    var synopsisDTO: String = ""
+    var synopsisDTO: String = "" {
+        didSet {
+            print("------------>>>>>>>>> ", synopsisDTO)
+        }
+    }
     // false -> 3줄 (More Tapped가 false)
     var isMoreTapped = false
     var posterArray: [String]? {
