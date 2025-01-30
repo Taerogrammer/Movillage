@@ -33,7 +33,7 @@ final class CinemaViewController: UIViewController {
         super.viewWillAppear(animated)
         DispatchQueue.main.async {
             self.sendDataToCollectionView()
-            self.cinemaView.collectionView.reloadSections(IndexSet(integer: 0)) // 최근검색어 불러오기
+            self.cinemaView.collectionView.reloadData()
             self.getFavoriteMovieCount() // 무비박스 불러오기
         }
     }
