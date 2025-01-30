@@ -10,3 +10,11 @@ struct CastResponse: Decodable {
     let character: String
     let profile_path: String?
 }
+
+struct CreditDTO {
+    var movieID: Int
+
+    func toRequest() -> TMDBRequest {
+        return .credit(movieID: movieID)
+    }
+}

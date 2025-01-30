@@ -3,6 +3,13 @@ import UIKit
 final class CinemaDetailViewController: UIViewController {
     private let cinemaDetailView = CinemaDetailView()
     private let detailSection = ["", "Synopsis", "Cast", "Poster"]
+    var backdropArray: [String]? {
+        didSet {
+            DispatchQueue.main.async {
+                self.cinemaDetailView.collectionView.reloadSections(IndexSet(integer: 0))
+            }
+        }
+    }
 
     override func loadView() {
         view = cinemaDetailView
@@ -11,7 +18,7 @@ final class CinemaDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "상세 정보"
-        [configureDelegate()].forEach { $0 }
+        [configureDelegate()].forEach { $0 }        
     }
 }
 
@@ -23,7 +30,7 @@ extension CinemaDetailViewController: UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return 5
+            return backdropArray?.count ?? 0
         case 1:
             return 1
         case 2:
@@ -38,6 +45,8 @@ extension CinemaDetailViewController: UICollectionViewDelegate, UICollectionView
         switch indexPath.section {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BackdropCollectionViewCell.id, for: indexPath) as! BackdropCollectionViewCell
+
+            cell.configureBackdrop(with: backdropArray?[indexPath.item])
 
             return cell
         case 1:

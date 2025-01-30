@@ -5,7 +5,7 @@ enum TMDBRequest {
     case trending
     case search(query: String, page: Int)
     case image(movieID: Int)
-    case credit(movieID: String)
+    case credit(movieID: Int)
     case getFavorite
     case postFavorite(media_id: Int, favorite: Bool)
 

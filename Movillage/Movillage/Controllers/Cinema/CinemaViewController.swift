@@ -145,22 +145,33 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
 
         case 1:
             let vc = CinemaDetailViewController()
-            let detailView = CinemaDetailView()
 
+
+            // TODO: 네트워크 통신은 여기서 하고, 값만 전달 받아오기
             DispatchQueue.global().async {
                 NetworkManager.shared.fetchItem(api: ImageDTO(movieID: self.trendingMovie.results[indexPath.row].id).toRequest(),
                                                 type: ImageResponse.self) { result in
                     switch result {
                     case .success(let success):
-                        var array: [String] = []
-                        for i in 0..<5 {
-                            array.append(self.imageUrl + success.backdrops[i].file_path)
-                        }
-//                        detailView.backdropArray = array
+                        // 상위 5개 이미지 url string 불러오기
+                        vc.backdropArray = success.backdrops.prefix(5).map { self.imageUrl + $0.file_path }
                     case .failure(let failure):
                         print("실패 ", failure)
                     }
                 }
+
+//                NetworkManager.shared.fetchItem(api: CreditDTO(movieID: self.trendingMovie.results[indexPath.row].id).toRequest(),
+//                                                type: CreditResponse.self) { result in
+//                    switch result {
+//                    case .success(let success):
+//                        print("^^^^^^^^^^^^^^^^ ", success)
+//                    case .failure(let failure):
+//                        print("???????? ", failure)
+//                    }
+//                }
+
+
+
             }
             navigationController?.pushViewController(vc, animated: true)
         default:
