@@ -15,7 +15,7 @@ final class PosterCollectionViewCell: BaseCollectionViewCell {
         }
     }
     override func configureView() {
-        posterImage.backgroundColor = UIColor.customBlack
+        posterImage.backgroundColor = UIColor.customWhiteGray
         posterImage.contentMode = .scaleAspectFill
     }
 }
@@ -25,6 +25,6 @@ extension PosterCollectionViewCell: ImageCellConfiguration {
     func configureImageCell(with urlString: String?) {
         guard let urlString = urlString else { return }
         guard let url = URL(string: urlString) else { return }
-        self.posterImage.kf.setImage(with: url)
+        posterImage.kf.setImage(with: url)
     }
 }
