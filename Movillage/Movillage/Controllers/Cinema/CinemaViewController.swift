@@ -156,7 +156,7 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
                         for i in 0..<5 {
                             array.append(self.imageUrl + success.backdrops[i].file_path)
                         }
-                        detailView.backdropArray = array
+//                        detailView.backdropArray = array
                     case .failure(let failure):
                         print("실패 ", failure)
                     }
