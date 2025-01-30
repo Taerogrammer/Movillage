@@ -16,6 +16,7 @@ final class CinemaDetailView: BaseView {
     }
     override func configureView() {
         collectionView.backgroundColor = UIColor.customBlack
+        collectionView.showsVerticalScrollIndicator = false
     }
 
 }
@@ -99,15 +100,15 @@ extension CinemaDetailView {
         return section
     }
     private func createPosterSectionLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(160), heightDimension: .estimated(200))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(180), heightDimension: .absolute(200))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(20.0), heightDimension: .estimated(200))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(200), heightDimension: .absolute(200))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         group.interItemSpacing = .fixed(8)
 
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 24, trailing: 8)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 40, leading: 12, bottom: 40, trailing: 12)
         section.orthogonalScrollingBehavior = .continuous
 
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(44))

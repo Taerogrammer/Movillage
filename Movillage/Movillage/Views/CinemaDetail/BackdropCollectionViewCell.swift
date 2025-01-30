@@ -20,7 +20,7 @@ final class BackdropCollectionViewCell: BaseCollectionViewCell {
         }
     }
     override func configureView() {
-        backdropImage.backgroundColor = .customGray
+        backdropImage.backgroundColor = UIColor.customBlack
         backdropImage.contentMode = .scaleAspectFill
         pageControl.currentPage = 0
         pageControl.numberOfPages = 5
@@ -28,11 +28,10 @@ final class BackdropCollectionViewCell: BaseCollectionViewCell {
 }
 
 // MARK: configure cell
-extension BackdropCollectionViewCell {
-    func configureBackdrop(with urlString: String?) {
+extension BackdropCollectionViewCell: ImageCellConfiguration {
+    func configureImageCell(with urlString: String?) {
         guard let urlString = urlString else { return }
         guard let url = URL(string: urlString) else { return }
-        DispatchQueue.main.async { self.backdropImage.kf.setImage(with: url) }
+         self.backdropImage.kf.setImage(with: url)
     }
-    
 }

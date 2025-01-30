@@ -5,9 +5,12 @@ final class CinemaDetailViewController: UIViewController {
     private let detailSection = ["", "Synopsis", "Cast", "Poster"]
     var backdropArray: [String]? {
         didSet {
-            DispatchQueue.main.async {
-                self.cinemaDetailView.collectionView.reloadSections(IndexSet(integer: 0))
-            }
+            self.cinemaDetailView.collectionView.reloadSections(IndexSet(integer: 0))
+        }
+    }
+    var posterArray: [String]? {
+        didSet {
+            self.cinemaDetailView.collectionView.reloadSections(IndexSet(integer: 3))
         }
     }
 
@@ -36,7 +39,7 @@ extension CinemaDetailViewController: UICollectionViewDelegate, UICollectionView
         case 2:
             return 8
         case 3:
-            return 8
+            return posterArray?.count ?? 0
         default:
             return 0
         }
@@ -46,7 +49,7 @@ extension CinemaDetailViewController: UICollectionViewDelegate, UICollectionView
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BackdropCollectionViewCell.id, for: indexPath) as! BackdropCollectionViewCell
 
-            cell.configureBackdrop(with: backdropArray?[indexPath.item])
+            cell.configureImageCell(with: backdropArray?[indexPath.item])
 
             return cell
         case 1:
@@ -59,6 +62,8 @@ extension CinemaDetailViewController: UICollectionViewDelegate, UICollectionView
             return cell
         case 3:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterCollectionViewCell.id, for: indexPath) as! PosterCollectionViewCell
+
+            cell.configureImageCell(with: posterArray?[indexPath.item])
 
             return cell
         default:

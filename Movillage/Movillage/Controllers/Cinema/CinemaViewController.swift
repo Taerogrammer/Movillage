@@ -153,8 +153,8 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
                                                 type: ImageResponse.self) { result in
                     switch result {
                     case .success(let success):
-                        // 상위 5개 이미지 url string 불러오기
                         vc.backdropArray = success.backdrops.prefix(5).map { self.imageUrl + $0.file_path }
+                        vc.posterArray = success.posters.map { self.imageUrl + $0.file_path }
                     case .failure(let failure):
                         print("실패 ", failure)
                     }
