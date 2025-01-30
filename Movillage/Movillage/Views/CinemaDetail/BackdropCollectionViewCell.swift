@@ -11,7 +11,7 @@ final class BackdropCollectionViewCell: BaseCollectionViewCell {
     }
     override func configureLayout() {
         backdropImage.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.edges.equalTo(safeAreaLayoutGuide)
         }
     }
     override func configureView() {

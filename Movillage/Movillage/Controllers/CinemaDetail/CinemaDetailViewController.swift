@@ -98,6 +98,7 @@ extension CinemaDetailViewController: UICollectionViewDelegate, UICollectionView
             let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: CinemaDetailFooterView.id, for: indexPath) as! CinemaDetailFooterView
 
             footer.configureCell(with: footerDTO)
+            footer.pageControl.numberOfPages = backdropArray?.count ?? 5
 
             return footer
         }

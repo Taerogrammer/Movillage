@@ -9,6 +9,7 @@ final class CinemaDetailFooterView: UICollectionReusableView {
     let releaseDateLabel = UILabel().setFont(.description)
     let starLabel = UILabel().setFont(.description)
     let genreLabel = UILabel().setFont(.description)
+    let pageControl = UIPageControl()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,7 +25,7 @@ final class CinemaDetailFooterView: UICollectionReusableView {
 
 extension CinemaDetailFooterView: ViewConfiguration {
     func configureHierarchy() {
-        [calendarImage, releaseDateLabel, starImage, starLabel, filmImage, genreLabel].forEach { addSubview($0) }
+        [calendarImage, releaseDateLabel, starImage, starLabel, filmImage, genreLabel, pageControl].forEach { addSubview($0) }
     }
     
     func configureLayout() {
@@ -53,6 +54,11 @@ extension CinemaDetailFooterView: ViewConfiguration {
         genreLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalTo(filmImage.snp.trailing)
+        }
+
+        pageControl.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(48)
         }
     }
     
