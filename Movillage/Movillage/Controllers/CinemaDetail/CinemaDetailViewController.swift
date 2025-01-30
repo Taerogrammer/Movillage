@@ -4,8 +4,19 @@ final class CinemaDetailViewController: UIViewController {
     private let cinemaDetailView = CinemaDetailView()
     private let detailSection = ["", "Synopsis", "Cast", "Poster"]
     var backdropArray: [String]? {
+        /// completionHandler로 값을 받기 때문에 이미 메인 스레드에서 실행됨 -> main.async에서 호출하면 에러 발생
         didSet {
             self.cinemaDetailView.collectionView.reloadSections(IndexSet(integer: 0))
+        }
+    }
+    var footerDTO: FooterDTO = FooterDTO(overview: "", genre_ids: [], release_date: "", vote_average: 0.0) {
+        didSet {
+            /// global().aync에서 값을 변경하였기 때문에 UI 업데이트를 위해 main.async에서 수행
+            /// (수행하지 않으면 에러 발생)
+            DispatchQueue.main.async {
+                self.cinemaDetailView.collectionView.reloadSections(IndexSet(integer: 0))
+            }
+            print("GGG ", footerDTO.genre_ids)
         }
     }
     var posterArray: [String]? {
@@ -81,6 +92,8 @@ extension CinemaDetailViewController: UICollectionViewDelegate, UICollectionView
             return header
         } else {
             let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: CinemaDetailFooterView.id, for: indexPath) as! CinemaDetailFooterView
+
+            footer.configureCell(with: footerDTO)
 
             return footer
         }

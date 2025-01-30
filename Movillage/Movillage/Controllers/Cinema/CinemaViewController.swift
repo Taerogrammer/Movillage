@@ -146,8 +146,7 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
         case 1:
             let vc = CinemaDetailViewController()
 
-
-            // TODO: 네트워크 통신은 여기서 하고, 값만 전달 받아오기
+            /// backdrop, poster
             DispatchQueue.global().async {
                 NetworkManager.shared.fetchItem(api: ImageDTO(movieID: self.trendingMovie.results[indexPath.row].id).toRequest(),
                                                 type: ImageResponse.self) { result in
@@ -160,6 +159,11 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
                     }
                 }
 
+                let footerData = self.trendingMovie.results[indexPath.item]
+                /// results - overview, genre_ids, release_date, vote_average
+                vc.footerDTO = FooterDTO(overview: footerData.overview, genre_ids: footerData.genre_ids, release_date: footerData.release_date, vote_average: footerData.vote_average)
+
+
 //                NetworkManager.shared.fetchItem(api: CreditDTO(movieID: self.trendingMovie.results[indexPath.row].id).toRequest(),
 //                                                type: CreditResponse.self) { result in
 //                    switch result {
@@ -169,9 +173,6 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
 //                        print("???????? ", failure)
 //                    }
 //                }
-
-
-
             }
             navigationController?.pushViewController(vc, animated: true)
         default:

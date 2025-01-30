@@ -10,3 +10,10 @@ struct ResultsResponse: Decodable {
     let release_date: String
     let vote_average: Double
 }
+
+struct FooterDTO {
+    let overview: String
+    let genre_ids: [Int]
+    let release_date: String
+    let vote_average: Double
+}
