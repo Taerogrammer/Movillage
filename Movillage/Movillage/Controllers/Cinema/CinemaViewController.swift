@@ -118,11 +118,7 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
             cell.didLikeButtonTapped = {
                 let clickedID = self.trendingMovie.results[indexPath.item].id
                 // 만약 이미 있으면 제거
-                if UserDefaultsManager.favoriteMovie.contains(clickedID) {
-                    UserDefaultsManager.favoriteMovie.removeAll(where: { $0 == clickedID })
-                } else {    // 없다면 추가
-                    UserDefaultsManager.favoriteMovie.append(clickedID)
-                }
+                CinemaViewController.didFavoriteTapped(id: clickedID)
                 // 깜빡이는 애니메이션 제거
                 UIView.performWithoutAnimation {
                     collectionView.reloadItems(at: [indexPath])
@@ -146,8 +142,8 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
         case 1:
             let vc = CinemaDetailViewController()
 
-            /// backdrop, poster
             DispatchQueue.global().async {
+                /// backdrop, poster
                 NetworkManager.shared.fetchItem(api: ImageDTO(movieID: self.trendingMovie.results[indexPath.row].id).toRequest(),
                                                 type: ImageResponse.self) { result in
                     switch result {
@@ -161,21 +157,23 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
 
                 let footerData = self.trendingMovie.results[indexPath.item]
                 /// results - overview, genre_ids, release_date, vote_average
-                vc.footerDTO = FooterDTO(overview: footerData.overview, genre_ids: footerData.genre_ids, release_date: footerData.release_date, vote_average: footerData.vote_average)
+                vc.footerDTO = FooterDTO(id: footerData.id, title: footerData.title, overview: footerData.overview, genre_ids: footerData.genre_ids, release_date: footerData.release_date, vote_average: footerData.vote_average)
 
                 /// Synopsis
                 vc.synopsisDTO = self.trendingMovie.results[indexPath.item].overview
 
-//                NetworkManager.shared.fetchItem(api: CreditDTO(movieID: self.trendingMovie.results[indexPath.row].id).toRequest(),
-//                                                type: CreditResponse.self) { result in
-//                    switch result {
-//                    case .success(let success):
-//                        print("^^^^^^^^^^^^^^^^ ", success)
-//                    case .failure(let failure):
-//                        print("???????? ", failure)
-//                    }
-//                }
+                /// cast
+                NetworkManager.shared.fetchItem(api: CreditDTO(movieID: self.trendingMovie.results[indexPath.row].id).toRequest(),
+                                                type: CreditResponse.self) { result in
+                    switch result {
+                    case .success(let success):
+                        print("^^^^^^^^^^^^^^^^ ")
+                    case .failure(let failure):
+                        print("???????? ", failure)
+                    }
+                }
             }
+            setEmptyTitleBackButton()
             navigationController?.pushViewController(vc, animated: true)
         default:
             break

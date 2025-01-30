@@ -10,14 +10,11 @@ final class CinemaDetailViewController: UIViewController {
             self.cinemaDetailView.collectionView.reloadSections(IndexSet(integer: 0))
         }
     }
-    var footerDTO: FooterDTO = FooterDTO(overview: "", genre_ids: [], release_date: "", vote_average: 0.0)
-    var synopsisDTO: String = "" {
-        didSet {
-            print("------------>>>>>>>>> ", synopsisDTO)
-        }
-    }
+    var footerDTO: FooterDTO = FooterDTO(id: 0, title: "", overview: "", genre_ids: [], release_date: "", vote_average: 0.0)
+    var synopsisDTO: String = ""
     // false -> 3줄 (More Tapped가 false)
     var isMoreTapped = false
+
     var posterArray: [String]? {
         didSet {
             self.cinemaDetailView.collectionView.reloadSections(IndexSet(integer: 3))
@@ -30,8 +27,7 @@ final class CinemaDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "상세 정보"
-        [configureDelegate()].forEach { $0 }        
+        [configureDelegate(), configureNavigation(), favoriteButtonColorChanged()].forEach { $0 }
     }
 }
 
@@ -121,6 +117,25 @@ extension CinemaDetailViewController: DelegateConfiguration {
         cinemaDetailView.collectionView.register(CinemaDetailHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CinemaDetailHeaderView.id)
         cinemaDetailView.collectionView.register(CinemaDetailFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: CinemaDetailFooterView.id)
     }
+}
 
+// MARK: configure navigation
+extension CinemaDetailViewController: NavigationConfiguration {
+    func configureNavigation() {
+        title = footerDTO.title
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: cinemaDetailView.favoriteButton)
+        cinemaDetailView.favoriteButton.addTarget(self, action: #selector(likeBarButtonTapped), for: .touchUpInside)
+    }
+    private func favoriteButtonColorChanged() {
+        let isFavorite = UserDefaultsManager.favoriteMovie.contains(footerDTO.id)
+        cinemaDetailView.favoriteButton.setImage(UIImage(systemName: isFavorite ? "heart.fill" : "heart"), for: .normal)
+    }
+}
 
+// MARK: @objc
+extension CinemaDetailViewController {
+    @objc private func likeBarButtonTapped() {
+        CinemaDetailViewController.didFavoriteTapped(id: footerDTO.id)
+        favoriteButtonColorChanged()
+    }
 }

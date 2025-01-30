@@ -12,6 +12,8 @@ struct ResultsResponse: Decodable {
 }
 
 struct FooterDTO {
+    let id: Int
+    let title: String
     let overview: String
     let genre_ids: [Int]
     let release_date: String

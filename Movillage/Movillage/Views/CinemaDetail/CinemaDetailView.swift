@@ -2,6 +2,7 @@ import UIKit
 import SnapKit
 
 final class CinemaDetailView: BaseView {
+    let favoriteButton = UIButton()
     lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: createCompositionalLayout())
@@ -17,6 +18,8 @@ final class CinemaDetailView: BaseView {
     override func configureView() {
         collectionView.backgroundColor = UIColor.customBlack
         collectionView.showsVerticalScrollIndicator = false
+        favoriteButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        favoriteButton.tintColor = UIColor.customBlue
     }
 
 }
