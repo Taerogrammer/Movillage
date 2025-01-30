@@ -42,3 +42,7 @@ protocol NotificationConfiguration: AnyObject {
 protocol RecentSearchCloseDelegate: AnyObject {
     func recentSearchCloseButtonTapped(at index: Int)
 }
+
+protocol ImageCellConfiguration: AnyObject {
+    func configureImageCell(with urlString: String?)
+}
