@@ -15,7 +15,6 @@ final class BackdropCollectionViewCell: BaseCollectionViewCell {
         }
     }
     override func configureView() {
-        backdropImage.backgroundColor = UIColor.customBlack
         backdropImage.contentMode = .scaleAspectFill
     }
 }
@@ -25,6 +24,10 @@ extension BackdropCollectionViewCell: ImageCellConfiguration {
     func configureImageCell(with urlString: String?) {
         guard let urlString = urlString else { return }
         guard let url = URL(string: urlString) else { return }
-         self.backdropImage.kf.setImage(with: url)
+        backdropImage.kf.indicatorType = .activity
+        backdropImage.kf.setImage(with: url, options: [
+            .processor(DownsamplingImageProcessor(size: self.backdropImage.bounds.size)),
+            .scaleFactor(UIScreen.main.scale)
+        ])
     }
 }
