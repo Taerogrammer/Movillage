@@ -65,8 +65,13 @@ final class SearchTableViewCell: BaseTableViewCell {
 extension SearchTableViewCell {
     func configureCell(with row: ResultsResponse) {
         let url = URL(string: imageUrl + row.poster_path)
+
+        posterImage.kf.indicatorType = .activity
+        posterImage.kf.setImage(with: url, options: [
+            .processor(DownsamplingImageProcessor(size: self.posterImage.bounds.size)),
+            .scaleFactor(UIScreen.main.scale)
+        ])
         DispatchQueue.main.async {
-            self.posterImage.kf.setImage(with: url)
             self.titleLabel.text = row.title
             self.releaseLabel.text = row.release_date
         }
