@@ -102,7 +102,6 @@ extension SearchViewController {
     }
     private func resetPage() { self.searchDTO.page = 1 }
     private func loadMoreData() {
-        print(#function, self.searchDTO.query, self.searchDTO.page)
         self.searchDTO.page += 1
         NetworkManager.shared.fetchItem(api: self.searchDTO.toRequest(),
                                         type: SearchResponse.self) { result in
