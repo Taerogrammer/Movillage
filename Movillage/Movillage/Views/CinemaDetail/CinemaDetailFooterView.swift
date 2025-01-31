@@ -64,6 +64,8 @@ extension CinemaDetailFooterView: ViewConfiguration {
     
     func configureView() {
         [calendarImage, releaseDateLabel, starImage, starLabel, filmImage, genreLabel].forEach { _ in tintColor = UIColor.customWhiteGray }
+        pageControl.hidesForSinglePage = true
+        pageControl.backgroundStyle = .prominent
     }
 }
 

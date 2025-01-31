@@ -57,6 +57,8 @@ extension CinemaDetailViewController: UICollectionViewDelegate, UICollectionView
 
             cell.configureImageCell(with: backdropArray?[indexPath.item])
 
+            
+
             return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SynopsisCollectionViewCell.id, for: indexPath) as! SynopsisCollectionViewCell
@@ -99,6 +101,10 @@ extension CinemaDetailViewController: UICollectionViewDelegate, UICollectionView
 
             footer.configureCell(with: footerDTO)
             footer.pageControl.numberOfPages = backdropArray?.count ?? 5
+
+            cinemaDetailView.currentPageChanged = { value in
+                footer.pageControl.currentPage = value
+            }
 
             return footer
         }
