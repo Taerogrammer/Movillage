@@ -43,7 +43,7 @@ final class TodayMovieCollectionViewCell: BaseCollectionViewCell {
     override func configureView() {
         posterImage.clipsToBounds = true
         posterImage.layer.cornerRadius = 8
-        posterImage.backgroundColor = UIColor.customBlue
+        posterImage.backgroundColor = UIColor.customWhiteGray
         descriptionLabel.numberOfLines = 2
         likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
         likeButton.setImage(UIImage(systemName: "heart.fill"), for: .highlighted)
