@@ -114,15 +114,15 @@ extension CinemaDetailView {
         return section
     }
     private func createPosterSectionLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(180), heightDimension: .absolute(200))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(200), heightDimension: .absolute(260))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(200), heightDimension: .absolute(200))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(200), heightDimension: .absolute(260))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.interItemSpacing = .fixed(8)
+        group.interItemSpacing = .fixed(4)
 
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 40, leading: 12, bottom: 40, trailing: 12)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 2, bottom: 24, trailing: 2)
         section.orthogonalScrollingBehavior = .continuous
 
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(44))
