@@ -123,8 +123,8 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 UIView.performWithoutAnimation {
                     collectionView.reloadItems(at: [indexPath])
                 }
+                self.getFavoriteMovieCount()
             }
-            getFavoriteMovieCount()
             return cell
         default:
             return UICollectionViewCell()
@@ -225,10 +225,11 @@ extension CinemaViewController {
         }
     }
     // 최근검색어 여부 전달
-    private func sendDataToCollectionView() { cinemaView.data = getDataCount(data: UserDefaultsManager.recentSearch) }
+    private func sendDataToCollectionView() { print(#function); cinemaView.data = getDataCount(data: UserDefaultsManager.recentSearch) }
     private func isDataExists(data: Int) -> Bool { return data > 0 }
     private func getDataCount(data: [String]) -> Int { return data.count }
     private func getFavoriteMovieCount() {
+        print(#function)
         cinemaView.profileCardView.likeCountButton.setTitle("\(UserDefaultsManager.favoriteMovie.count)개의 무비박스 보관중", for: .normal)
     }
 }
