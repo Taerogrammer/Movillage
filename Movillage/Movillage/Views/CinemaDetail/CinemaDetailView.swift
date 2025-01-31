@@ -102,7 +102,6 @@ extension CinemaDetailView {
         let horizontalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: horizontalSize, subitems: [verticalGroup])
         horizontalGroup.interItemSpacing = .fixed(12)
 
-
         let section = NSCollectionLayoutSection(group: horizontalGroup)
         section.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8)
         section.orthogonalScrollingBehavior = .continuous

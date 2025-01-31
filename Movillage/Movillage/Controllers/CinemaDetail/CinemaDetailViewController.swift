@@ -19,7 +19,6 @@ final class CinemaDetailViewController: UIViewController {
             self.cinemaDetailView.collectionView.reloadSections(IndexSet(integer: 2))
         }
     }
-
     var posterArray: [String]? {
         didSet {
             self.cinemaDetailView.collectionView.reloadSections(IndexSet(integer: 3))
@@ -29,7 +28,6 @@ final class CinemaDetailViewController: UIViewController {
     override func loadView() {
         view = cinemaDetailView
     }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         [configureDelegate(), configureNavigation(), favoriteButtonColorChanged()].forEach { $0 }
@@ -48,7 +46,7 @@ extension CinemaDetailViewController: UICollectionViewDelegate, UICollectionView
         case 1:
             return 1
         case 2:
-            return 8
+            return castDTO != nil ? castDTO!.count : 0
         case 3:
             return posterArray?.count ?? 0
         default:
@@ -62,8 +60,6 @@ extension CinemaDetailViewController: UICollectionViewDelegate, UICollectionView
 
             cell.configureImageCell(with: backdropArray?[indexPath.item])
 
-            
-
             return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SynopsisCollectionViewCell.id, for: indexPath) as! SynopsisCollectionViewCell
@@ -74,9 +70,10 @@ extension CinemaDetailViewController: UICollectionViewDelegate, UICollectionView
             return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CastCollectionViewCell.id, for: indexPath) as! CastCollectionViewCell
-
-            guard let castDTO = castDTO else { return cell }
-            cell.configureCell(with: castDTO[indexPath.item])
+            if castDTO?.count ?? 0 > 0 {
+                guard let castDTO = castDTO else { return cell }
+                cell.configureCell(with: castDTO[indexPath.item])
+            }
 
             return cell
         case 3:
