@@ -15,8 +15,7 @@ final class PosterCollectionViewCell: BaseCollectionViewCell {
         }
     }
     override func configureView() {
-        posterImage.backgroundColor = UIColor.customWhiteGray
-        posterImage.contentMode = .scaleAspectFill
+        posterImage.contentMode = .scaleAspectFit
     }
 }
 
@@ -25,6 +24,10 @@ extension PosterCollectionViewCell: ImageCellConfiguration {
     func configureImageCell(with urlString: String?) {
         guard let urlString = urlString else { return }
         guard let url = URL(string: urlString) else { return }
-        posterImage.kf.setImage(with: url)
+        posterImage.kf.indicatorType = .activity
+        posterImage.kf.setImage(with: url, options: [
+            .processor(DownsamplingImageProcessor(size: posterImage.bounds.size)),
+            .scaleFactor(UIScreen.main.scale)
+        ])
     }
 }

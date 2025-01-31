@@ -43,7 +43,9 @@ final class CastCollectionViewCell: BaseCollectionViewCell {
 // MARK: configure cell
 extension CastCollectionViewCell {
     func configureCell(with data: CastResponse) {
-        castImage.kf.setImage(with: URL(string: data.imageUrl)!)
+        castImage.kf.setImage(with: URL(string: data.imageUrl)!, options: [
+            .processor(DownsamplingImageProcessor(size: castImage.bounds.size))
+        ])
         koreanNameLabel.text = data.name
         characterNameLabel.text = data.character
     }
