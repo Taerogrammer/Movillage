@@ -98,7 +98,7 @@ extension CinemaDetailView {
         let verticalGroup = NSCollectionLayoutGroup.vertical(layoutSize: verticalSize, repeatingSubitem: item, count: 2)
         verticalGroup.interItemSpacing = .fixed(4)
 
-        let horizontalSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(20.0), heightDimension: .absolute(170))
+        let horizontalSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(10.0), heightDimension: .absolute(170))
         let horizontalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: horizontalSize, subitems: [verticalGroup])
         horizontalGroup.interItemSpacing = .fixed(12)
 
