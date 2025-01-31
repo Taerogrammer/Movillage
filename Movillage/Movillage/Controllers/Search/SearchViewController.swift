@@ -10,6 +10,9 @@ final class SearchViewController: UIViewController {
         didSet { searchView.searchTableView.reloadData() }
     }
 
+    // TODO: 위치 수정
+    let imageUrl = "https://image.tmdb.org/t/p/original"
+
     override func loadView() {
         view = searchView
     }
@@ -49,6 +52,38 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let vc = CinemaDetailViewController()
+        print("id ", searchData[indexPath.row])
+
+        DispatchQueue.global().async {
+            /// backdrop, poster
+            NetworkManager.shared.fetchItem(api: ImageDTO(movieID: self.searchData[indexPath.row].id).toRequest(), type: ImageResponse.self) { result in
+                switch result {
+                case .success(let success):
+                    vc.backdropArray = success.backdrops.prefix(5).map { self.imageUrl + $0.file_path }
+                    vc.posterArray = success.posters.map { self.imageUrl + $0.file_path }
+                case .failure(let failure):
+                    print("실패 ", failure)
+                }
+            }
+
+            let footerData = self.searchResponse.results[indexPath.row]
+            /// results - overview, genre_ids, release_date, vote_average
+            vc.footerDTO = FooterDTO(id: footerData.id, title: footerData.title, overview: footerData.overview, genre_ids: footerData.genre_ids, release_date: footerData.release_date, vote_average: footerData.vote_average)
+
+            /// Synopsis
+            vc.synopsisDTO = self.searchResponse.results[indexPath.row].overview
+
+            /// cast
+            NetworkManager.shared.fetchItem(api: CreditDTO(movieID: self.searchResponse.results[indexPath.row].id).toRequest(), type: CreditResponse.self) { result in
+                switch result {
+                case .success(let success):
+                    vc.castDTO = success.cast
+                case .failure(let failure):
+                    print("실패 ", failure)
+                }
+            }
+        }
+        setEmptyTitleBackButton()
         navigationController?.pushViewController(vc, animated: true)
     }
 }
