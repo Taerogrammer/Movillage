@@ -53,7 +53,7 @@ final class CinemaView: BaseView {
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8)
         section.interGroupSpacing = 8
-        section.orthogonalScrollingBehavior = .continuous
+        section.orthogonalScrollingBehavior = UserDefaultsManager.recentSearch.isEmpty ? .none : .continuous
 
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(44))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)

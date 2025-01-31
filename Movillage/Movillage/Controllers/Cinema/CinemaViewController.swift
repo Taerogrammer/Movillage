@@ -133,11 +133,13 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-            print(UserDefaultsManager.recentSearch[indexPath.item])
-            let vc = SearchViewController()
-            vc.searchView.searchBar.text = UserDefaultsManager.recentSearch[indexPath.item]
-            setEmptyTitleBackButton()
-            navigationController?.pushViewController(vc, animated: true)
+            // 최근 검색어가 존재할 때에만 클릭 가능
+            if UserDefaultsManager.recentSearch.count > 0 {
+                let vc = SearchViewController()
+                vc.searchView.searchBar.text = UserDefaultsManager.recentSearch[indexPath.item]
+                setEmptyTitleBackButton()
+                navigationController?.pushViewController(vc, animated: true)
+            }
 
         case 1:
             let vc = CinemaDetailViewController()
