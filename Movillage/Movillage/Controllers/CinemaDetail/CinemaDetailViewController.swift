@@ -48,7 +48,7 @@ extension CinemaDetailViewController: UICollectionViewDelegate, UICollectionView
         case 1:
             return 1
         case 2:
-            return 8
+            return castDTO != nil ? castDTO!.count : 1
         case 3:
             return posterArray?.count ?? 0
         default:
@@ -75,10 +75,14 @@ extension CinemaDetailViewController: UICollectionViewDelegate, UICollectionView
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CastCollectionViewCell.id, for: indexPath) as! CastCollectionViewCell
 
-            guard let castDTO = castDTO else { return cell }
-            cell.configureCell(with: castDTO[indexPath.item])
+            if castDTO?.count == nil {
+                return cell
+            } else {
+                guard let castDTO = castDTO else { return cell }
+                cell.configureCell(with: castDTO[indexPath.item])
 
-            return cell
+                return cell
+            }
         case 3:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterCollectionViewCell.id, for: indexPath) as! PosterCollectionViewCell
 

@@ -77,7 +77,9 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             NetworkManager.shared.fetchItem(api: CreditDTO(movieID: self.searchResponse.results[indexPath.row].id).toRequest(), type: CreditResponse.self) { result in
                 switch result {
                 case .success(let success):
-                    vc.castDTO = success.cast
+                    
+                    // cast가 있을 때 전송
+                    if success.cast.count > 0 { vc.castDTO = success.cast }
                 case .failure(let failure):
                     print("실패 ", failure)
                 }
