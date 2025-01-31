@@ -6,10 +6,10 @@ final class CastCollectionViewCell: BaseCollectionViewCell {
     static let id = "CastCollectionViewCell"
     let castImage = ProfileImage(frame: CGRect())
     let koreanNameLabel = UILabel().setFont(.contentBold)
-    let englishNameLabel = UILabel().setFont(.description)
+    let characterNameLabel = UILabel().setFont(.description)
 
     override func configureHierarchy() {
-        [castImage, koreanNameLabel, englishNameLabel].forEach { contentView.addSubview($0) }
+        [castImage, koreanNameLabel, characterNameLabel].forEach { contentView.addSubview($0) }
     }
     override func configureLayout() {
         castImage.snp.makeConstraints {
@@ -22,7 +22,7 @@ final class CastCollectionViewCell: BaseCollectionViewCell {
             $0.bottom.equalTo(castImage.snp.centerY).offset(-2)
             $0.trailing.greaterThanOrEqualTo(contentView).inset(12)
         }
-        englishNameLabel.snp.makeConstraints {
+        characterNameLabel.snp.makeConstraints {
             $0.leading.equalTo(koreanNameLabel)
             $0.top.equalTo(castImage.snp.centerY).offset(2)
             $0.trailing.lessThanOrEqualTo(contentView).inset(24)
@@ -30,11 +30,21 @@ final class CastCollectionViewCell: BaseCollectionViewCell {
     }
     override func configureView() {
         backgroundColor = UIColor.customBlack
-        castImage.backgroundColor = .red
-        koreanNameLabel.text = "한글이름"
+        castImage.backgroundColor = UIColor.customGray
+        castImage.contentMode = .scaleAspectFill
+        koreanNameLabel.text = ""
         koreanNameLabel.textColor = UIColor.customWhite
-        englishNameLabel.text = "English Name"
-        englishNameLabel.textColor = UIColor.customWhiteGray
+        characterNameLabel.text = ""
+        characterNameLabel.textColor = UIColor.customWhiteGray
     }
 
+}
+
+// MARK: configure cell
+extension CastCollectionViewCell {
+    func configureCell(with data: CastResponse) {
+        castImage.kf.setImage(with: URL(string: data.imageUrl)!)
+        koreanNameLabel.text = data.name
+        characterNameLabel.text = data.character
+    }
 }

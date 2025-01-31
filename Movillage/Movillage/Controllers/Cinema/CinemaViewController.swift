@@ -167,7 +167,7 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
                                                 type: CreditResponse.self) { result in
                     switch result {
                     case .success(let success):
-                        print("^^^^^^^^^^^^^^^^ ")
+                        vc.castDTO = success.cast
                     case .failure(let failure):
                         print("???????? ", failure)
                     }

@@ -14,6 +14,11 @@ final class CinemaDetailViewController: UIViewController {
     var synopsisDTO: String = ""
     // false -> 3줄 (More Tapped가 false)
     var isMoreTapped = false
+    var castDTO: [CastResponse]? {
+        didSet {
+            self.cinemaDetailView.collectionView.reloadSections(IndexSet(integer: 2))
+        }
+    }
 
     var posterArray: [String]? {
         didSet {
@@ -69,6 +74,9 @@ extension CinemaDetailViewController: UICollectionViewDelegate, UICollectionView
             return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CastCollectionViewCell.id, for: indexPath) as! CastCollectionViewCell
+
+            guard let castDTO = castDTO else { return cell }
+            cell.configureCell(with: castDTO[indexPath.item])
 
             return cell
         case 3:

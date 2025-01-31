@@ -9,6 +9,7 @@ struct CastResponse: Decodable {
     let name: String
     let character: String
     let profile_path: String?
+    var imageUrl: String { "https://image.tmdb.org/t/p/original" + (profile_path ?? "") }
 }
 
 struct CreditDTO {
