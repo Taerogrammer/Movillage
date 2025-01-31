@@ -9,6 +9,7 @@ final class SearchViewController: UIViewController {
     private var searchData: [ResultsResponse] = [] {
         didSet { searchView.searchTableView.reloadData() }
     }
+    private var clickedIndexPath: IndexPath?
 
     // TODO: 위치 수정
     let imageUrl = "https://image.tmdb.org/t/p/original"
@@ -21,6 +22,10 @@ final class SearchViewController: UIViewController {
         super.viewDidLoad()
         [configureNavigation(), configureDelegate()].forEach { $0 }
         searchView.searchBar.becomeFirstResponder()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateTappedRow()
     }
 }
 
@@ -52,7 +57,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let vc = CinemaDetailViewController()
-        print("id ", searchData[indexPath.row])
+        clickedIndexPath = indexPath
 
         DispatchQueue.global().async {
             /// backdrop, poster
@@ -178,6 +183,12 @@ extension SearchViewController {
         } else {
             searchView.notFoundLabel.isHidden = true
             searchView.searchTableView.isHidden = false
+        }
+    }
+    private func updateTappedRow() {
+        DispatchQueue.main.async {
+            guard let indexPath = self.clickedIndexPath else { return }
+            self.searchView.searchTableView.reloadRows(at: [indexPath], with: .automatic)
         }
     }
 }
