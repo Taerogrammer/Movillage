@@ -9,11 +9,7 @@ final class SearchTableViewCell: BaseTableViewCell {
     let releaseLabel = UILabel().setFont(.description)
     let genreStackView = UIStackView()
     let likeButton = UIButton()
-
     var didLikeButtonTapped: (() -> Void)?
-
-    // TODO: - 위치 수정
-    let imageUrl = "https://image.tmdb.org/t/p/original"
 
     override func configureHierarchy() {
         [posterImage, titleLabel, releaseLabel, genreStackView, likeButton].forEach { contentView.addSubview($0) }
@@ -64,7 +60,7 @@ final class SearchTableViewCell: BaseTableViewCell {
 
 extension SearchTableViewCell {
     func configureCell(with row: ResultsResponse) {
-        let url = URL(string: imageUrl + row.poster_path)
+        let url = URL(string: TMDBUrl.imageUrl + row.poster_path)
 
         posterImage.kf.indicatorType = .activity
         posterImage.kf.setImage(with: url, options: [

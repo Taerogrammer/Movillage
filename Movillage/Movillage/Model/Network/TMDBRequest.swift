@@ -9,22 +9,21 @@ enum TMDBRequest {
     case getFavorite
     case postFavorite(media_id: Int, favorite: Bool)
 
-    var baseUrl: String { return "https://api.themoviedb.org/3" }
     var header: HTTPHeaders { return ["Authorization" : "Bearer \(APIKey.TMDB.rawValue)"] }
     var endPoint: URL {
         switch self {
         case .trending:
-            return URL(string: baseUrl + "/trending/movie/day")!
+            return URL(string: TMDBUrl.baseUrl + "/trending/movie/day")!
         case .search(_, _):
-            return URL(string: baseUrl + "/search/movie")!
+            return URL(string: TMDBUrl.baseUrl + "/search/movie")!
         case .image(let movieID):
-            return URL(string: baseUrl + "/movie/\(movieID)/images")!
+            return URL(string: TMDBUrl.baseUrl + "/movie/\(movieID)/images")!
         case .credit(let movieID):
-            return URL(string: baseUrl + "/movie/\(movieID)/credits")!
+            return URL(string: TMDBUrl.baseUrl + "/movie/\(movieID)/credits")!
         case .getFavorite:
-            return URL(string: baseUrl + "/account/\(APIKey.TMDB.rawValue)/favorite/movies")!
+            return URL(string: TMDBUrl.baseUrl + "/account/\(APIKey.TMDB.rawValue)/favorite/movies")!
         case .postFavorite:
-            return URL(string: baseUrl + "/account/\(APIKey.TMDB.rawValue)/favorite")!
+            return URL(string: TMDBUrl.baseUrl + "/account/\(APIKey.TMDB.rawValue)/favorite")!
         }
     }
     var parameter: Parameters {

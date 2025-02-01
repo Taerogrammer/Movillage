@@ -11,9 +11,6 @@ final class SearchViewController: UIViewController {
     }
     private var clickedIndexPath: IndexPath?
 
-    // TODO: 위치 수정
-    let imageUrl = "https://image.tmdb.org/t/p/original"
-
     override func loadView() {
         view = searchView
     }
@@ -64,8 +61,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             NetworkManager.shared.fetchItem(api: ImageDTO(movieID: self.searchData[indexPath.row].id).toRequest(), type: ImageResponse.self) { result in
                 switch result {
                 case .success(let success):
-                    vc.backdropArray = success.backdrops.prefix(5).map { self.imageUrl + $0.file_path }
-                    vc.posterArray = success.posters.map { self.imageUrl + $0.file_path }
+                    vc.backdropArray = success.backdrops.prefix(5).map { TMDBUrl.imageUrl + $0.file_path }
+                    vc.posterArray = success.posters.map { TMDBUrl.imageUrl + $0.file_path }
                 case .failure(let failure):
                     self.networkErrorAlert(error: failure)
                 }

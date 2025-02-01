@@ -8,10 +8,6 @@ final class TodayMovieCollectionViewCell: BaseCollectionViewCell {
     let titleLabel = UILabel().setFont(.contentBold)
     let likeButton = UIButton()
     let descriptionLabel = UILabel().setFont(.description)
-
-    // TODO: - 위치 수정
-    let imageUrl = "https://image.tmdb.org/t/p/original"
-
     var didLikeButtonTapped: (() -> Void)?
 
     override func configureHierarchy() {
@@ -57,7 +53,7 @@ final class TodayMovieCollectionViewCell: BaseCollectionViewCell {
 // MARK: configure cell
 extension TodayMovieCollectionViewCell {
     func configureCell(with item: ResultsResponse) {
-        let url = URL(string: imageUrl + "\(item.poster_path)")
+        let url = URL(string: TMDBUrl.imageUrl + "\(item.poster_path)")
         DispatchQueue.main.async {
 
             /// 오늘의 영화는 하루 단위를 기준으로 업데이트 되기 때문에 하루 동안만 캐시에 저장되도록 지정

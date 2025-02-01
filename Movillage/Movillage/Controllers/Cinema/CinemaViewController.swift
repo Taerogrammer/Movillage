@@ -6,9 +6,6 @@ final class CinemaViewController: UIViewController {
 
     private let cinemaSection = ["최근검색어", "오늘의 영화"]
 
-    // TODO: 위치 수정
-    let imageUrl = "https://image.tmdb.org/t/p/original"
-
     private var trendingDTO = TrendingDTO()
     private var trendingMovie = TrendingResponse(page: 1, results: []) {
         didSet {
@@ -150,8 +147,8 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
                                                 type: ImageResponse.self) { result in
                     switch result {
                     case .success(let success):
-                        vc.backdropArray = success.backdrops.prefix(5).map { self.imageUrl + $0.file_path }
-                        vc.posterArray = success.posters.map { self.imageUrl + $0.file_path }
+                        vc.backdropArray = success.backdrops.prefix(5).map { TMDBUrl.imageUrl + $0.file_path }
+                        vc.posterArray = success.posters.map { TMDBUrl.imageUrl + $0.file_path }
                     case .failure(let failure):
                         self.networkErrorAlert(error: failure)
                     }
