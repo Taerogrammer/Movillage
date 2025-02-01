@@ -53,9 +53,9 @@ final class TodayMovieCollectionViewCell: BaseCollectionViewCell {
 // MARK: configure cell
 extension TodayMovieCollectionViewCell {
     func configureCell(with item: ResultsResponse) {
-        let url = URL(string: TMDBUrl.imageUrl + "\(item.poster_path)")
-        DispatchQueue.main.async {
+        if let validUrl = item.poster_path {
             /// 오늘의 영화는 하루 단위를 기준으로 업데이트 되기 때문에 하루 동안만 캐시에 저장되도록 지정
+            let url = URL(string: TMDBUrl.imageUrl + validUrl)
             self.posterImage.kf.setImage(with: url, options: [
                 .processor(DownsamplingImageProcessor(size: self.posterImage.bounds.size)),
                 .scaleFactor(UIScreen.main.scale),
@@ -63,6 +63,10 @@ extension TodayMovieCollectionViewCell {
                 .memoryCacheExpiration(.days(1)),
                 .diskCacheExpiration(.days(1))
             ])
+        } else {
+            posterImage.backgroundColor = UIColor.customGray
+        }
+        DispatchQueue.main.async {
             self.titleLabel.text = item.title
             self.descriptionLabel.text = item.overview
         }

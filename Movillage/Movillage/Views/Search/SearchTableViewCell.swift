@@ -64,13 +64,16 @@ final class SearchTableViewCell: BaseTableViewCell {
 // MARK: configure cell
 extension SearchTableViewCell {
     func configureCell(with row: ResultsResponse) {
-        let url = URL(string: TMDBUrl.imageUrl + row.poster_path)
-
-        posterImage.kf.indicatorType = .activity
-        posterImage.kf.setImage(with: url, options: [
-            .processor(DownsamplingImageProcessor(size: self.posterImage.bounds.size)),
-            .scaleFactor(UIScreen.main.scale)
-        ])
+        if let validUrl = row.poster_path {
+            let url = URL(string: TMDBUrl.imageUrl + validUrl)
+            posterImage.kf.indicatorType = .activity
+            posterImage.kf.setImage(with: url, options: [
+                .processor(DownsamplingImageProcessor(size: self.posterImage.bounds.size)),
+                .scaleFactor(UIScreen.main.scale)
+            ])
+        } else {
+            posterImage.backgroundColor = UIColor.customGray
+        }
         DispatchQueue.main.async {
             self.titleLabel.text = row.title
             self.releaseLabel.text = row.release_date
