@@ -3,6 +3,7 @@ import SnapKit
 
 final class CinemaDetailFooterView: UICollectionReusableView {
     static let id = "CinemaDetailFooterView"
+
     private let calendarImage = UIImageView(image: UIImage(systemName: "calendar"))
     private let starImage = UIImageView(image: UIImage(systemName: "star.fill"))
     private let filmImage = UIImageView(image: UIImage(systemName: "film.fill"))
@@ -23,11 +24,11 @@ final class CinemaDetailFooterView: UICollectionReusableView {
 
 }
 
+// MARK: configure view
 extension CinemaDetailFooterView: ViewConfiguration {
     func configureHierarchy() {
         [calendarImage, releaseDateLabel, starImage, starLabel, filmImage, genreLabel, pageControl].forEach { addSubview($0) }
     }
-    
     func configureLayout() {
         calendarImage.snp.makeConstraints {
             $0.centerY.equalToSuperview()
@@ -61,7 +62,6 @@ extension CinemaDetailFooterView: ViewConfiguration {
             $0.bottom.equalToSuperview().inset(48)
         }
     }
-    
     func configureView() {
         [calendarImage, releaseDateLabel, starImage, starLabel, filmImage, genreLabel].forEach { _ in tintColor = UIColor.customWhiteGray }
         pageControl.hidesForSinglePage = true
@@ -69,6 +69,7 @@ extension CinemaDetailFooterView: ViewConfiguration {
     }
 }
 
+// MARK: configure cell
 extension CinemaDetailFooterView {
     func configureCell(with data: FooterDTO) {
         releaseDateLabel.text = "  " + data.release_date + "  |  "

@@ -1,11 +1,8 @@
 import UIKit
 
 final class CinemaViewController: UIViewController {
-
     private let cinemaView = CinemaView()
-
     private let cinemaSection = ["최근검색어", "오늘의 영화"]
-
     private var trendingDTO = TrendingDTO()
     private var trendingMovie = TrendingResponse(page: 1, results: []) {
         didSet {
@@ -52,14 +49,6 @@ extension CinemaViewController: ProfileCardViewGesture {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(profileCardTapped))
         cinemaView.profileCardView.addGestureRecognizer(tapGesture)
     }
-    @objc func profileCardTapped() {
-        let navVC = UINavigationController(rootViewController: ProfileEditViewController())
-        if let sheet = navVC.sheetPresentationController {
-            sheet.detents = [.large()]
-            sheet.prefersGrabberVisible = true
-        }
-        present(navVC, animated: true)
-    }
 }
 
 // MARK: @objc
@@ -72,6 +61,14 @@ extension CinemaViewController {
     @objc private func updatedProfileReceived() {
         cinemaView.profileCardView.profileImage.image = UIImage(named: UserDefaultsManager.profileImage ?? "profile_0")
         cinemaView.profileCardView.nicknameLabel.text = UserDefaultsManager.nickname
+    }
+    @objc func profileCardTapped() {
+        let navVC = UINavigationController(rootViewController: ProfileEditViewController())
+        if let sheet = navVC.sheetPresentationController {
+            sheet.detents = [.large()]
+            sheet.prefersGrabberVisible = true
+        }
+        present(navVC, animated: true)
     }
 }
 
@@ -91,7 +88,6 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
             return 0
         }
     }
-
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
         case 0:
@@ -111,7 +107,6 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
 
             let item = trendingMovie.results[indexPath.item]
             cell.configureCell(with: item)
-
             cell.didLikeButtonTapped = {
                 let clickedID = self.trendingMovie.results[indexPath.item].id
                 // 만약 이미 있으면 제거
@@ -137,7 +132,6 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 setEmptyTitleBackButton()
                 navigationController?.pushViewController(vc, animated: true)
             }
-
         case 1:
             let vc = CinemaDetailViewController()
 
@@ -157,10 +151,8 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 let footerData = self.trendingMovie.results[indexPath.item]
                 /// results - overview, genre_ids, release_date, vote_average
                 vc.footerDTO = FooterDTO(id: footerData.id, title: footerData.title, overview: footerData.overview, genre_ids: footerData.genre_ids, release_date: footerData.release_date, vote_average: footerData.vote_average)
-
                 /// Synopsis
                 vc.synopsisDTO = self.trendingMovie.results[indexPath.item].overview
-
                 /// cast
                 NetworkManager.shared.fetchItem(api: CreditDTO(movieID: self.trendingMovie.results[indexPath.row].id).toRequest(),
                                                 type: CreditResponse.self) { result in
@@ -222,11 +214,12 @@ extension CinemaViewController {
         }
     }
     // 최근검색어 여부 전달
-    private func sendDataToCollectionView() { print(#function); cinemaView.data = getDataCount(data: UserDefaultsManager.recentSearch) }
+    private func sendDataToCollectionView() {
+        cinemaView.data = getDataCount(data: UserDefaultsManager.recentSearch)
+    }
     private func isDataExists(data: Int) -> Bool { return data > 0 }
     private func getDataCount(data: [String]) -> Int { return data.count }
     private func getFavoriteMovieCount() {
-        print(#function)
         cinemaView.profileCardView.likeCountButton.setTitle("\(UserDefaultsManager.favoriteMovie.count)개의 무비박스 보관중", for: .normal)
     }
 }

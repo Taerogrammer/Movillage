@@ -18,7 +18,6 @@ final class ProfileView: BaseView {
         imageView.snp.makeConstraints {
             $0.top.equalTo(self.safeAreaLayoutGuide).inset(24)
             $0.centerX.equalToSuperview()
-            // 추후 변경
             $0.width.height.equalTo(80)
         }
         textField.snp.makeConstraints {
@@ -51,7 +50,6 @@ final class ProfileView: BaseView {
         // userDefaults 없을 때 호출
         [getNickname(), getProfileImage(), configureDelegate(), configureTextField()].forEach { $0 }
     }
-
     override func layoutSubviews() {
         super.layoutSubviews()
         textField.underlined(viewSize: textField.frame.width, color: UIColor.customGray)
@@ -109,7 +107,6 @@ extension ProfileView: UITextFieldDelegate {
 extension ProfileView {
     @objc private func textFieldDidChange(_ textField: UITextField) {
         guard let text = textField.text else { return }
-
         /// 문구는 글자 수가 특수문자보다 우선순위로 두어, 만약 두 조건을 위배한다면 글자 수 관련 문구가 나타납니다.
         if text.count < 2 || text.count >= 10 {
             textInfoLabel.text = "2글자 이상 10글자 미만으로 설정해주세요"

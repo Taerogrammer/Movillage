@@ -3,6 +3,8 @@ import SnapKit
 
 final class CinemaDetailView: BaseView {
     let favoriteButton = UIButton()
+    var presentPage: Int?
+    var currentPageChanged: ((Int) -> Void)?
     lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: createCompositionalLayout())
@@ -21,9 +23,6 @@ final class CinemaDetailView: BaseView {
         favoriteButton.setImage(UIImage(systemName: "heart"), for: .normal)
         favoriteButton.tintColor = UIColor.customBlue
     }
-    var presentPage: Int?
-    var currentPageChanged: ((Int) -> Void)?
-
 }
 
 // MARK: configure compositional layout
@@ -44,7 +43,6 @@ extension CinemaDetailView {
             }
         }
     }
-
     private func createBackdropSectionLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(UIScreen.main.bounds.width), heightDimension: .absolute(280))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -63,14 +61,12 @@ extension CinemaDetailView {
             }   // 값이 다를 때에만 호출
         }
 
-
         // 영화 간략 정보
         let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(44))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
 
         section.boundarySupplementaryItems = [footer]
         return section
-
     }
     private func createSynopsisSectionLayout() -> NSCollectionLayoutSection {
         // item은 하나

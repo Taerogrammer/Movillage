@@ -3,6 +3,7 @@ import SnapKit
 
 final class SynopsisCollectionViewCell: BaseCollectionViewCell {
     static let id = "SynopsisCollectionViewCell"
+
     let synopsisLabel = UILabel().setFont(.description)
 
     override func configureHierarchy() {

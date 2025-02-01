@@ -1,6 +1,6 @@
 import UIKit
-import SnapKit
 import Kingfisher
+import SnapKit
 
 final class SearchTableViewCell: BaseTableViewCell {
     static let id = "SearchTableViewCell"
@@ -44,8 +44,11 @@ final class SearchTableViewCell: BaseTableViewCell {
         posterImage.clipsToBounds = true
         posterImage.layer.cornerRadius = 12
         posterImage.contentMode = .scaleToFill
+
         titleLabel.numberOfLines = 2
+
         releaseLabel.textColor = UIColor.customGray
+
         likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
         likeButton.setImage((UIImage(systemName: "heart.fill")), for: .highlighted)
         likeButton.tintColor = UIColor.customBlue
@@ -58,15 +61,19 @@ final class SearchTableViewCell: BaseTableViewCell {
     }
 }
 
+// MARK: configure cell
 extension SearchTableViewCell {
     func configureCell(with row: ResultsResponse) {
-        let url = URL(string: TMDBUrl.imageUrl + row.poster_path)
-
-        posterImage.kf.indicatorType = .activity
-        posterImage.kf.setImage(with: url, options: [
-            .processor(DownsamplingImageProcessor(size: self.posterImage.bounds.size)),
-            .scaleFactor(UIScreen.main.scale)
-        ])
+        if let validUrl = row.poster_path {
+            let url = URL(string: TMDBUrl.imageUrl + validUrl)
+            posterImage.kf.indicatorType = .activity
+            posterImage.kf.setImage(with: url, options: [
+                .processor(DownsamplingImageProcessor(size: self.posterImage.bounds.size)),
+                .scaleFactor(UIScreen.main.scale)
+            ])
+        } else {
+            posterImage.backgroundColor = UIColor.customGray
+        }
         DispatchQueue.main.async {
             self.titleLabel.text = row.title
             self.releaseLabel.text = row.release_date
@@ -77,7 +84,6 @@ extension SearchTableViewCell {
     func configureGenre(genre: [Int]) {
         // 셀 재사용 시 다른 장르 들어올 수도 있기 때문에 장르 정보 제거
         genreStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-//        let genreID = genre.prefix(2)
         for id in genre {
             let label = GenreLabel()
             label.text = MovieGenre.genreDescription(id: id)

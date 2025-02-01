@@ -6,7 +6,6 @@ final class ProfileViewController: UIViewController {
     override func loadView() {
         view = profileView
     }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         [configureButton(), configureNavigation(), configureGesture()].forEach { $0 }
@@ -26,7 +25,6 @@ extension ProfileViewController: NavigationConfiguration {
         navigationItem.title = "프로필 설정"
         setEmptyTitleBackButton()
     }
-
 }
 
 // MARK: configure etc

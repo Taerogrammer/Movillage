@@ -3,6 +3,7 @@ import SnapKit
 
 final class RecentSearchCollectionViewCell: BaseCollectionViewCell {
     static let id = "RecentSearchCollectionViewCell"
+
     let researchLabel = UILabel().setFont(.description)
     let xButton = UIButton()
     weak var closeButtonDelegate: RecentSearchCloseDelegate?
@@ -38,6 +39,7 @@ extension RecentSearchCollectionViewCell {
     func configureCell(text: String) { researchLabel.text = text }
 }
 
+// MARK: @objc
 extension RecentSearchCollectionViewCell {
     @objc private func xButtonTapped(_ sender: UIButton) {
         closeButtonDelegate?.recentSearchCloseButtonTapped(at: sender.tag)

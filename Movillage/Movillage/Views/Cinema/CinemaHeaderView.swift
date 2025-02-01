@@ -19,11 +19,11 @@ final class CinemaHeaderView: UICollectionReusableView {
     }
 }
 
+// MARK: configure view
 extension CinemaHeaderView: ViewConfiguration {
     func configureHierarchy() {
         [titleLabel, removeButton].forEach { addSubview($0) }
     }
-
     func configureLayout() {
         titleLabel.snp.makeConstraints {
             $0.leading.equalTo(self.safeAreaLayoutGuide).offset(16)
@@ -34,7 +34,6 @@ extension CinemaHeaderView: ViewConfiguration {
             $0.centerY.equalToSuperview()
         }
     }
-
     func configureView() {
         removeButton.setTitle("전체 삭제", for: .normal)
         removeButton.titleLabel?.font = UIFont.contentBold

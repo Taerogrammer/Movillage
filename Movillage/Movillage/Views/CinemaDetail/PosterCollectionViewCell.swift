@@ -4,6 +4,7 @@ import SnapKit
 
 final class PosterCollectionViewCell: BaseCollectionViewCell {
     static let id = "PosterCollectionViewCell"
+
     let posterImage = UIImageView()
 
     override func configureHierarchy() {

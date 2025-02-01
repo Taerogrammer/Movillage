@@ -15,7 +15,6 @@ final class ProfileEditView: BaseView {
     }
     override func configureView() {
         profileView.completeButton.isHidden = true
-
         [getProfileImage()].forEach { $0 }
     }
 }

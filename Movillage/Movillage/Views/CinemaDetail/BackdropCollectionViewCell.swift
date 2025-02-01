@@ -4,6 +4,7 @@ import SnapKit
 
 final class BackdropCollectionViewCell: BaseCollectionViewCell {
     static let id = "BackdropCollectionViewCell"
+    
     let backdropImage = UIImageView()
 
     override func configureHierarchy() {

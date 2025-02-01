@@ -6,7 +6,6 @@ final class OnboardingViewController: UIViewController {
     override func loadView() {
         view = onboardingView
     }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         [configureButton(), configureNavigation()].forEach { $0 }

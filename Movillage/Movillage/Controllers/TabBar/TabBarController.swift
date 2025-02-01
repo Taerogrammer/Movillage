@@ -1,7 +1,6 @@
 import UIKit
 
 final class TabBarController: UITabBarController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
         [configureTabBar(), configureTabBarAppearance()].forEach { $0 }
@@ -9,7 +8,6 @@ final class TabBarController: UITabBarController {
 }
 
 extension TabBarController: TabBarConfiguration {
-
     func configureTabBar() {
         let cinemaVC = CinemaViewController()
         let cinemaNav = UINavigationController(rootViewController: cinemaVC)
@@ -17,7 +15,6 @@ extension TabBarController: TabBarConfiguration {
         let upcomingNav = UINavigationController(rootViewController: upcomingVC)
         let settingVC = SettingViewController()
         let settingNav = UINavigationController(rootViewController: settingVC)
-
 
         cinemaNav.tabBarItem.title = "CINEMA"
         cinemaNav.tabBarItem.image = UIImage(systemName: "popcorn")
@@ -32,9 +29,7 @@ extension TabBarController: TabBarConfiguration {
         settingNav.tabBarItem.selectedImage = UIImage(systemName: "person.circle.fill")
 
         setViewControllers([cinemaNav, upcomingNav, settingNav], animated: true)
-
     }
-
     func configureTabBarAppearance() {
         let appearance = UITabBarAppearance()
         appearance.configureWithTransparentBackground()
@@ -43,6 +38,4 @@ extension TabBarController: TabBarConfiguration {
         tabBar.scrollEdgeAppearance = appearance
         tabBar.tintColor = UIColor.customBlue
     }
-
-
 }

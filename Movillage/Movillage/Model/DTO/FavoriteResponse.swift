@@ -5,7 +5,6 @@ struct FavoriteResponse: Decodable {
 }
 
 struct FavoriteDTO {
-    
     func toRequest() -> TMDBRequest {
         return .getFavorite
     }
