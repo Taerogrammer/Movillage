@@ -77,7 +77,6 @@ extension SearchTableViewCell {
     func configureGenre(genre: [Int]) {
         // 셀 재사용 시 다른 장르 들어올 수도 있기 때문에 장르 정보 제거
         genreStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-//        let genreID = genre.prefix(2)
         for id in genre {
             let label = GenreLabel()
             label.text = MovieGenre.genreDescription(id: id)

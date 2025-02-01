@@ -23,7 +23,6 @@ final class ProfileImageView: BaseView {
         profileImageCollectionView.snp.makeConstraints {
             $0.top.equalTo(presentImage.snp.bottom).offset(32)
             $0.horizontalEdges.equalTo(self.safeAreaLayoutGuide).inset(24)
-            ///
             $0.height.equalTo(300)
         }
     }

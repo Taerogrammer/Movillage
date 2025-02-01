@@ -18,7 +18,6 @@ final class ProfileView: BaseView {
         imageView.snp.makeConstraints {
             $0.top.equalTo(self.safeAreaLayoutGuide).inset(24)
             $0.centerX.equalToSuperview()
-            // 추후 변경
             $0.width.height.equalTo(80)
         }
         textField.snp.makeConstraints {

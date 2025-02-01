@@ -35,8 +35,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.id) as! SearchTableViewCell
         cell.configureCell(with: searchData[indexPath.row])
-
-        // TODO: 모듈화
         cell.didLikeButtonTapped = {
             let clickedID = self.searchData[indexPath.row].id
             if UserDefaultsManager.favoriteMovie.contains(clickedID) {
