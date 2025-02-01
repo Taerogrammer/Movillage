@@ -153,7 +153,7 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
                         vc.backdropArray = success.backdrops.prefix(5).map { self.imageUrl + $0.file_path }
                         vc.posterArray = success.posters.map { self.imageUrl + $0.file_path }
                     case .failure(let failure):
-                        print("실패 ", failure)
+                        self.networkErrorAlert(error: failure)
                     }
                 }
 
@@ -171,7 +171,7 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
                     case .success(let success):
                         vc.castDTO = success.cast
                     case .failure(let failure):
-                        print("???????? ", failure)
+                        self.networkErrorAlert(error: failure)
                     }
                 }
             }
@@ -220,7 +220,7 @@ extension CinemaViewController {
             case .success(let success):
                 self.trendingMovie = success
             case .failure(let failure):
-                print(failure)
+                self.networkErrorAlert(error: failure)
             }
         }
     }

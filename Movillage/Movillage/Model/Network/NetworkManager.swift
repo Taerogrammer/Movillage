@@ -15,8 +15,12 @@ final class NetworkManager {
             encoding: api.encoding,
             headers: api.header)
 //        .cURLDescription { print($0) }
+        .validate(statusCode: 200..<299)
         .responseDecodable(of: T.self) { response in
-            completionHandler(response.result.mapError { $0 as Error })
+            completionHandler(response.result.mapError { error in
+                let statusCode = response.response?.statusCode ?? 500
+                return NetworkError(rawValue: statusCode) ?? .internalServerError
+            })
         }
     }
 }
