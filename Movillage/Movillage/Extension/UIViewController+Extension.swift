@@ -15,4 +15,14 @@ extension UIViewController {
         UserDefaultsManager.favoriteMovie.removeAll(where: { $0 == id })
         : UserDefaultsManager.favoriteMovie.append(id)
     }
+
+    /// 네트워크 에러 호출
+    func networkErrorAlert(error: Error) {
+        if let networkError = error as? NetworkError {
+            let alert = UIAlertController.setDefaultAlert(title: "오류", message: networkError.errorMessage)
+            let okay = UIAlertAction(title: "확인", style: .cancel)
+            alert.addAction(okay)
+            present(alert, animated: true)
+        }
+    }
 }
