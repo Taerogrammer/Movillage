@@ -1,7 +1,6 @@
 import UIKit
 import SnapKit
 
-// TODO: CinemaHeaderView와 함께 묶기
 final class CinemaDetailHeaderView: UICollectionReusableView {
     static let id = "CinemaDetailHeaderView"
 
@@ -20,11 +19,11 @@ final class CinemaDetailHeaderView: UICollectionReusableView {
     }
 }
 
+// MARK: configure view
 extension CinemaDetailHeaderView: ViewConfiguration {
     func configureHierarchy() {
         [titleLabel, moreButton].forEach { addSubview($0) }
     }
-    
     func configureLayout() {
         titleLabel.snp.makeConstraints {
             $0.leading.equalTo(self.safeAreaLayoutGuide).offset(16)
@@ -35,7 +34,6 @@ extension CinemaDetailHeaderView: ViewConfiguration {
             $0.centerY.equalToSuperview()
         }
     }
-    
     func configureView() {
         moreButton.setTitle("More", for: .normal)
         moreButton.setTitleColor(UIColor.customBlue, for: .normal)

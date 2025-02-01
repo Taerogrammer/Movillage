@@ -28,7 +28,6 @@ final class OnboardingView: BaseView {
             $0.horizontalEdges.equalTo(self.safeAreaLayoutGuide).inset(20)
             $0.bottom.lessThanOrEqualTo(self.safeAreaLayoutGuide).inset(16)
         }
-
     }
     override func configureView() {
         imageView.contentMode = .scaleAspectFit

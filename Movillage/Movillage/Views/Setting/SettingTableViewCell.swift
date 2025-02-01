@@ -3,6 +3,7 @@ import SnapKit
 
 final class SettingTableViewCell: BaseTableViewCell {
     static let id = "SettingTableViewCell"
+
     let label = UILabel().setFont(.contentRegular)
 
     override func configureHierarchy() {

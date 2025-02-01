@@ -1,7 +1,6 @@
 import UIKit
 
 final class SettingViewController: UIViewController {
-
     private let settingView = SettingView()
     private let tableViewData: [String] = ["자주 묻는 질문", "1:1 문의", "알림 설정", "탈퇴하기"]
     // 탈퇴하기 인덱스
@@ -32,7 +31,6 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableViewData.count
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.id, for: indexPath) as! SettingTableViewCell
         cell.configureCell(content: tableViewData[indexPath.row])
@@ -60,7 +58,6 @@ extension SettingViewController {
     private func withdrawTapped() { present(withdrawAlertController(), animated: true) }
     private func withdrawAlertController() -> UIAlertController {
         let alert = UIAlertController.setDefaultAlert(title: "탈퇴하기", message: "탈퇴를 하면 데이터가 모두 초기화됩니다. 탈퇴하시겠습니까?")
-
         let cancelAction = UIAlertAction(title: "확인", style: .destructive) { _ in
             UserDefaultsManager.didStart.toggle()
             self.removeUserDefaultsData()
@@ -76,7 +73,6 @@ extension SettingViewController {
     }
     // 직접 선언해서 제거
     private func removeUserDefaultsData() {
-
         /// removeAll을 사용하면 nil이 아닌 Optional("")이 반환되어 구현하고자 하는 방향과 일치하지 않음
         /// recentSearch는 가능하나, 가독성을 위해 removeObject 사용
         ["profileImage", "nickname", "registerDate"].forEach {
@@ -100,6 +96,17 @@ extension SettingViewController: ProfileCardViewGesture {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(profileCardTapped))
         settingView.profileCardView.addGestureRecognizer(tapGesture)
     }
+}
+
+// MARK: configure notification
+extension SettingViewController: NotificationConfiguration {
+    func configureNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(updatedProfileReceived), name: NSNotification.Name("updateProfile"), object: nil)
+    }
+}
+
+// MARK: @objc
+extension SettingViewController {
     @objc func profileCardTapped() {
         let navVC = UINavigationController(rootViewController: ProfileEditViewController())
         if let sheet = navVC.sheetPresentationController {
@@ -111,12 +118,5 @@ extension SettingViewController: ProfileCardViewGesture {
     @objc private func updatedProfileReceived() {
         settingView.profileCardView.profileImage.image = UIImage(named: UserDefaultsManager.profileImage ?? "profile_0")
         settingView.profileCardView.nicknameLabel.text = UserDefaultsManager.nickname
-    }
-}
-
-// MARK: configure notification
-extension SettingViewController: NotificationConfiguration {
-    func configureNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(updatedProfileReceived), name: NSNotification.Name("updateProfile"), object: nil)
     }
 }

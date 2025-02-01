@@ -4,6 +4,7 @@ import SnapKit
 
 final class CastCollectionViewCell: BaseCollectionViewCell {
     static let id = "CastCollectionViewCell"
+    
     let castImage = ProfileImage(frame: CGRect())
     let koreanNameLabel = UILabel().setFont(.contentBold)
     let characterNameLabel = UILabel().setFont(.description)

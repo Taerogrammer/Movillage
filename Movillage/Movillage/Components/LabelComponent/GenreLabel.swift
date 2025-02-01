@@ -9,6 +9,7 @@ final class GenreLabel: UILabel {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+
     override func layoutSubviews() {
         super.layoutSubviews()
         clipsToBounds = true

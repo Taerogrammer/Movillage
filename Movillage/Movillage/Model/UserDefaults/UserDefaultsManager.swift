@@ -18,6 +18,7 @@ final class UserDefaultsManager {
     enum Key: String {
         case isStart, profileImage, nickname, registerDate, recentSearch, favoriteMovie
     }
+
     @UserDefault(key: Key.isStart.rawValue, defaultValue: false, storage: .standard)
     static var didStart: Bool
     @UserDefault(key: Key.profileImage.rawValue, defaultValue: nil, storage: .standard)

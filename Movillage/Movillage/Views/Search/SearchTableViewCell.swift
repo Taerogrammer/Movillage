@@ -1,6 +1,6 @@
 import UIKit
-import SnapKit
 import Kingfisher
+import SnapKit
 
 final class SearchTableViewCell: BaseTableViewCell {
     static let id = "SearchTableViewCell"
@@ -44,8 +44,11 @@ final class SearchTableViewCell: BaseTableViewCell {
         posterImage.clipsToBounds = true
         posterImage.layer.cornerRadius = 12
         posterImage.contentMode = .scaleToFill
+
         titleLabel.numberOfLines = 2
+
         releaseLabel.textColor = UIColor.customGray
+
         likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
         likeButton.setImage((UIImage(systemName: "heart.fill")), for: .highlighted)
         likeButton.tintColor = UIColor.customBlue
@@ -58,6 +61,7 @@ final class SearchTableViewCell: BaseTableViewCell {
     }
 }
 
+// MARK: configure cell
 extension SearchTableViewCell {
     func configureCell(with row: ResultsResponse) {
         let url = URL(string: TMDBUrl.imageUrl + row.poster_path)

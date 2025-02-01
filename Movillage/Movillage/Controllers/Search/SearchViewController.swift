@@ -1,7 +1,6 @@
 import UIKit
 
 final class SearchViewController: UIViewController {
-
     let searchView = SearchView()
     private var searchDTO = SearchDTO(query: "", page: 1)
     private var totalPages = 1
@@ -14,7 +13,6 @@ final class SearchViewController: UIViewController {
     override func loadView() {
         view = searchView
     }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         [configureNavigation(), configureDelegate()].forEach { $0 }
@@ -31,7 +29,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchData.count
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.id) as! SearchTableViewCell
         cell.configureCell(with: searchData[indexPath.row])
@@ -77,7 +74,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             NetworkManager.shared.fetchItem(api: CreditDTO(movieID: self.searchData[indexPath.row].id).toRequest(), type: CreditResponse.self) { result in
                 switch result {
                 case .success(let success):
-                    
+
                     // cast가 있을 때 전송
                     if success.cast.count > 0 { vc.castDTO = success.cast }
                 case .failure(let failure):

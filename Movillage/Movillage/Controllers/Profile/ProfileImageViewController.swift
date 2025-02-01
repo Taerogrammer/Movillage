@@ -55,7 +55,6 @@ extension ProfileImageViewController: UICollectionViewDelegate, UICollectionView
 
         return profileImageList.count
     }
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileImageCollectionViewCell.id, for: indexPath) as! ProfileImageCollectionViewCell
         cell.configureCell(index: profileImageList[indexPath.item], isSelected: indexPath.item == imageIndex)

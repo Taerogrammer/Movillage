@@ -2,7 +2,6 @@ import UIKit
 import SnapKit
 
 final class CinemaView: BaseView {
-
     let profileCardView = ProfileCardView()
     // data 개수에 따라서 처음에 초기화 진행하기
     var data: Int?
@@ -23,11 +22,13 @@ final class CinemaView: BaseView {
             $0.top.equalTo(profileCardView.snp.bottom)
         }
     }
-
     override func configureView() {
         collectionView.isScrollEnabled = false
     }
+}
 
+// MARK: configure compositional layout sections
+extension CinemaView {
     private func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { [weak self] sectionNumber, env -> NSCollectionLayoutSection? in
             switch sectionNumber {
@@ -40,9 +41,7 @@ final class CinemaView: BaseView {
             }
         }
     }
-
     private func createRecentSearchSectionLayout() -> NSCollectionLayoutSection {
-
         let itemSize = NSCollectionLayoutSize(widthDimension: self.data == nil || self.data == 0 ? .fractionalWidth(1.0) : .estimated(66), heightDimension: .absolute(40))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
@@ -75,7 +74,7 @@ final class CinemaView: BaseView {
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(44))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
         section.boundarySupplementaryItems = [header]
-        
+
         return section
     }
 }
