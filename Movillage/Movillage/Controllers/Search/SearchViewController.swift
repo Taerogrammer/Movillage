@@ -70,16 +70,16 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                     self.networkErrorAlert(error: failure)
                 }
             }
+            let footerData = self.searchData[indexPath.row]
 
-            let footerData = self.searchResponse.results[indexPath.row]
             /// results - overview, genre_ids, release_date, vote_average
             vc.footerDTO = FooterDTO(id: footerData.id, title: footerData.title, overview: footerData.overview, genre_ids: footerData.genre_ids, release_date: footerData.release_date, vote_average: footerData.vote_average)
 
             /// Synopsis
-            vc.synopsisDTO = self.searchResponse.results[indexPath.row].overview
+            vc.synopsisDTO = self.searchData[indexPath.row].overview
 
             /// cast
-            NetworkManager.shared.fetchItem(api: CreditDTO(movieID: self.searchResponse.results[indexPath.row].id).toRequest(), type: CreditResponse.self) { result in
+            NetworkManager.shared.fetchItem(api: CreditDTO(movieID: self.searchData[indexPath.row].id).toRequest(), type: CreditResponse.self) { result in
                 switch result {
                 case .success(let success):
                     
