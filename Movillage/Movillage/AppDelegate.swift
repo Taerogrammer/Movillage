@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         // 런치스크린 2초
-//        sleep(2)
+        sleep(2)
 
         // 기본 세팅
         UIButton.appearance().setTitleColor(.white, for: .normal)
