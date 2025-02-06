@@ -385,17 +385,25 @@ enum TMDBRequest {
 
 <br>
 
-### ```final```, ```private``` 키워드를 통해 성능 개선을 기대하였습니다.
+### ```final```, ```private```, ```AnyObject``` 키워드를 통해 성능 개선을 기대하였습니다.
 
 ```
 final class OnboardingViewController: UIViewController {
     private let onboardingView = OnboardingView()
     ...
 }
+
+
+protocol ViewConfiguration: AnyObject {
+    func configureHierarchy()
+    func configureLayout()
+    func configureView()
+}
 ```
 
 - ```final``` 키워드는 direct call 방식으로 구현되어 컴파일 타임에 실제 호출이 결정되기 때문에 링킹 과정에서 성능적인 개선을 기대할 수 있습니다.
 - ```private``` 키워드 또한 접근 제어를 통해 컴파일러가 잠재적인 오버라이드에 대한 확인을 하지 않도록 합니다.
+- ```AnyObject``` 키워드는 해당 프로토콜이 클래스에서만 채택할 수 있도록 정의하여 값 타입인지, 참조 타입인지(참조를 retain/release 해야할지) 계속해서 고려하지 않도록 도와줍니다.
 
 
 
