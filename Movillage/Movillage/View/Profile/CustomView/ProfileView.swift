@@ -2,6 +2,7 @@ import UIKit
 import SnapKit
 
 final class ProfileView: BaseView {
+    let viewModel = ProfileViewModel()
     let imageView = ProfileImage(frame: CGRect())
     private let cameraImage = UIImageView()
     let textField = UITextField()
@@ -48,7 +49,7 @@ final class ProfileView: BaseView {
         completeButton.isEnabled = false
 
         // userDefaults 없을 때 호출
-        [getNickname(), getProfileImage(), configureDelegate(), configureTextField()].forEach { $0 }
+        [getNickname(), /*getProfileImage(),*/ configureDelegate(), configureTextField(), bindData()].forEach { $0 }
     }
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -58,6 +59,16 @@ final class ProfileView: BaseView {
 
 // MARK: method
 extension ProfileView {
+
+    private func bindData() {
+        viewModel.outputImageName.bind { [weak self] name in
+            print("Index -> ", name)
+            self?.imageView.image = UIImage(named: name)
+        }
+    }
+
+
+    /// 이전
     private func getProfileImage() {
         if UserDefaultsManager.profileImage == nil {
             getRandomImage()
@@ -65,6 +76,7 @@ extension ProfileView {
             imageView.image = UIImage(named: UserDefaultsManager.profileImage ?? "profile_0")
         }
     }
+    /// 이전
     /// userDefaults에 프로필 이미지 설정이 없을 때 랜덤으로 보여주기
     private func getRandomImage() {
         self.imageIndex = (0...11).randomElement()!
