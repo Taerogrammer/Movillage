@@ -55,9 +55,9 @@ extension ProfileViewController {
         let vc = ProfileImageViewController()
         vc.viewModel.inputImageIndex.value = profileView.viewModel.outputImageIndex.value
 
-
-        vc.contents = { value in
-            self.profileView.imageIndex = value
+        // TODO: 로직 분리 확인
+        vc.contents = { [weak self] idx in
+            self?.profileView.viewModel.inputImageIndex.value = idx
         }
         navigationController?.pushViewController(vc, animated: true)
     }

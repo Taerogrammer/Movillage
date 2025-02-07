@@ -36,7 +36,7 @@ extension ProfileImageViewController: NavigationConfiguration {
 // MARK: @objc
 extension ProfileImageViewController {
     @objc private func backButtonTapped() {
-        contents?(imageIndex!)
+        contents?(viewModel.outputImageIndex.value ?? 0)
         navigationController?.popViewController(animated: true)
     }
 }
@@ -86,7 +86,7 @@ extension ProfileImageViewController {
         }
         viewModel.outputImageIndex.bind { [weak self] idx in
             self?.profileImageView.profileImageCollectionView.selectItem(at: IndexPath(item: idx ?? 0, section: 0), animated: true, scrollPosition: .init())
-            
         }
+
     }
 }

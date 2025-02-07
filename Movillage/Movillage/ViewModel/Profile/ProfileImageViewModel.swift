@@ -2,6 +2,7 @@ import Foundation
 
 final class ProfileImageViewModel {
     let inputImageIndex: Observable<Int?> = Observable(nil)
+    let inputBackButton: Observable<Void> = Observable(())
 
     let outputImageName: Observable<String> = Observable("")
     let outputImageIndex: Observable<Int?> = Observable(nil)
@@ -17,4 +18,5 @@ final class ProfileImageViewModel {
         outputImageName.value = "profile_\(index)"
         outputImageIndex.value = inputImageIndex.value
     }
+
 }
