@@ -8,7 +8,7 @@ final class ProfileViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        [configureButton(), configureNavigation(), configureGesture()].forEach { $0 }
+        [configureButton(), configureNavigation(), configureGesture(), bindData()].forEach { $0 }
     }
 }
 
@@ -39,12 +39,13 @@ extension ProfileViewController {
 // MARK: @objc
 extension ProfileViewController {
     @objc private func completeButtonTapped() {
-        guard let nickname = profileView.textField.text else { return }
-        UserDefaultsManager.nickname = nickname
-        guard let index = profileView.imageIndex else { return }
-        UserDefaultsManager.profileImage = "profile_\(index)"
-        UserDefaultsManager.registerDate = getRegisterDate()
-        UserDefaultsManager.didStart.toggle()
+        print(#function)
+//        guard let nickname = profileView.textField.text else { return }
+//        UserDefaultsManager.nickname = nickname
+//        guard let index = profileView.imageIndex else { return }
+//        UserDefaultsManager.profileImage = "profile_\(index)"
+//        UserDefaultsManager.registerDate = getRegisterDate()
+//        UserDefaultsManager.didStart.toggle()
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else { return }
 
         window.rootViewController = TabBarController()
@@ -52,7 +53,10 @@ extension ProfileViewController {
     }
     @objc private func imageTapped() {
         let vc = ProfileImageViewController()
-        vc.imageIndex = profileView.imageIndex
+//        vc.imageIndex = profileView.imageIndex
+
+        vc.imageIndex = profileView.viewModel.outputImageIndex.value
+
 
         vc.contents = { value in
             self.profileView.imageIndex = value
@@ -70,5 +74,14 @@ extension ProfileViewController {
         let formatter = DateFormatter()
         formatter.dateFormat = "yy.MM.dd"
         return formatter.string(from: Date())
+    }
+}
+
+// MARK: - bind
+extension ProfileViewController {
+    private func bindData() {
+        profileView.viewModel.outputImageName.bind { [weak self] name in
+            self?.profileView.imageView.image = UIImage(named: name)
+        }
     }
 }

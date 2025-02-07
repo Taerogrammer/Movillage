@@ -3,13 +3,18 @@ import Foundation
 final class ProfileViewModel {
     // 화면에 접근되었을 때
     let inputViewAppear: Observable<Void> = Observable(())
+    let inputImageIndex: Observable<Int?> = Observable(nil)
 
     let outputImageName: Observable<String> = Observable("")
+    let outputImageIndex: Observable<Int?> = Observable(nil)
 
 
     init() {
         inputViewAppear.bind { [weak self] _ in
             self?.getProfileImage()
+        }
+        inputImageIndex.lazyBind { [weak self] _ in
+            self?.updateProfileImage()
         }
     }
 
@@ -24,6 +29,11 @@ final class ProfileViewModel {
     private func getRandomImage() {
         let randomIndex = (0...11).randomElement()!
         outputImageName.value = "profile_\(randomIndex)"
+        outputImageIndex.value = randomIndex
     }
-
+    private func updateProfileImage() {
+        guard let index = inputImageIndex.value else { return }
+        outputImageName.value = "profile_\(index)"
+        outputImageIndex.value = index
+    }
 }

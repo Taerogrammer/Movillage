@@ -49,7 +49,7 @@ final class ProfileView: BaseView {
         completeButton.isEnabled = false
 
         // userDefaults 없을 때 호출
-        [getNickname(), /*getProfileImage(),*/ configureDelegate(), configureTextField(), bindData()].forEach { $0 }
+        [getNickname(), /*getProfileImage(),*/ configureDelegate(), configureTextField()].forEach { $0 }
     }
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -59,14 +59,6 @@ final class ProfileView: BaseView {
 
 // MARK: method
 extension ProfileView {
-
-    private func bindData() {
-        viewModel.outputImageName.bind { [weak self] name in
-            print("Index -> ", name)
-            self?.imageView.image = UIImage(named: name)
-        }
-    }
-
 
     /// 이전
     private func getProfileImage() {
@@ -82,10 +74,14 @@ extension ProfileView {
         self.imageIndex = (0...11).randomElement()!
         imageView.image = UIImage(named: "profile_\(imageIndex ?? 0)")
     }
+    /// 이전
     private func updateProfileImage() {
         guard let index = imageIndex else { return }
         imageView.image = UIImage(named: "profile_\(index)")
     }
+
+
+///
     private func containsSpecialCharacter(text: String) -> Bool {
         return text.contains("@") || text.contains("#") || text.contains("$") || text.contains("%")
     }
