@@ -53,9 +53,7 @@ extension ProfileViewController {
     }
     @objc private func imageTapped() {
         let vc = ProfileImageViewController()
-//        vc.imageIndex = profileView.imageIndex
-
-        vc.imageIndex = profileView.viewModel.outputImageIndex.value
+        vc.viewModel.inputImageIndex.value = profileView.viewModel.outputImageIndex.value
 
 
         vc.contents = { value in

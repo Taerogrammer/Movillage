@@ -1,6 +1,7 @@
 import UIKit
 
 final class ProfileImageViewController: UIViewController {
+    let viewModel = ProfileImageViewModel()
     let profileImageView = ProfileImageView()
     let profileImageList: [String] = [
         "profile_0", "profile_1", "profile_2", "profile_3",
@@ -17,7 +18,7 @@ final class ProfileImageViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        [configureNavigation(), configureDelegate()].forEach { $0 }
+        [configureNavigation(), configureDelegate(), bindData()].forEach { $0 }
     }
 }
 
@@ -69,7 +70,18 @@ extension ProfileImageViewController: UICollectionViewDelegate, UICollectionView
 // MARK: method
 extension ProfileImageViewController {
     private func updateProfileImage() {
+        print("aaaaaaaaaa")
         guard let index = imageIndex else { return }
         profileImageView.configureProfileImage(to: "profile_\(index)")
+    }
+}
+
+// MARK: - bind
+extension ProfileImageViewController {
+    private func bindData() {
+        viewModel.outputImageName.bind { [weak self] name in
+            print("이름 ==> ", name)
+            self?.profileImageView.configureProfileImage(to: name)
+        }
     }
 }
