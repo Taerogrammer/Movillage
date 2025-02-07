@@ -2,6 +2,7 @@ import UIKit
 import SnapKit
 
 final class ProfileCardView: BaseView {
+    let viewModel = ProfileCardViewModel()
     let profileImage = ProfileImage(frame: CGRect())
     let nicknameLabel = UILabel().setFont(.header)
     private let registerLabel = UILabel().setFont(.description)
@@ -39,14 +40,17 @@ final class ProfileCardView: BaseView {
         clipsToBounds = true
         backgroundColor = UIColor.customGray
         layer.cornerRadius = 12
-        profileImage.image = UIImage(named: UserDefaultsManager.profileImage ?? "profile_0")
+        bindData()
+//        profileImage.image = UIImage(named: UserDefaultsManager.profileImage ?? "profile_0")
+//        nicknameLabel.text = UserDefaultsManager.nickname
+//        registerLabel.text = "\(UserDefaultsManager.registerDate ?? Date().description) 가입"
+//        likeCountButton.setTitle("\(UserDefaultsManager.favoriteMovie.count)개의 무비박스 보관중", for: .normal)
         profileImage.isEnabledOrHighlighted(isHighlighted: true)
-        nicknameLabel.text = UserDefaultsManager.nickname
-        registerLabel.text = "\(UserDefaultsManager.registerDate ?? Date().description) 가입"
+
         registerLabel.textColor = UIColor.customWhiteGray
         chevronImage.image = UIImage(systemName: "chevron.right")
         chevronImage.tintColor = UIColor.customWhiteGray
-        likeCountButton.setTitle("\(UserDefaultsManager.favoriteMovie.count)개의 무비박스 보관중", for: .normal)
+
         likeCountButton.clipsToBounds = true
         likeCountButton.backgroundColor = UIColor.customBlue
         likeCountButton.layer.cornerRadius = 8
@@ -54,5 +58,12 @@ final class ProfileCardView: BaseView {
         likeCountButton.titleLabel?.textColor = UIColor.customWhite
         likeCountButton.contentEdgeInsets = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         isUserInteractionEnabled = true
+    }
+    private func bindData() {
+        profileImage.image = UIImage(named: viewModel.outputImageName.value)
+        nicknameLabel.text = viewModel.outputNickname.value
+        registerLabel.text = "\(viewModel.outputRegisterDate.value) 가입"
+        likeCountButton.setTitle("\(viewModel.outputLikeCount.value)개의 무비박스 보관중", for: .normal)
+
     }
 }
