@@ -29,16 +29,18 @@ extension ProfileEditViewController: NavigationConfiguration {
 extension ProfileEditViewController {
     @objc private func closeButtonTapped() { dismiss(animated: true) }
     @objc private func saveButtonTapped() {
-        if profileEditView.profileView.imageIndex == nil {
-            UserDefaultsManager.profileImage = "profile_\(profileEditView.imageIndex ?? 0)"
-        } else {
-            guard let imageIndex = profileEditView.profileView.imageIndex else { print("image Nil Error"); return }
-            UserDefaultsManager.profileImage = "profile_\(imageIndex)"
-        }
-        guard let nickname = profileEditView.profileView.textField.text else { print("nickname Nil error"); return }
-        UserDefaultsManager.nickname = nickname
+//        if profileEditView.profileView.imageIndex == nil {
+//            UserDefaultsManager.profileImage = "profile_\(profileEditView.imageIndex ?? 0)"
+//        } else {
+//            guard let imageIndex = profileEditView.profileView.imageIndex else { print("image Nil Error"); return }
+//            UserDefaultsManager.profileImage = "profile_\(imageIndex)"
+//        }
+//        guard let nickname = profileEditView.profileView.textField.text else { print("nickname Nil error"); return }
+//        UserDefaultsManager.nickname = nickname
+//        configureNotification()
 
-        configureNotification()
+        profileEditView.viewModel.inputNicknameText.value = profileEditView.profileView.textField.text
+        profileEditView.viewModel.inputSaveButtonTapped.value = ()
         dismiss(animated: true)
     }
 }
@@ -58,9 +60,11 @@ extension ProfileEditViewController {
         let vc = ProfileImageViewController()
         setEmptyTitleBackButton()
 
-        vc.imageIndex = profileEditView.imageIndex
-        vc.contents = { value in
-            self.profileEditView.profileView.imageIndex = value
+        vc.viewModel.inputImageIndex.value = profileEditView.viewModel.outputImageIndex.value
+
+        // TODO: 로직 분리 확인
+        vc.contents = { [weak self] idx in
+            self?.profileEditView.viewModel.inputImageIndex.value = idx
         }
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -75,12 +79,18 @@ extension ProfileEditViewController: NotificationConfiguration {
 extension ProfileEditViewController {
     private func bindData() {
         profileEditView.viewModel.outputImageName.bind { [weak self] name in
-            print("ImageName => ", name)
+//            print("ImageName => ", name)
             self?.profileEditView.profileView.imageView.image = UIImage(named: name ?? "profile_0")
         }
         profileEditView.viewModel.outputImageIndex.bind { [weak self] idx in
-            print("ImageIndex => ", idx)
-//            self?.profileEditView.imageIndex = idx
+//            print("ImageIndex => ", idx)
+            self?.profileEditView.imageIndex = idx
+        }
+        profileEditView.profileView.viewModel.outputTextField.bind { [weak self] nickname in
+            self?.profileEditView.profileView.textField.text = nickname
+        }
+        profileEditView.profileView.viewModel.outputResultText.bind { [weak self] result in
+            self?.profileEditView.profileView.textInfoLabel.text = result
         }
     }
 }

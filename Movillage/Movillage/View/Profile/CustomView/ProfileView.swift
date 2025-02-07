@@ -49,7 +49,7 @@ final class ProfileView: BaseView {
         completeButton.isEnabled = false
 
         // userDefaults 없을 때 호출
-        [getNickname(), /*getProfileImage(),*/ configureDelegate(), configureTextField()].forEach { $0 }
+        [/*getNickname(),*/ /*getProfileImage(),*/ configureDelegate(), configureTextField()].forEach { $0 }
     }
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -81,7 +81,7 @@ extension ProfileView {
     }
 
 
-///
+    /// 이전
     private func containsSpecialCharacter(text: String) -> Bool {
         return text.contains("@") || text.contains("#") || text.contains("$") || text.contains("%")
     }

@@ -10,11 +10,13 @@ final class ProfileViewModel {
     let outputImageName: Observable<String> = Observable("")
     let outputImageIndex: Observable<Int?> = Observable(nil)
     let outputResultText: Observable<String> = Observable("")
+    let outputTextField: Observable<String?> = Observable(nil)
     let buttonIsEnabled: Observable<Bool> = Observable(false)
 
     init() {
         inputViewAppear.bind { [weak self] _ in
             self?.getProfileImage()
+            self?.getNickname()
         }
         inputImageIndex.lazyBind { [weak self] _ in
             self?.updateProfileImage()
@@ -80,5 +82,12 @@ final class ProfileViewModel {
         UserDefaultsManager.profileImage = outputImageName.value
         UserDefaultsManager.registerDate = getRegisterDate()
         UserDefaultsManager.didStart.toggle()
+    }
+    private func getNickname() {
+        print("VIEWMDOEL")
+        if UserDefaultsManager.nickname != nil {
+            outputTextField.value = UserDefaultsManager.nickname
+            outputResultText.value = "사용할 수 있는 닉네임이에요"  // 사용할 수 있는 닉네임이었기 때문에 설정 가능했던 것
+        }
     }
 }
