@@ -8,7 +8,7 @@ final class ProfileEditViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        [configureNavigation(), configureGesture()].forEach { $0 }
+        [configureNavigation(), configureGesture(), bindData()].forEach { $0 }
     }
 }
 
@@ -69,4 +69,18 @@ extension ProfileEditViewController {
 // MARK: configure notification
 extension ProfileEditViewController: NotificationConfiguration {
     func configureNotification() { NotificationCenter.default.post(name: NSNotification.Name("updateProfile"), object: nil) }
+}
+
+// MARK: - bind
+extension ProfileEditViewController {
+    private func bindData() {
+        profileEditView.viewModel.outputImageName.bind { [weak self] name in
+            print("ImageName => ", name)
+            self?.profileEditView.profileView.imageView.image = UIImage(named: name ?? "profile_0")
+        }
+        profileEditView.viewModel.outputImageIndex.bind { [weak self] idx in
+            print("ImageIndex => ", idx)
+//            self?.profileEditView.imageIndex = idx
+        }
+    }
 }
