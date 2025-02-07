@@ -46,6 +46,7 @@ extension ProfileViewController {
 //        UserDefaultsManager.profileImage = "profile_\(index)"
 //        UserDefaultsManager.registerDate = getRegisterDate()
 //        UserDefaultsManager.didStart.toggle()
+        profileView.viewModel.inputCompleteButtonTapped.value = ()
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else { return }
 
         window.rootViewController = TabBarController()
