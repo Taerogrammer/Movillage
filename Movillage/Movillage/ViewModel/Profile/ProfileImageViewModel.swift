@@ -15,5 +15,6 @@ final class ProfileImageViewModel {
     private func updateProfileImage() {
         guard let index = inputImageIndex.value else { return }
         outputImageName.value = "profile_\(index)"
+        outputImageIndex.value = inputImageIndex.value
     }
 }

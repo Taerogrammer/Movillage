@@ -58,11 +58,13 @@ extension ProfileImageViewController: UICollectionViewDelegate, UICollectionView
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileImageCollectionViewCell.id, for: indexPath) as! ProfileImageCollectionViewCell
-        cell.configureCell(index: profileImageList[indexPath.item], isSelected: indexPath.item == imageIndex)
+
+        // TODO: 고민
+        cell.configureCell(index: profileImageList[indexPath.item], isSelected: indexPath.item == viewModel.outputImageIndex.value)
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        imageIndex = indexPath.item
+        viewModel.inputImageIndex.value = indexPath.item
         collectionView.reloadData()
     }
 }
@@ -80,8 +82,11 @@ extension ProfileImageViewController {
 extension ProfileImageViewController {
     private func bindData() {
         viewModel.outputImageName.bind { [weak self] name in
-            print("이름 ==> ", name)
             self?.profileImageView.configureProfileImage(to: name)
+        }
+        viewModel.outputImageIndex.bind { [weak self] idx in
+            self?.profileImageView.profileImageCollectionView.selectItem(at: IndexPath(item: idx ?? 0, section: 0), animated: true, scrollPosition: .init())
+            
         }
     }
 }
