@@ -81,5 +81,11 @@ extension ProfileViewController {
         profileView.viewModel.outputImageName.bind { [weak self] name in
             self?.profileView.imageView.image = UIImage(named: name)
         }
+        profileView.viewModel.outputResultText.lazyBind { [weak self] text in
+            self?.profileView.textInfoLabel.text = text
+        }
+        profileView.viewModel.buttonIsEnabled.lazyBind { [weak self] enabled in
+            self?.profileView.completeButton.isEnabled = enabled
+        }
     }
 }
