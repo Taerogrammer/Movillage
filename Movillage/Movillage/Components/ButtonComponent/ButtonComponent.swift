@@ -4,13 +4,12 @@ final class CustomButton: UIButton {
 
     init() {
         super.init(frame: .zero)
-        setTitleColor(UIColor.customBlue, for: .normal)
+        setTitleColor(UIColor.customWhite, for: .normal)
         titleLabel?.font = UIFont.contentBold
         clipsToBounds = true
-        layer.borderWidth = 3
         layer.cornerRadius = 24
         contentEdgeInsets = UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
-        layer.borderColor = UIColor.customBlue.cgColor
+        backgroundColor = UIColor.customBlue
     }
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,6 +23,8 @@ final class CustomButton: UIButton {
     override var isEnabled: Bool {
         didSet {
             self.alpha = isEnabled ? 1.0 : 0.5
+            self.backgroundColor = isEnabled ? UIColor.customBlue : UIColor.customGray
+
         }
     }
 }
