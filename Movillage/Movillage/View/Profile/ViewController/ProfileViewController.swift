@@ -39,13 +39,6 @@ extension ProfileViewController {
 // MARK: @objc
 extension ProfileViewController {
     @objc private func completeButtonTapped() {
-        print(#function)
-//        guard let nickname = profileView.textField.text else { return }
-//        UserDefaultsManager.nickname = nickname
-//        guard let index = profileView.imageIndex else { return }
-//        UserDefaultsManager.profileImage = "profile_\(index)"
-//        UserDefaultsManager.registerDate = getRegisterDate()
-//        UserDefaultsManager.didStart.toggle()
         profileView.viewModel.inputCompleteButtonTapped.value = ()
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else { return }
 
@@ -72,6 +65,9 @@ extension ProfileViewController {
         }
         profileView.viewModel.outputResultText.lazyBind { [weak self] text in
             self?.profileView.textInfoLabel.text = text
+        }
+        profileView.viewModel.outputResultTextColor.lazyBind { [weak self] color in
+            self?.profileView.textInfoLabel.textColor = (color == "blue") ? UIColor.customBlue : UIColor.customRed
         }
         profileView.viewModel.buttonIsEnabled.lazyBind { [weak self] enabled in
             self?.profileView.completeButton.isEnabled = enabled

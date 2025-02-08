@@ -10,6 +10,7 @@ final class ProfileViewModel {
     let outputImageName: Observable<String> = Observable("")
     let outputImageIndex: Observable<Int?> = Observable(nil)
     let outputResultText: Observable<String> = Observable("")
+    let outputResultTextColor: Observable<String> = Observable("")
     let outputTextField: Observable<String?> = Observable(nil)
     let buttonIsEnabled: Observable<Bool> = Observable(false)
 
@@ -57,16 +58,16 @@ final class ProfileViewModel {
         guard let text = text else { return }
         if text.count < 2 || text.count >= 10 {
             outputResultText.value = "2글자 이상 10글자 미만으로 설정해주세요"
-            buttonIsEnabled.value = false
+            nicknameEnable(is: false)
         } else if containSpecialCharacter(text: text) {
             outputResultText.value = "닉네임에 @, #, $, % 는 포함할 수 없어요"
-            buttonIsEnabled.value = false
+            nicknameEnable(is: false)
         } else if containsNumber(text: text) {
             outputResultText.value = "닉네임에 숫자는 포함할 수 없어요"
-            buttonIsEnabled.value = false
+            nicknameEnable(is: false)
         } else {
             outputResultText.value = "사용할 수 있는 닉네임이에요"
-            buttonIsEnabled.value = true
+            nicknameEnable(is: true)
         }
     }
     /// dateFormatter의 인스턴스 생성이 상대적으로 무겁지만,
@@ -84,10 +85,18 @@ final class ProfileViewModel {
         UserDefaultsManager.didStart.toggle()
     }
     private func getNickname() {
-        print("VIEWMDOEL")
         if UserDefaultsManager.nickname != nil {
             outputTextField.value = UserDefaultsManager.nickname
             outputResultText.value = "사용할 수 있는 닉네임이에요"  // 사용할 수 있는 닉네임이었기 때문에 설정 가능했던 것
+        }
+    }
+    private func nicknameEnable(is bool: Bool) {
+        if bool {
+            buttonIsEnabled.value = true
+            outputResultTextColor.value = "blue"
+        } else {
+            buttonIsEnabled.value = false
+            outputResultTextColor.value = "red"
         }
     }
 }
