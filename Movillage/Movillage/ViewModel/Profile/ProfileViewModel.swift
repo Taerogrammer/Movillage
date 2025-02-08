@@ -113,12 +113,14 @@ final class ProfileViewModel {
     private func selectMbti(index: Int) {
         let groupIndex = getCategoryIndex(for: index)
 
-        // 같은 카테고리에 있는 인덱스 삭제
-        selectedIndex.value.removeAll { getCategoryIndex(for: $0) == groupIndex }
-
-        if !selectedIndex.value.contains(index) {
+        // 만약 이미 클릭된 항목이면 취소
+        if selectedIndex.value.contains(index) {
+            selectedIndex.value.removeAll { $0 == index }
+        } else {
+            selectedIndex.value.removeAll { getCategoryIndex(for: $0) == groupIndex }
             selectedIndex.value.append(index)
         }
+
         isCompleteValid()
     }
     // 4가지 카테고리 분류
