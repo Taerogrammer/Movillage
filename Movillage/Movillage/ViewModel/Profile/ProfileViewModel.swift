@@ -56,7 +56,9 @@ final class ProfileViewModel {
     }
     private func validateNickname(text: String?) {
         guard let text = text else { return }
-        if text.count < 2 || text.count >= 10 {
+        if text.count == 0 {
+            outputResultText.value = ""
+        } else if text.count < 2 || text.count >= 10 {
             outputResultText.value = "2글자 이상 10글자 미만으로 설정해주세요"
             nicknameEnable(is: false)
         } else if containSpecialCharacter(text: text) {
