@@ -17,6 +17,8 @@ final class ProfileViewModel {
     let outputTextField: Observable<String?> = Observable(nil)
     let buttonIsEnabled: Observable<Bool> = Observable(false)
 
+    private var isValidNickname: Bool = false
+
     init() {
         inputViewAppear.bind { [weak self] _ in
             self?.getProfileImage()
@@ -100,12 +102,13 @@ final class ProfileViewModel {
     }
     private func nicknameEnable(is bool: Bool) {
         if bool {
-            buttonIsEnabled.value = true
             outputResultTextColor.value = "blue"
+            isValidNickname = true
         } else {
-            buttonIsEnabled.value = false
             outputResultTextColor.value = "red"
+            isValidNickname = false
         }
+        isCompleteValid()
     }
     private func selectMbti(index: Int) {
         let groupIndex = getCategoryIndex(for: index)
@@ -116,7 +119,12 @@ final class ProfileViewModel {
         if !selectedIndex.value.contains(index) {
             selectedIndex.value.append(index)
         }
+        isCompleteValid()
     }
     // 4가지 카테고리 분류
     private func getCategoryIndex(for index: Int) -> Int { return index % 4 }
+    /// 완료 버튼: 닉네임 / MBTI 조건 충족시
+    private func isCompleteValid() {
+        buttonIsEnabled.value = isValidNickname && selectedIndex.value.count == 4 ? true : false
+    }
 }
