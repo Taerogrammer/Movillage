@@ -16,19 +16,11 @@ final class MbtiCollectionViewCell: BaseCollectionViewCell {
     override func configureView() {
         mbtiLabel.isEnabledOrHighlighted(isHighlighted: false)
     }
-    override var isSelected: Bool {
-        didSet {
-            if isSelected {
-                mbtiLabel.isEnabledOrHighlighted(isHighlighted: true)
-            } else {
-                mbtiLabel.isEnabledOrHighlighted(isHighlighted: false)
-            }
-        }
-    }
 }
 
 extension MbtiCollectionViewCell {
-    func configure(index: String, isSelected: Bool) {
+    func updateCell(indexPath: IndexPath, selectedIndex: [Int]) {
+        let isSelected = selectedIndex.contains(indexPath.item)
         mbtiLabel.isEnabledOrHighlighted(isHighlighted: isSelected)
     }
 }

@@ -2,7 +2,6 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     private let profileView = ProfileView()
-    let mbtiList: [String] = ["E", "I", "S", "N", "F", "T", "J", "p"]
 
     override func loadView() {
         view = profileView
@@ -73,6 +72,11 @@ extension ProfileViewController {
         profileView.viewModel.buttonIsEnabled.lazyBind { [weak self] enabled in
             self?.profileView.completeButton.isEnabled = enabled
         }
+        profileView.viewModel.selectedIndex.lazyBind { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.profileView.mbtiCollectionView.reloadData()
+            }
+        }
     }
 }
 
@@ -88,16 +92,20 @@ extension ProfileViewController: DelegateConfiguration {
 // MARK: - configure collection view
 extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return mbtiList.count
+        return profileView.viewModel.mbtiList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MbtiCollectionViewCell.id, for: indexPath) as! MbtiCollectionViewCell
+        cell.mbtiLabel.text = profileView.viewModel.mbtiList[indexPath.item]
 
-        cell.mbtiLabel.text = mbtiList[indexPath.item]
+        let selectedIndex = profileView.viewModel.selectedIndex.value
+        cell.updateCell(indexPath: indexPath, selectedIndex: selectedIndex)
 
         return cell
     }
-    
 
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        profileView.viewModel.inputSelectedIndex.value = indexPath.item
+    }
 }

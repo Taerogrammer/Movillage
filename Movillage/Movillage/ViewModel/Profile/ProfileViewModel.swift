@@ -1,12 +1,15 @@
 import Foundation
 
 final class ProfileViewModel {
+    let mbtiList: [String] = ["E", "S", "F", "J", "I", "N", "T", "P"]
     // 화면에 접근되었을 때
     let inputViewAppear: Observable<Void> = Observable(())
     let inputImageIndex: Observable<Int?> = Observable(nil)
     let inputNicknameText: Observable<String?> = Observable(nil)
     let inputCompleteButtonTapped: Observable<Void> = Observable(())
+    let inputSelectedIndex: Observable<Int> = Observable(0)
 
+    let selectedIndex: Observable<[Int]> = Observable([])
     let outputImageName: Observable<String> = Observable("")
     let outputImageIndex: Observable<Int?> = Observable(nil)
     let outputResultText: Observable<String> = Observable("")
@@ -27,6 +30,9 @@ final class ProfileViewModel {
         }
         inputCompleteButtonTapped.lazyBind { [weak self] _ in
             self?.configureUserDefaultsManager()
+        }
+        inputSelectedIndex.lazyBind { [weak self] idx in
+            self?.selectMbti(index: idx)
         }
     }
 
@@ -101,4 +107,16 @@ final class ProfileViewModel {
             outputResultTextColor.value = "red"
         }
     }
+    private func selectMbti(index: Int) {
+        let groupIndex = getCategoryIndex(for: index)
+
+        // 같은 카테고리에 있는 인덱스 삭제
+        selectedIndex.value.removeAll { getCategoryIndex(for: $0) == groupIndex }
+
+        if !selectedIndex.value.contains(index) {
+            selectedIndex.value.append(index)
+        }
+    }
+    // 4가지 카테고리 분류
+    private func getCategoryIndex(for index: Int) -> Int { return index % 4 }
 }

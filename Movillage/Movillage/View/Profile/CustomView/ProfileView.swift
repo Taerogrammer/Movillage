@@ -58,6 +58,7 @@ final class ProfileView: BaseView {
         textInfoLabel.textColor = UIColor.customBlue
         mbtiLabel.text = "MBTI"
         completeButton.isEnabled = false
+        mbtiCollectionView.allowsMultipleSelection = true
 
         // userDefaults 없을 때 호출
         [configureDelegate(), configureTextField()].forEach { $0 }
