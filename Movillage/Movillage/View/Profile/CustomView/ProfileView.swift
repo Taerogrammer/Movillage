@@ -9,9 +9,11 @@ final class ProfileView: BaseView {
     let textInfoLabel = UILabel().setFont(.description)
     let completeButton = CustomButton()
     private let mbtiLabel = UILabel().setFont(.header)
+    lazy var mbtiCollectionView = UICollectionView(frame: .zero,
+                                                      collectionViewLayout: createFlowLayout())
 
     override func configureHierarchy() {
-        [imageView, textField, textInfoLabel, completeButton, cameraImage, mbtiLabel].forEach { addSubview($0) }
+        [imageView, textField, textInfoLabel, completeButton, cameraImage, mbtiLabel, mbtiCollectionView].forEach { addSubview($0) }
     }
     override func configureLayout() {
         imageView.snp.makeConstraints {
@@ -35,6 +37,12 @@ final class ProfileView: BaseView {
             $0.top.equalTo(textField.snp.bottom).offset(84)
             $0.leading.equalTo(textField)
         }
+        mbtiCollectionView.snp.makeConstraints {
+            $0.top.equalTo(mbtiLabel)
+            $0.leading.equalTo(mbtiLabel.snp.trailing).offset(36)
+            $0.height.equalTo(160)
+            $0.trailing.equalTo(self.safeAreaLayoutGuide).inset(12)
+        }
         completeButton.snp.makeConstraints {
             $0.bottom.equalTo(self.safeAreaLayoutGuide).inset(44)
             $0.horizontalEdges.equalTo(self.safeAreaLayoutGuide).inset(20)
@@ -57,6 +65,21 @@ final class ProfileView: BaseView {
     override func layoutSubviews() {
         super.layoutSubviews()
         textField.underlined(viewSize: textField.frame.width, color: UIColor.customGray)
+    }
+    private func createFlowLayout() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+        let sectionInset: CGFloat = 16
+        let cellSpacing: CGFloat = 16
+        let deviceWidth = UIScreen.main.bounds.width
+
+        // 행 당 셀 4개
+        let cellWidth = ((deviceWidth - (sectionInset * 2)   - (cellSpacing   * 4)) / 4) - 20
+        let cellHeight = ((deviceWidth - (sectionInset * 2) - (cellSpacing   * 4)) / 4) - 20
+
+        layout.itemSize = CGSize(width: cellWidth, height: cellHeight)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+
+        return layout
     }
 }
 

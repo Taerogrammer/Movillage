@@ -2,13 +2,14 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     private let profileView = ProfileView()
+    let mbtiList: [String] = ["E", "I", "S", "N", "F", "T", "J", "p"]
 
     override func loadView() {
         view = profileView
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        [configureButton(), configureNavigation(), configureGesture(), bindData()].forEach { $0 }
+        [configureButton(), configureNavigation(), configureGesture(), bindData(), configureDelegate()].forEach { $0 }
     }
 }
 
@@ -73,4 +74,30 @@ extension ProfileViewController {
             self?.profileView.completeButton.isEnabled = enabled
         }
     }
+}
+
+// MARK: - configure delegate
+extension ProfileViewController: DelegateConfiguration {
+    func configureDelegate() {
+        profileView.mbtiCollectionView.delegate = self
+        profileView.mbtiCollectionView.dataSource = self
+        profileView.mbtiCollectionView.register(MbtiCollectionViewCell.self, forCellWithReuseIdentifier: MbtiCollectionViewCell.id)
+    }
+}
+
+// MARK: - configure collection view
+extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return mbtiList.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MbtiCollectionViewCell.id, for: indexPath) as! MbtiCollectionViewCell
+
+        cell.mbtiLabel.text = mbtiList[indexPath.item]
+
+        return cell
+    }
+    
+
 }
