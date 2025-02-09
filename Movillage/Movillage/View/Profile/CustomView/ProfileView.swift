@@ -7,7 +7,7 @@ final class ProfileView: BaseView {
     private let cameraImage = UIImageView()
     let textField = UITextField()
     let textInfoLabel = UILabel().setFont(.description)
-    let completeButton = CustomButton()
+    let completeButton = RoundedButton()
     private let mbtiLabel = UILabel().setFont(.header)
     lazy var mbtiCollectionView = UICollectionView(frame: .zero,
                                                       collectionViewLayout: createFlowLayout())

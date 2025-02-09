@@ -1,6 +1,6 @@
 import UIKit
 
-final class CustomButton: UIButton {
+final class RoundedButton: UIButton {
 
     init() {
         super.init(frame: .zero)

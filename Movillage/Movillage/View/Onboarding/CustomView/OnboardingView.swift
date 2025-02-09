@@ -5,7 +5,7 @@ final class OnboardingView: BaseView {
     private let imageView = UIImageView()
     private let titleLabel = UILabel()
     private let contentsLabel = UILabel().setFont(.contentRegular)
-    let startButton = CustomButton()
+    let startButton = RoundedButton()
 
     override func configureHierarchy() {
         [imageView, titleLabel, contentsLabel, startButton].forEach { addSubview($0) }
