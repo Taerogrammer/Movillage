@@ -5,8 +5,8 @@ final class ProfileCardView: BaseView {
     let viewModel = ProfileCardViewModel()
     let profileImage = ProfileImage(frame: CGRect())
     let nicknameLabel = UILabel().setFont(.header)
-    private let registerLabel = UILabel().setFont(.description)
     let likeCountButton = UIButton()
+    private let registerLabel = UILabel().setFont(.description)
     private let chevronImage = UIImageView()
 
     override func configureHierarchy() {
@@ -41,10 +41,7 @@ final class ProfileCardView: BaseView {
         backgroundColor = UIColor.customGray
         layer.cornerRadius = 12
         bindData()
-//        profileImage.image = UIImage(named: UserDefaultsManager.profileImage ?? "profile_0")
-//        nicknameLabel.text = UserDefaultsManager.nickname
-//        registerLabel.text = "\(UserDefaultsManager.registerDate ?? Date().description) 가입"
-//        likeCountButton.setTitle("\(UserDefaultsManager.favoriteMovie.count)개의 무비박스 보관중", for: .normal)
+
         profileImage.isEnabledOrHighlighted(isHighlighted: true)
 
         registerLabel.textColor = UIColor.customWhiteGray

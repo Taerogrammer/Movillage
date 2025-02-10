@@ -29,16 +29,6 @@ extension ProfileEditViewController: NavigationConfiguration {
 extension ProfileEditViewController {
     @objc private func closeButtonTapped() { dismiss(animated: true) }
     @objc private func saveButtonTapped() {
-//        if profileEditView.profileView.imageIndex == nil {
-//            UserDefaultsManager.profileImage = "profile_\(profileEditView.imageIndex ?? 0)"
-//        } else {
-//            guard let imageIndex = profileEditView.profileView.imageIndex else { print("image Nil Error"); return }
-//            UserDefaultsManager.profileImage = "profile_\(imageIndex)"
-//        }
-//        guard let nickname = profileEditView.profileView.textField.text else { print("nickname Nil error"); return }
-//        UserDefaultsManager.nickname = nickname
-//        configureNotification()
-
         profileEditView.viewModel.input.nicknameText.value = profileEditView.profileView.textField.text
         profileEditView.viewModel.input.saveButtonTapped.value = ()
         dismiss(animated: true)
