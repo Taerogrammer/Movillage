@@ -47,7 +47,7 @@ extension ProfileViewController {
     }
     @objc private func imageTapped() {
         let vc = ProfileImageViewController()
-        vc.viewModel.inputImageIndex.value = profileView.viewModel.output.imageIndex.value
+        vc.viewModel.input.imageIndex.value = profileView.viewModel.output.imageIndex.value
 
         // TODO: 로직 분리 확인
         vc.contents = { [weak self] idx in

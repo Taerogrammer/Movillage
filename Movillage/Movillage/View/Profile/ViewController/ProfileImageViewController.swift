@@ -36,7 +36,7 @@ extension ProfileImageViewController: NavigationConfiguration {
 // MARK: @objc
 extension ProfileImageViewController {
     @objc private func backButtonTapped() {
-        contents?(viewModel.outputImageIndex.value ?? 0)
+        contents?(viewModel.output.imageIndex.value ?? 0)
         navigationController?.popViewController(animated: true)
     }
 }
@@ -60,11 +60,11 @@ extension ProfileImageViewController: UICollectionViewDelegate, UICollectionView
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileImageCollectionViewCell.id, for: indexPath) as! ProfileImageCollectionViewCell
 
         // TODO: 고민
-        cell.configureCell(index: profileImageList[indexPath.item], isSelected: indexPath.item == viewModel.outputImageIndex.value)
+        cell.configureCell(index: profileImageList[indexPath.item], isSelected: indexPath.item == viewModel.output.imageIndex.value)
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        viewModel.inputImageIndex.value = indexPath.item
+        viewModel.input.imageIndex.value = indexPath.item
         collectionView.reloadData()
     }
 }
@@ -72,7 +72,6 @@ extension ProfileImageViewController: UICollectionViewDelegate, UICollectionView
 // MARK: method
 extension ProfileImageViewController {
     private func updateProfileImage() {
-        print("aaaaaaaaaa")
         guard let index = imageIndex else { return }
         profileImageView.configureProfileImage(to: "profile_\(index)")
     }
@@ -81,10 +80,10 @@ extension ProfileImageViewController {
 // MARK: - bind
 extension ProfileImageViewController {
     private func bindData() {
-        viewModel.outputImageName.bind { [weak self] name in
+        viewModel.output.imageName.bind { [weak self] name in
             self?.profileImageView.configureProfileImage(to: name)
         }
-        viewModel.outputImageIndex.bind { [weak self] idx in
+        viewModel.output.imageIndex.bind { [weak self] idx in
             self?.profileImageView.profileImageCollectionView.selectItem(at: IndexPath(item: idx ?? 0, section: 0), animated: true, scrollPosition: .init())
         }
 

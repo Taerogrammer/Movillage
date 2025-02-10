@@ -5,6 +5,7 @@ final class ProfileViewModel {
     // 화면에 접근되었을 때
     private(set) var input: Input
     private(set) var output: Output
+    private var isValidNickname: Bool = false
 
     struct Input {
         let inputViewAppear: Observable<Void> = Observable(())
@@ -23,10 +24,7 @@ final class ProfileViewModel {
         let buttonIsEnabled: Observable<Bool> = Observable(false)
     }
 
-    private var isValidNickname: Bool = false
-
     init() {
-
         input = Input()
         output = Output()
 
@@ -50,7 +48,6 @@ final class ProfileViewModel {
             self?.selectMbti(index: idx)
         }
     }
-
     private func getProfileImage() {
         if UserDefaultsManager.profileImage == nil {
             self.getRandomImage()

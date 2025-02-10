@@ -60,7 +60,7 @@ extension ProfileEditViewController {
         let vc = ProfileImageViewController()
         setEmptyTitleBackButton()
 
-        vc.viewModel.inputImageIndex.value = profileEditView.viewModel.outputImageIndex.value
+        vc.viewModel.input.imageIndex.value = profileEditView.viewModel.outputImageIndex.value
 
         // TODO: 로직 분리 확인
         vc.contents = { [weak self] idx in
@@ -79,11 +79,9 @@ extension ProfileEditViewController: NotificationConfiguration {
 extension ProfileEditViewController {
     private func bindData() {
         profileEditView.viewModel.outputImageName.bind { [weak self] name in
-//            print("ImageName => ", name)
             self?.profileEditView.profileView.imageView.image = UIImage(named: name ?? "profile_0")
         }
         profileEditView.viewModel.outputImageIndex.bind { [weak self] idx in
-//            print("ImageIndex => ", idx)
             self?.profileEditView.imageIndex = idx
         }
         profileEditView.profileView.viewModel.output.textField.bind { [weak self] nickname in
