@@ -60,10 +60,9 @@ final class ProfileCardView: BaseView {
         isUserInteractionEnabled = true
     }
     private func bindData() {
-        profileImage.image = UIImage(named: viewModel.outputImageName.value)
-        nicknameLabel.text = viewModel.outputNickname.value
-        registerLabel.text = "\(viewModel.outputRegisterDate.value) 가입"
-        likeCountButton.setTitle("\(viewModel.outputLikeCount.value)개의 무비박스 보관중", for: .normal)
-
+        profileImage.image = UIImage(named: viewModel.output.imageName.value)
+        nicknameLabel.text = viewModel.output.nickname.value
+        registerLabel.text = "\(viewModel.output.registerDate.value) 가입"
+        likeCountButton.setTitle("\(viewModel.output.likeCount.value)개의 무비박스 보관중", for: .normal)
     }
 }

@@ -1,23 +1,36 @@
 import Foundation
 
 final class ProfileCardViewModel {
-    let profileCardViewLoad: Observable<Void> = Observable(())
+    private(set) var input: Input
+    private(set) var output: Output
 
-    let outputNickname: Observable<String?> = Observable(nil)
-    let outputImageName: Observable<String> = Observable("")
-    let outputRegisterDate: Observable<String> = Observable("")
-    let outputLikeCount: Observable<Int> = Observable(0)
+    struct Input {
+        let profileCardViewLoad: Observable<Void> = Observable(())
+
+    }
+    struct Output {
+        let nickname: Observable<String?> = Observable(nil)
+        let imageName: Observable<String> = Observable("")
+        let registerDate: Observable<String> = Observable("")
+        let likeCount: Observable<Int> = Observable(0)
+    }
 
     init() {
-        profileCardViewLoad.bind { [weak self] _ in
+        input = Input()
+        output = Output()
+
+        transform()
+    }
+    private func transform() {
+        input.profileCardViewLoad.bind { [weak self] _ in
             self?.configureData()
         }
     }
     private func configureData() {
-        outputImageName.value = UserDefaultsManager.profileImage ?? "profile_0"
-        outputNickname.value = UserDefaultsManager.nickname
-        outputRegisterDate.value = UserDefaultsManager.registerDate ?? Date().description
-        outputLikeCount.value = UserDefaultsManager.favoriteMovie.count
-        
+        output.imageName.value = UserDefaultsManager.profileImage ?? "profile_0"
+        output.nickname.value = UserDefaultsManager.nickname
+        output.registerDate.value = UserDefaultsManager.registerDate ?? Date().description
+        output.likeCount.value = UserDefaultsManager.favoriteMovie.count
+
     }
 }
