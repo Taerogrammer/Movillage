@@ -86,10 +86,10 @@ extension ProfileEditViewController {
 //            print("ImageIndex => ", idx)
             self?.profileEditView.imageIndex = idx
         }
-        profileEditView.profileView.viewModel.outputTextField.bind { [weak self] nickname in
+        profileEditView.profileView.viewModel.output.textField.bind { [weak self] nickname in
             self?.profileEditView.profileView.textField.text = nickname
         }
-        profileEditView.profileView.viewModel.outputResultText.bind { [weak self] result in
+        profileEditView.profileView.viewModel.output.resultText.bind { [weak self] result in
             self?.profileEditView.profileView.textInfoLabel.text = result
         }
     }

@@ -39,7 +39,7 @@ extension ProfileViewController {
 // MARK: @objc
 extension ProfileViewController {
     @objc private func completeButtonTapped() {
-        profileView.viewModel.inputCompleteButtonTapped.value = ()
+        profileView.viewModel.input.completeButtonTapped.value = ()
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else { return }
 
         window.rootViewController = TabBarController()
@@ -47,11 +47,11 @@ extension ProfileViewController {
     }
     @objc private func imageTapped() {
         let vc = ProfileImageViewController()
-        vc.viewModel.inputImageIndex.value = profileView.viewModel.outputImageIndex.value
+        vc.viewModel.inputImageIndex.value = profileView.viewModel.output.imageIndex.value
 
         // TODO: 로직 분리 확인
         vc.contents = { [weak self] idx in
-            self?.profileView.viewModel.inputImageIndex.value = idx
+            self?.profileView.viewModel.input.imageIndex.value = idx
         }
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -60,19 +60,19 @@ extension ProfileViewController {
 // MARK: - bind
 extension ProfileViewController {
     private func bindData() {
-        profileView.viewModel.outputImageName.bind { [weak self] name in
+        profileView.viewModel.output.imageName.bind { [weak self] name in
             self?.profileView.imageView.image = UIImage(named: name)
         }
-        profileView.viewModel.outputResultText.lazyBind { [weak self] text in
+        profileView.viewModel.output.resultText.lazyBind { [weak self] text in
             self?.profileView.textInfoLabel.text = text
         }
-        profileView.viewModel.outputResultTextColor.lazyBind { [weak self] color in
+        profileView.viewModel.output.resultTextColor.lazyBind { [weak self] color in
             self?.profileView.textInfoLabel.textColor = (color == "blue") ? UIColor.customBlue : UIColor.customRed
         }
-        profileView.viewModel.buttonIsEnabled.lazyBind { [weak self] enabled in
+        profileView.viewModel.output.buttonIsEnabled.lazyBind { [weak self] enabled in
             self?.profileView.completeButton.isEnabled = enabled
         }
-        profileView.viewModel.selectedIndex.lazyBind { [weak self] _ in
+        profileView.viewModel.output.selectedIndex.lazyBind { [weak self] _ in
             DispatchQueue.main.async {
                 self?.profileView.mbtiCollectionView.reloadData()
             }
@@ -99,13 +99,13 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MbtiCollectionViewCell.id, for: indexPath) as! MbtiCollectionViewCell
         cell.mbtiLabel.text = profileView.viewModel.mbtiList[indexPath.item]
 
-        let selectedIndex = profileView.viewModel.selectedIndex.value
+        let selectedIndex = profileView.viewModel.output.selectedIndex.value
         cell.updateCell(indexPath: indexPath, selectedIndex: selectedIndex)
 
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        profileView.viewModel.inputSelectedIndex.value = indexPath.item
+        profileView.viewModel.input.selectedIndex.value = indexPath.item
     }
 }

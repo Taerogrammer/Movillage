@@ -101,6 +101,6 @@ extension ProfileView: UITextFieldDelegate {
 // MARK: @objc
 extension ProfileView {
     @objc private func textFieldDidChange(_ textField: UITextField) {
-        viewModel.inputNicknameText.value = textField.text
+        viewModel.input.nicknameText.value = textField.text
     }
 }
