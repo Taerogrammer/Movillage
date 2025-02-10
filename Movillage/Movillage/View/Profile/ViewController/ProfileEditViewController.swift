@@ -39,8 +39,8 @@ extension ProfileEditViewController {
 //        UserDefaultsManager.nickname = nickname
 //        configureNotification()
 
-        profileEditView.viewModel.inputNicknameText.value = profileEditView.profileView.textField.text
-        profileEditView.viewModel.inputSaveButtonTapped.value = ()
+        profileEditView.viewModel.input.nicknameText.value = profileEditView.profileView.textField.text
+        profileEditView.viewModel.input.saveButtonTapped.value = ()
         dismiss(animated: true)
     }
 }
@@ -60,11 +60,11 @@ extension ProfileEditViewController {
         let vc = ProfileImageViewController()
         setEmptyTitleBackButton()
 
-        vc.viewModel.input.imageIndex.value = profileEditView.viewModel.outputImageIndex.value
+        vc.viewModel.input.imageIndex.value = profileEditView.viewModel.output.imageIndex.value
 
         // TODO: 로직 분리 확인
         vc.contents = { [weak self] idx in
-            self?.profileEditView.viewModel.inputImageIndex.value = idx
+            self?.profileEditView.viewModel.input.imageIndex.value = idx
         }
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -78,10 +78,10 @@ extension ProfileEditViewController: NotificationConfiguration {
 // MARK: - bind
 extension ProfileEditViewController {
     private func bindData() {
-        profileEditView.viewModel.outputImageName.bind { [weak self] name in
+        profileEditView.viewModel.output.imageName.bind { [weak self] name in
             self?.profileEditView.profileView.imageView.image = UIImage(named: name ?? "profile_0")
         }
-        profileEditView.viewModel.outputImageIndex.bind { [weak self] idx in
+        profileEditView.viewModel.output.imageIndex.bind { [weak self] idx in
             self?.profileEditView.imageIndex = idx
         }
         profileEditView.profileView.viewModel.output.textField.bind { [weak self] nickname in

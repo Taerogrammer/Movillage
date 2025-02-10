@@ -16,6 +16,6 @@ final class ProfileEditView: BaseView {
     }
     override func configureView() {
         profileView.completeButton.isHidden = true
-        viewModel.editViewDidLoad.value = ()
+        viewModel.input.editViewDidLoad.value = ()
     }
 }

@@ -2,21 +2,34 @@ import Foundation
 
 final class ProfileEditViewModel {
 
-    let editViewDidLoad: Observable<Void> = Observable(())
-    let inputImageIndex: Observable<Int?> = Observable(nil)
-    let inputSaveButtonTapped: Observable<Void> = Observable(())
-    let inputNicknameText: Observable<String?> = Observable(nil)
-    let outputImageName: Observable<String?> = Observable(nil)
-    let outputImageIndex: Observable<Int?> = Observable(nil)
+    private(set) var input: Input
+    private(set) var output: Output
+
+    struct Input {
+        let editViewDidLoad: Observable<Void> = Observable(())
+        let imageIndex: Observable<Int?> = Observable(nil)
+        let saveButtonTapped: Observable<Void> = Observable(())
+        let nicknameText: Observable<String?> = Observable(nil)
+    }
+    struct Output {
+        let imageName: Observable<String?> = Observable(nil)
+        let imageIndex: Observable<Int?> = Observable(nil)
+    }
 
     init() {
-        editViewDidLoad.bind { [weak self] _ in
+        input = Input()
+        output = Output()
+        
+        transform()
+    }
+    private func transform() {
+        input.editViewDidLoad.bind { [weak self] _ in
             self?.getProfileData()
         }
-        inputImageIndex.lazyBind { [weak self] _ in
+        input.imageIndex.lazyBind { [weak self] _ in
             self?.updateProfileImage()
         }
-        inputSaveButtonTapped.lazyBind { [weak self] _ in
+        input.saveButtonTapped.lazyBind { [weak self] _ in
             self?.saveButtonTapped()
         }
     }
@@ -24,22 +37,22 @@ final class ProfileEditViewModel {
         [getProfileImageName(), getProfileImageIndex()].forEach { $0 }
     }
     private func getProfileImageName() {
-        outputImageName.value = UserDefaultsManager.profileImage
+        output.imageName.value = UserDefaultsManager.profileImage
     }
     private func getProfileImageIndex() {
         guard let candidateIndex = UserDefaultsManager.profileImage else { return }
         let index = candidateIndex.filter { $0.isNumber }
-        outputImageIndex.value = Int(index)
+        output.imageIndex.value = Int(index)
     }
     private func updateProfileImage() {
-        guard let index = inputImageIndex.value else { return }
-        outputImageName.value = "profile_\(index)"
-        outputImageIndex.value = index
+        guard let index = input.imageIndex.value else { return }
+        output.imageName.value = "profile_\(index)"
+        output.imageIndex.value = index
     }
     private func saveButtonTapped() {
-        guard let index = outputImageIndex.value else { return }
+        guard let index = output.imageIndex.value else { return }
         UserDefaultsManager.profileImage = "profile_\(index)"
-        UserDefaultsManager.nickname = inputNicknameText.value
+        UserDefaultsManager.nickname = input.nicknameText.value
         configureNotification()
     }
 }
