@@ -241,11 +241,8 @@ extension CinemaViewController: RecentSearchCloseDelegate {
             UserDefaultsManager.recentSearch.remove(at: index)
             /// 없애기
             sendDataToCollectionView()
-            Task { @MainActor [weak self] in
-                guard self != nil else { return }
-                UIView.performWithoutAnimation {
-                    self?.cinemaView.collectionView.reloadSections(IndexSet(integer: 0))
-                }
+            UIView.performWithoutAnimation {
+                self.cinemaView.collectionView.reloadSections(IndexSet(integer: 0))
             }
         }
     }

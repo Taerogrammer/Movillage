@@ -62,5 +62,4 @@ final class CinemaViewModel: BaseViewModel {
         output.profileImageName.value = UserDefaultsManager.profileImage ?? "profile_0"
         output.nicknamelabel.value = UserDefaultsManager.nickname ?? ""
     }
-
 }
