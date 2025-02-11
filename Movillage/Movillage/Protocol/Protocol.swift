@@ -39,3 +39,14 @@ protocol RecentSearchCloseDelegate: AnyObject {
 protocol ImageCellConfiguration: AnyObject {
     func configureImageCell(with urlString: String?)
 }
+
+protocol BaseViewModel {
+    associatedtype Input
+    associatedtype Output
+
+    func transform()
+}
+
+protocol ViewModelBind {
+    func bindData()
+}
