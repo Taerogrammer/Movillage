@@ -18,9 +18,7 @@ final class CinemaViewController: UIViewController {
         super.viewWillAppear(animated)
         viewModel.input.viewWillAppear.value = ()
         DispatchQueue.main.async {
-            self.sendDataToCollectionView()
             self.cinemaView.collectionView.reloadData()
-//            self.getFavoriteMovieCount() // 무비박스 불러오기
         }
     }
 }
@@ -35,6 +33,9 @@ extension CinemaViewController: ViewModelBind {
         }
         viewModel.output.totalMovieBox.bind { [weak self] count in
             self?.cinemaView.profileCardView.likeCountButton.setTitle("\(count)개의 무비박스 보관중", for: .normal)
+        }
+        viewModel.output.totalData.bind { [weak self] data in
+            self?.cinemaView.data = data
         }
     }
 }
@@ -187,6 +188,7 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
             ["recentSearch"].forEach {
                 UserDefault<[String]>(key: $0, defaultValue: [], storage: .standard).removeObject()
             }
+            /// 없애기
             self.sendDataToCollectionView()
             collectionView.reloadSections(IndexSet(integer: 0))
         }
@@ -209,7 +211,7 @@ extension CinemaViewController: DelegateConfiguration {
 
 // MARK: method
 extension CinemaViewController {
-    // 최근검색어 여부 전달
+    // TODO: 없애기
     private func sendDataToCollectionView() {
         cinemaView.data = getDataCount(data: UserDefaultsManager.recentSearch)
     }
@@ -233,6 +235,7 @@ extension CinemaViewController: RecentSearchCloseDelegate {
     func recentSearchCloseButtonTapped(at index: Int) {
         if UserDefaultsManager.recentSearch.count > 0 {
             UserDefaultsManager.recentSearch.remove(at: index)
+            /// 없애기
             sendDataToCollectionView()
             Task { @MainActor [weak self] in
                 guard self != nil else { return }

@@ -11,6 +11,7 @@ final class CinemaViewModel: BaseViewModel {
     struct Output {
         let trendingMovie: Observable<TrendingResponse> = Observable(TrendingResponse(page: 1, results: []))
         let totalMovieBox: Observable<Int> = Observable(0)
+        let totalData: Observable<Int?> = Observable(nil)
     }
 
     init() {
@@ -43,6 +44,7 @@ final class CinemaViewModel: BaseViewModel {
     // 최근검색어 여부 전달
     private func sendDataToCollectionView() {
         print(#function)
+        output.totalData.value = getDataCount(data: UserDefaultsManager.recentSearch)
     }
     private func isDataExists(data: Int) -> Bool { return data > 0 }
     private func getDataCount(data: [String]) -> Int { return data.count }
