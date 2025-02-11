@@ -1,13 +1,10 @@
 import UIKit
 
 final class SearchViewController: UIViewController {
+    let viewModel = SearchViewModel()
     let searchView = SearchView()
     private var searchDTO = SearchDTO(query: "", page: 1)
     private var totalPages = 1
-    lazy var searchResponse = SearchResponse(page: 1, results: searchData, total_pages: 1, total_results: 1)
-    private var searchData: [ResultsResponse] = [] {
-        didSet { searchView.searchTableView.reloadData() }
-    }
     private var clickedIndexPath: IndexPath?
 
     override func loadView() {
@@ -15,7 +12,7 @@ final class SearchViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        [configureNavigation(), configureDelegate()].forEach { $0 }
+        [configureNavigation(), configureDelegate(), bindData()].forEach { $0 }
         searchView.searchBar.becomeFirstResponder()
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -24,16 +21,29 @@ final class SearchViewController: UIViewController {
     }
 }
 
+// MARK: - bind
+extension SearchViewController: ViewModelBind {
+    func bindData() {
+        viewModel.output.notFoundLabelVisible.lazyBind { [weak self] bool in
+            self?.searchView.notFoundLabel.isHidden = !bool
+            self?.searchView.searchTableView.isHidden = bool
+        }
+        viewModel.output.searchData.lazyBind { [weak self] response in
+            self?.searchView.searchTableView.reloadData()
+        }
+    }
+}
+
 //MARK: configure table view
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchData.count
+        return viewModel.output.searchData.value.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.id) as! SearchTableViewCell
-        cell.configureCell(with: searchData[indexPath.row])
+        cell.configureCell(with: viewModel.output.searchData.value[indexPath.row])
         cell.didLikeButtonTapped = {
-            let clickedID = self.searchData[indexPath.row].id
+            let clickedID = self.viewModel.output.searchData.value[indexPath.row].id
             if UserDefaultsManager.favoriteMovie.contains(clickedID) {
                 UserDefaultsManager.favoriteMovie.removeAll(where: { $0 == clickedID })
             } else {
@@ -53,7 +63,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 
         DispatchQueue.global().async {
             /// backdrop, poster
-            NetworkManager.shared.fetchItem(api: ImageDTO(movieID: self.searchData[indexPath.row].id).toRequest(), type: ImageResponse.self) { result in
+            NetworkManager.shared.fetchItem(api: ImageDTO(movieID: self.viewModel.output.searchData.value[indexPath.row].id).toRequest(), type: ImageResponse.self) { result in
                 switch result {
                 case .success(let success):
                     vc.backdropArray = success.backdrops.prefix(5).map { TMDBUrl.imageUrl + $0.file_path }
@@ -62,16 +72,16 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                     self.networkErrorAlert(error: failure)
                 }
             }
-            let footerData = self.searchData[indexPath.row]
+            let footerData = self.viewModel.output.searchData.value[indexPath.row]
 
             /// results - overview, genre_ids, release_date, vote_average
             vc.footerDTO = FooterDTO(id: footerData.id, title: footerData.title, overview: footerData.overview, genre_ids: footerData.genre_ids, release_date: footerData.release_date, vote_average: footerData.vote_average)
 
             /// Synopsis
-            vc.synopsisDTO = self.searchData[indexPath.row].overview
+            vc.synopsisDTO = self.viewModel.output.searchData.value[indexPath.row].overview
 
             /// cast
-            NetworkManager.shared.fetchItem(api: CreditDTO(movieID: self.searchData[indexPath.row].id).toRequest(), type: CreditResponse.self) { result in
+            NetworkManager.shared.fetchItem(api: CreditDTO(movieID: self.viewModel.output.searchData.value[indexPath.row].id).toRequest(), type: CreditResponse.self) { result in
                 switch result {
                 case .success(let success):
 
@@ -106,7 +116,7 @@ extension SearchViewController {
                                         type: SearchResponse.self) { result in
             switch result {
             case .success(let success):
-                self.searchData.append(contentsOf: success.results)
+                self.viewModel.output.searchData.value.append(contentsOf: success.results)
             case .failure(let failure):
                 self.networkErrorAlert(error: failure)
             }
@@ -134,28 +144,8 @@ extension SearchViewController: DelegateConfiguration {
 // MARK: configure search bar
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        let searchText = searchBar.text!
-        UserDefaultsManager.recentSearch.removeAll { $0 == searchText } // 중복 제거
-        UserDefaultsManager.recentSearch.insert(searchBar.text!, at: 0)
+        viewModel.input.searchText.value = searchBar.text!
         view.endEditing(true)
-        searchDTO.query = searchBar.text!
-        resetPage()
-        DispatchQueue.global().async {
-            NetworkManager.shared.fetchItem(api: self.searchDTO.toRequest(),
-                                            type: SearchResponse.self) { result in
-                switch result {
-                case .success(let success):
-                    self.searchResponse = success
-                    self.searchData = success.results
-                    self.totalPages = success.total_pages
-                    DispatchQueue.main.async {
-                        self.notFoundLabelVisibility()
-                    }
-                case .failure(let failure):
-                    self.networkErrorAlert(error: failure)
-                }
-            }
-        }
         // 상태바 누르면 top으로 이동
         searchView.searchTableView.scrollsToTop = true
         // tableview가 생기기도 전에 스크롤을 하려고해서 문제가 발생할 수 있음
@@ -168,15 +158,6 @@ extension SearchViewController: UISearchBarDelegate {
 
 // MARK: method
 extension SearchViewController {
-    private func notFoundLabelVisibility() {
-        if searchData.count == 0 {
-            searchView.notFoundLabel.isHidden = false
-            searchView.searchTableView.isHidden = true
-        } else {
-            searchView.notFoundLabel.isHidden = true
-            searchView.searchTableView.isHidden = false
-        }
-    }
     private func updateTappedRow() {
         DispatchQueue.main.async {
             guard let indexPath = self.clickedIndexPath else { return }
