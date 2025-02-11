@@ -16,10 +16,11 @@ final class CinemaViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewModel.input.viewWillAppear.value = ()
         DispatchQueue.main.async {
             self.sendDataToCollectionView()
             self.cinemaView.collectionView.reloadData()
-            self.getFavoriteMovieCount() // 무비박스 불러오기
+//            self.getFavoriteMovieCount() // 무비박스 불러오기
         }
     }
 }
@@ -31,6 +32,9 @@ extension CinemaViewController: ViewModelBind {
             DispatchQueue.main.async {
                 self?.cinemaView.collectionView.reloadSections(IndexSet(integer: 1))
             }
+        }
+        viewModel.output.totalMovieBox.bind { [weak self] count in
+            self?.cinemaView.profileCardView.likeCountButton.setTitle("\(count)개의 무비박스 보관중", for: .normal)
         }
     }
 }
@@ -117,6 +121,7 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 UIView.performWithoutAnimation {
                     collectionView.reloadItems(at: [indexPath])
                 }
+                /// 추후에 변경
                 self.getFavoriteMovieCount()
             }
             return cell
@@ -210,6 +215,7 @@ extension CinemaViewController {
     }
     private func isDataExists(data: Int) -> Bool { return data > 0 }
     private func getDataCount(data: [String]) -> Int { return data.count }
+    // TODO: didLikeButtonTapped에서 변경
     private func getFavoriteMovieCount() {
         cinemaView.profileCardView.likeCountButton.setTitle("\(UserDefaultsManager.favoriteMovie.count)개의 무비박스 보관중", for: .normal)
     }
