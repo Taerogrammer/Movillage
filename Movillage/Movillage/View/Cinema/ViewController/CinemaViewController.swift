@@ -1,16 +1,9 @@
 import UIKit
 
 final class CinemaViewController: UIViewController {
+    private let viewModel = CinemaViewModel()
     private let cinemaView = CinemaView()
     private let cinemaSection = ["최근검색어", "오늘의 영화"]
-    private var trendingDTO = TrendingDTO()
-    private var trendingMovie = TrendingResponse(page: 1, results: []) {
-        didSet {
-            DispatchQueue.main.async {
-                self.cinemaView.collectionView.reloadSections(IndexSet(integer: 1))
-            }
-        }
-    }
 
     override func loadView() {
         super.loadView()
@@ -18,10 +11,8 @@ final class CinemaViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        [configureNavigation(), configureProfileCard(),configureDelegate(), configureNotification()].forEach { $0 }
-        DispatchQueue.global().async {
-            self.fetchTrending()
-        }
+        [configureNavigation(), configureProfileCard(),configureDelegate(), configureNotification(), bindData()].forEach { $0 }
+        viewModel.input.viewDidLoad.value = ()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -29,6 +20,17 @@ final class CinemaViewController: UIViewController {
             self.sendDataToCollectionView()
             self.cinemaView.collectionView.reloadData()
             self.getFavoriteMovieCount() // 무비박스 불러오기
+        }
+    }
+}
+
+// MARK: - bind
+extension CinemaViewController: ViewModelBind {
+    func bindData() {
+        viewModel.output.trendingMovie.bind { [weak self] result in
+            DispatchQueue.main.async {
+                self?.cinemaView.collectionView.reloadSections(IndexSet(integer: 1))
+            }
         }
     }
 }
@@ -83,7 +85,7 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
         case 0:
             return max(UserDefaultsManager.recentSearch.count, 1)    // 데이터가 없을 때에도 item의 개수가 1이어야 라벨이 나타남 (0이면 아예 없는 것으로 간주)
         case 1:
-            return trendingMovie.results.count
+            return viewModel.output.trendingMovie.value.results.count
         default:
             return 0
         }
@@ -105,10 +107,10 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayMovieCollectionViewCell.id, for: indexPath) as! TodayMovieCollectionViewCell
 
-            let item = trendingMovie.results[indexPath.item]
+            let item = viewModel.output.trendingMovie.value.results[indexPath.item]
             cell.configureCell(with: item)
             cell.didLikeButtonTapped = {
-                let clickedID = self.trendingMovie.results[indexPath.item].id
+                let clickedID = self.viewModel.output.trendingMovie.value.results[indexPath.item].id
                 // 만약 이미 있으면 제거
                 CinemaViewController.didFavoriteTapped(id: clickedID)
                 // 깜빡이는 애니메이션 제거
@@ -137,7 +139,7 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
 
             DispatchQueue.global().async {
                 /// backdrop, poster
-                NetworkManager.shared.fetchItem(api: ImageDTO(movieID: self.trendingMovie.results[indexPath.row].id).toRequest(),
+                NetworkManager.shared.fetchItem(api: ImageDTO(movieID: self.viewModel.output.trendingMovie.value.results[indexPath.row].id).toRequest(),
                                                 type: ImageResponse.self) { result in
                     switch result {
                     case .success(let success):
@@ -148,13 +150,13 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
                     }
                 }
 
-                let footerData = self.trendingMovie.results[indexPath.item]
+                let footerData = self.viewModel.output.trendingMovie.value.results[indexPath.item]
                 /// results - overview, genre_ids, release_date, vote_average
                 vc.footerDTO = FooterDTO(id: footerData.id, title: footerData.title, overview: footerData.overview, genre_ids: footerData.genre_ids, release_date: footerData.release_date, vote_average: footerData.vote_average)
                 /// Synopsis
-                vc.synopsisDTO = self.trendingMovie.results[indexPath.item].overview
+                vc.synopsisDTO = self.viewModel.output.trendingMovie.value.results[indexPath.item].overview
                 /// cast
-                NetworkManager.shared.fetchItem(api: CreditDTO(movieID: self.trendingMovie.results[indexPath.row].id).toRequest(),
+                NetworkManager.shared.fetchItem(api: CreditDTO(movieID: self.viewModel.output.trendingMovie.value.results[indexPath.row].id).toRequest(),
                                                 type: CreditResponse.self) { result in
                     switch result {
                     case .success(let success):
@@ -202,17 +204,6 @@ extension CinemaViewController: DelegateConfiguration {
 
 // MARK: method
 extension CinemaViewController {
-    private func fetchTrending() {
-        NetworkManager.shared.fetchItem(api: trendingDTO.toRequest(),
-                                        type: TrendingResponse.self) { result in
-            switch result {
-            case .success(let success):
-                self.trendingMovie = success
-            case .failure(let failure):
-                self.networkErrorAlert(error: failure)
-            }
-        }
-    }
     // 최근검색어 여부 전달
     private func sendDataToCollectionView() {
         cinemaView.data = getDataCount(data: UserDefaultsManager.recentSearch)
