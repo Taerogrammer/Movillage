@@ -7,11 +7,14 @@ final class CinemaViewModel: BaseViewModel {
     struct Input {
         let viewDidLoad: Observable<Void> = Observable(())
         let viewWillAppear: Observable<Void> = Observable(())
+        let updateProfile: Observable<Void> = Observable(())
     }
     struct Output {
         let trendingMovie: Observable<TrendingResponse> = Observable(TrendingResponse(page: 1, results: []))
         let totalMovieBox: Observable<Int> = Observable(0)
         let totalData: Observable<Int?> = Observable(nil)
+        let profileImageName: Observable<String> = Observable("")
+        let nicknamelabel: Observable<String> = Observable("")
     }
 
     init() {
@@ -27,6 +30,9 @@ final class CinemaViewModel: BaseViewModel {
         input.viewWillAppear.lazyBind { [weak self] _ in
             self?.sendDataToCollectionView()
             self?.getFavoriteMovieCount()
+        }
+        input.updateProfile.bind { [weak self] _ in
+            self?.updatedProfileReceived()
         }
     }
     private func fetchTrending() {
@@ -50,6 +56,10 @@ final class CinemaViewModel: BaseViewModel {
     private func getDataCount(data: [String]) -> Int { return data.count }
     private func getFavoriteMovieCount() {
         output.totalMovieBox.value = UserDefaultsManager.favoriteMovie.count
+    }
+    private func updatedProfileReceived() {
+        output.profileImageName.value = UserDefaultsManager.profileImage ?? "profile_0"
+        output.nicknamelabel.value = UserDefaultsManager.nickname ?? ""
     }
 
 }

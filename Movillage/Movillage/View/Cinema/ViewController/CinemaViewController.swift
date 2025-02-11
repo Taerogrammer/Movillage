@@ -37,6 +37,12 @@ extension CinemaViewController: ViewModelBind {
         viewModel.output.totalData.bind { [weak self] data in
             self?.cinemaView.data = data
         }
+        viewModel.output.profileImageName.bind { [weak self] imageName in
+            self?.cinemaView.profileCardView.profileImage.image = UIImage(named: imageName)
+        }
+        viewModel.output.nicknamelabel.bind { [weak self] nickname in
+            self?.cinemaView.profileCardView.nicknameLabel.text = nickname
+        }
     }
 }
 
@@ -66,8 +72,7 @@ extension CinemaViewController {
         setEmptyTitleBackButton()
     }
     @objc private func updatedProfileReceived() {
-        cinemaView.profileCardView.profileImage.image = UIImage(named: UserDefaultsManager.profileImage ?? "profile_0")
-        cinemaView.profileCardView.nicknameLabel.text = UserDefaultsManager.nickname
+        viewModel.input.updateProfile.value = ()
     }
     @objc func profileCardTapped() {
         let navVC = UINavigationController(rootViewController: ProfileEditViewController())
