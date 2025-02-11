@@ -10,6 +10,7 @@ final class SearchViewModel: BaseViewModel {
         let searchDTO: Observable<SearchDTO> = Observable(SearchDTO(query: "", page: 1))
         let loadMoreDataTrigger: Observable<Void> = Observable(())
         let clickedIndexPath: Observable<IndexPath?> = Observable(nil)
+        let clickedId: Observable<Int> = Observable(0)
     }
     struct Output {
         let searchResponse: Observable<SearchResponse> = Observable(SearchResponse(page: 1, results: [ResultsResponse](), total_pages: 1, total_results: 1))
@@ -40,6 +41,9 @@ final class SearchViewModel: BaseViewModel {
         }
         input.loadMoreDataTrigger.lazyBind { [weak self] _ in
             self?.loadMoreData()
+        }
+        input.clickedId.lazyBind { [weak self] movieID in
+            self?.toggleFavoriteMovie(with: movieID)
         }
     }
     private func resetPage() { input.searchDTO.value.page = 1 }
@@ -80,5 +84,12 @@ final class SearchViewModel: BaseViewModel {
     private func updateClickedIndexPath() {
         guard let indexPath = input.clickedIndexPath.value else { return }
         output.indexPath.value = indexPath
+    }
+    private func toggleFavoriteMovie(with movieID: Int) {
+        if UserDefaultsManager.favoriteMovie.contains(movieID) {
+            UserDefaultsManager.favoriteMovie.removeAll(where: { $0 == movieID })
+        } else {
+            UserDefaultsManager.favoriteMovie.append(movieID)
+        }
     }
 }

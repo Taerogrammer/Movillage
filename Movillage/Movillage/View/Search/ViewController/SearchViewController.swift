@@ -43,17 +43,11 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.id) as! SearchTableViewCell
         cell.configureCell(with: viewModel.output.searchData.value[indexPath.row])
         cell.didLikeButtonTapped = {
-            let clickedID = self.viewModel.output.searchData.value[indexPath.row].id
-            if UserDefaultsManager.favoriteMovie.contains(clickedID) {
-                UserDefaultsManager.favoriteMovie.removeAll(where: { $0 == clickedID })
-            } else {
-                UserDefaultsManager.favoriteMovie.append(clickedID)
-            }
+            self.viewModel.input.clickedId.value = self.viewModel.output.searchData.value[indexPath.row].id
             UIView.performWithoutAnimation {
                 tableView.reloadRows(at: [indexPath], with: .automatic)
             }
         }
-
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
