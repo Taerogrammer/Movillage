@@ -3,9 +3,6 @@ import UIKit
 final class SearchViewController: UIViewController {
     let viewModel = SearchViewModel()
     let searchView = SearchView()
-    private var searchDTO = SearchDTO(query: "", page: 1)
-    private var totalPages = 1
-    private var clickedIndexPath: IndexPath?
 
     override func loadView() {
         view = searchView
@@ -17,7 +14,7 @@ final class SearchViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        updateTappedRow()
+        viewModel.input.viewWillAppear.value = ()
     }
 }
 
@@ -30,6 +27,9 @@ extension SearchViewController: ViewModelBind {
         }
         viewModel.output.searchData.lazyBind { [weak self] response in
             self?.searchView.searchTableView.reloadData()
+        }
+        viewModel.output.indexPath.lazyBind { [weak self] indexPath in
+            self?.searchView.searchTableView.reloadRows(at: [indexPath], with: .automatic)
         }
     }
 }
@@ -59,8 +59,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let vc = CinemaDetailViewController()
-        clickedIndexPath = indexPath
-
+        viewModel.input.clickedIndexPath.value = indexPath
         DispatchQueue.global().async {
             /// backdrop, poster
             NetworkManager.shared.fetchItem(api: ImageDTO(movieID: self.viewModel.output.searchData.value[indexPath.row].id).toRequest(), type: ImageResponse.self) { result in
@@ -140,16 +139,6 @@ extension SearchViewController: UISearchBarDelegate {
         // tableview의 y offset이 0보다 크면 어쨋든 존재하기 때문에 scrollToRow 가능
         if searchView.searchTableView.contentOffset.y > 0 {
             searchView.searchTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
-        }
-    }
-}
-
-// MARK: method
-extension SearchViewController {
-    private func updateTappedRow() {
-        DispatchQueue.main.async {
-            guard let indexPath = self.clickedIndexPath else { return }
-            self.searchView.searchTableView.reloadRows(at: [indexPath], with: .automatic)
         }
     }
 }

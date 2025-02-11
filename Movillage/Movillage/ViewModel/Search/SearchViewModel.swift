@@ -5,14 +5,17 @@ final class SearchViewModel: BaseViewModel {
     private(set) var output: Output
 
     struct Input {
+        let viewWillAppear: Observable<Void> = Observable(())
         let searchText: Observable<String> = Observable("")
         let searchDTO: Observable<SearchDTO> = Observable(SearchDTO(query: "", page: 1))
         let loadMoreDataTrigger: Observable<Void> = Observable(())
+        let clickedIndexPath: Observable<IndexPath?> = Observable(nil)
     }
     struct Output {
         let searchResponse: Observable<SearchResponse> = Observable(SearchResponse(page: 1, results: [ResultsResponse](), total_pages: 1, total_results: 1))
         let searchData: Observable<[ResultsResponse]> = Observable([])
         let notFoundLabelVisible: Observable<Bool> = Observable(false)
+        let indexPath: Observable<IndexPath> = Observable(IndexPath())
     }
 
     init() {
@@ -22,6 +25,13 @@ final class SearchViewModel: BaseViewModel {
         transform()
     }
     func transform() {
+        input.clickedIndexPath.lazyBind { [weak self] indexPath in
+            guard let indexPath = indexPath else { return }
+            self?.output.indexPath.value = indexPath
+        }
+        input.viewWillAppear.bind { [weak self] _ in
+            self?.updateClickedIndexPath()
+        }
         input.searchText.lazyBind { [weak self] query in
             self?.configureUserDefaultsRecentSearch(text: query)
             self?.resetPage()
@@ -67,5 +77,8 @@ final class SearchViewModel: BaseViewModel {
             }
         }
     }
-
+    private func updateClickedIndexPath() {
+        guard let indexPath = input.clickedIndexPath.value else { return }
+        output.indexPath.value = indexPath
+    }
 }
