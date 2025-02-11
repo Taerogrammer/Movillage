@@ -3,6 +3,7 @@ import Foundation
 final class CinemaViewModel: BaseViewModel {
     private(set) var input: Input
     private(set) var output: Output
+    let cinemaSection = ["최근검색어", "오늘의 영화"]
 
     struct Input {
         let viewDidLoad: Observable<Void> = Observable(())

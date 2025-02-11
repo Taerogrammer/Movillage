@@ -3,7 +3,6 @@ import UIKit
 final class CinemaViewController: UIViewController {
     private let viewModel = CinemaViewModel()
     private let cinemaView = CinemaView()
-    private let cinemaSection = ["최근검색어", "오늘의 영화"]
 
     override func loadView() {
         super.loadView()
@@ -88,7 +87,7 @@ extension CinemaViewController {
 extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
 
-        return cinemaSection.count
+        return viewModel.cinemaSection.count
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
@@ -185,8 +184,8 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CinemaHeaderView.id, for: indexPath) as! CinemaHeaderView
-        header.configureHeaderTitle(title: cinemaSection[indexPath.section])
-        header.configureRemoveButton(title: cinemaSection[indexPath.section])
+        header.configureHeaderTitle(title: viewModel.cinemaSection[indexPath.section])
+        header.configureRemoveButton(title: viewModel.cinemaSection[indexPath.section])
         if !isDataExists(data: UserDefaultsManager.recentSearch.count) { header.removeButton.isHidden = true }
 
         header.removeAllRecentSearch = {
