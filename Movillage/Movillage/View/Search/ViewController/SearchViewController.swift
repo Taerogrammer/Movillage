@@ -105,23 +105,11 @@ extension SearchViewController {
         let pagination = tableViewHeight * 0.2
 
         // 스크롤 80%일 때와 전체 페이지보다 작을 때 데이터 로드
-        if contentOffsetY > tableViewHeight - pagination && searchDTO.page < totalPages {
-            loadMoreData()
+        if contentOffsetY > tableViewHeight - pagination && viewModel.input.searchDTO.value.page < viewModel.output.searchResponse.value.total_pages {
+            viewModel.input.loadMoreDataTrigger.value = ()
         }
     }
-    private func resetPage() { self.searchDTO.page = 1 }
-    private func loadMoreData() {
-        self.searchDTO.page += 1
-        NetworkManager.shared.fetchItem(api: self.searchDTO.toRequest(),
-                                        type: SearchResponse.self) { result in
-            switch result {
-            case .success(let success):
-                self.viewModel.output.searchData.value.append(contentsOf: success.results)
-            case .failure(let failure):
-                self.networkErrorAlert(error: failure)
-            }
-        }
-    }
+
 }
 
 // MARK: configure navigation
