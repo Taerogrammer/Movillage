@@ -16,19 +16,15 @@ final class CinemaViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.input.viewWillAppear.value = ()
-        DispatchQueue.main.async {
-            self.cinemaView.collectionView.reloadData()
-        }
+        self.cinemaView.collectionView.reloadData()
     }
 }
 
 // MARK: - bind
 extension CinemaViewController: ViewModelBind {
     func bindData() {
-        viewModel.output.trendingMovie.bind { [weak self] result in
-            DispatchQueue.main.async {
-                self?.cinemaView.collectionView.reloadSections(IndexSet(integer: 1))
-            }
+        viewModel.output.trendingMovie.bind { [weak self] _ in
+            self?.cinemaView.collectionView.reloadSections(IndexSet(integer: 1))
         }
         viewModel.output.totalMovieBox.bind { [weak self] count in
             self?.cinemaView.profileCardView.likeCountButton.setTitle("\(count)개의 무비박스 보관중", for: .normal)
@@ -92,7 +88,8 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return max(UserDefaultsManager.recentSearch.count, 1)    // 데이터가 없을 때에도 item의 개수가 1이어야 라벨이 나타남 (0이면 아예 없는 것으로 간주)
+            viewModel.input.numberOfItemsInSection.value = ()
+            return viewModel.output.numberOfItemsInZeroSection.value    // 데이터가 없을 때에도 item의 개수가 1이어야 라벨이 나타남 (0이면 아예 없는 것으로 간주)
         case 1:
             return viewModel.output.trendingMovie.value.results.count
         default:
