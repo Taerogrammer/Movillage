@@ -11,6 +11,7 @@ final class CinemaViewModel: BaseViewModel {
         let updateProfile: Observable<Void> = Observable(())
         let numberOfItemsInSection: Observable<Void> = Observable(())
         let cellForItemAt: Observable<Void> = Observable(())
+        let clickedIndexPath: Observable<IndexPath?> = Observable(nil)
     }
     struct Output {
         let trendingMovie: Observable<TrendingResponse> = Observable(TrendingResponse(page: 1, results: []))
@@ -20,6 +21,12 @@ final class CinemaViewModel: BaseViewModel {
         let nicknamelabel: Observable<String> = Observable("")
         let numberOfItemsInZeroSection: Observable<Int> = Observable(1)
         let totalRecentSearch: Observable<Int> = Observable(0)
+
+        let backdropArray: Observable<[String]?> = Observable(nil)
+        let posterArray: Observable<[String]?> = Observable(nil)
+        let footerData: Observable<FooterDTO> = Observable(FooterDTO(id: 0, title: "", overview: "", genre_ids: [], release_date: "", vote_average: 0.0))
+        let synopsisData: Observable<String> = Observable("줄거리가 존재하지 않습니다.")
+        let castData: Observable<[CastResponse]?> = Observable(nil)
     }
 
     init() {
@@ -44,6 +51,13 @@ final class CinemaViewModel: BaseViewModel {
         }
         input.cellForItemAt.bind { [weak self] _ in
             self?.countRecentSearch()
+        }
+        input.clickedIndexPath.lazyBind { [weak self] indexPath in
+            guard let indexPath = indexPath else { return }
+            self?.fetchBackdropAndPoster(indexPath: indexPath)
+            self?.fetchFooter(indexPath: indexPath)
+            self?.fetchSynopsis(indexPath: indexPath)
+            self?.fetchCast(indexPath: indexPath)
         }
     }
     private func fetchTrending() {
@@ -77,5 +91,41 @@ final class CinemaViewModel: BaseViewModel {
     }
     private func countRecentSearchForSection() {
         output.numberOfItemsInZeroSection.value = max(UserDefaultsManager.recentSearch.count, 1)
+    }
+    private func fetchBackdropAndPoster(indexPath: IndexPath) {
+        NetworkManager.shared.fetchItem(api: ImageDTO(movieID: output.trendingMovie.value.results[indexPath.row].id).toRequest(),
+                                        type: ImageResponse.self) { [weak self] result in
+            switch result {
+            case .success(let success):
+                self?.output.backdropArray.value = success.backdrops.prefix(5).map {
+                    TMDBUrl.imageUrl + $0.file_path
+                }
+                self?.output.posterArray.value = success.posters.map { TMDBUrl.imageUrl + $0.file_path }
+            case .failure(let failure):
+                /// self.networkErrorAlert(error: failure)
+                print("error ", failure)
+            }
+        }
+    }
+    private func fetchFooter(indexPath: IndexPath) {
+        let data = output.trendingMovie.value.results[indexPath.row]
+        output.footerData.value = FooterDTO(id: data.id, title: data.title, overview: data.overview, genre_ids: data.genre_ids, release_date: data.release_date, vote_average: data.vote_average)
+    }
+    private func fetchSynopsis(indexPath: IndexPath) {
+        output.synopsisData.value = output.trendingMovie.value.results[indexPath.row].overview
+    }
+    private func fetchCast(indexPath: IndexPath) {
+        NetworkManager.shared.fetchItem(api: CreditDTO(movieID: output.trendingMovie.value.results[indexPath.row].id).toRequest(),
+                                        type: CreditResponse.self) { [weak self] result in
+            switch result {
+            case .success(let success):
+                if success.cast.count > 0 {
+                    self?.output.castData.value = success.cast
+                }
+            case .failure(let failure):
+                /// self.networkErrorAlert(error: failure)
+                print("error ", failure)
+            }
+        }
     }
 }

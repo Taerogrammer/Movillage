@@ -144,35 +144,21 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
             }
         case 1:
             let vc = CinemaDetailViewController()
-
-            DispatchQueue.global().async {
-                /// backdrop, poster
-                NetworkManager.shared.fetchItem(api: ImageDTO(movieID: self.viewModel.output.trendingMovie.value.results[indexPath.row].id).toRequest(),
-                                                type: ImageResponse.self) { result in
-                    switch result {
-                    case .success(let success):
-                        vc.backdropArray = success.backdrops.prefix(5).map { TMDBUrl.imageUrl + $0.file_path }
-                        vc.posterArray = success.posters.map { TMDBUrl.imageUrl + $0.file_path }
-                    case .failure(let failure):
-                        self.networkErrorAlert(error: failure)
-                    }
-                }
-
-                let footerData = self.viewModel.output.trendingMovie.value.results[indexPath.item]
-                /// results - overview, genre_ids, release_date, vote_average
-                vc.footerDTO = FooterDTO(id: footerData.id, title: footerData.title, overview: footerData.overview, genre_ids: footerData.genre_ids, release_date: footerData.release_date, vote_average: footerData.vote_average)
-                /// Synopsis
-                vc.synopsisDTO = self.viewModel.output.trendingMovie.value.results[indexPath.item].overview
-                /// cast
-                NetworkManager.shared.fetchItem(api: CreditDTO(movieID: self.viewModel.output.trendingMovie.value.results[indexPath.row].id).toRequest(),
-                                                type: CreditResponse.self) { result in
-                    switch result {
-                    case .success(let success):
-                        vc.castDTO = success.cast
-                    case .failure(let failure):
-                        self.networkErrorAlert(error: failure)
-                    }
-                }
+            viewModel.input.clickedIndexPath.value = indexPath
+            /// backdrop, poster
+            viewModel.output.backdropArray.lazyBind { backdrops in
+                vc.backdropArray = backdrops
+            }
+            viewModel.output.posterArray.lazyBind { posters in
+                vc.posterArray = posters
+            }
+            /// results - overview, genre_ids, release_date, vote_average
+            vc.footerDTO = viewModel.output.footerData.value
+            /// Synopsis
+            vc.synopsisDTO = viewModel.output.synopsisData.value
+            /// cast
+            viewModel.output.castData.lazyBind { casts in
+                vc.castDTO = casts
             }
             setEmptyTitleBackButton()
             navigationController?.pushViewController(vc, animated: true)
