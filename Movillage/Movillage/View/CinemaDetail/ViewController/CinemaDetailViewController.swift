@@ -1,54 +1,50 @@
 import UIKit
 
 final class CinemaDetailViewController: UIViewController {
+    let viewModel = CinemaDetailViewModel()
     private let cinemaDetailView = CinemaDetailView()
-    private let detailSection = ["", "Synopsis", "Cast", "Poster"]
-    var backdropArray: [String]? {
-        /// completionHandler로 값을 받기 때문에 이미 메인 스레드에서 실행됨 -> main.async에서 호출하면 에러 발생
-        /// 첫 호출 때는 없기 때문에 didSet으로 감지를 적용해야 함
-        didSet {
-            self.cinemaDetailView.collectionView.reloadSections(IndexSet(integer: 0))
-        }
-    }
-    var footerDTO: FooterDTO = FooterDTO(id: 0, title: "", overview: "", genre_ids: [], release_date: "", vote_average: 0.0)
-    var synopsisDTO: String = ""
     // false -> 3줄 (More Tapped가 false)
     var isMoreTapped = false
-    var castDTO: [CastResponse]? {
-        didSet {
-            self.cinemaDetailView.collectionView.reloadSections(IndexSet(integer: 2))
-        }
-    }
-    var posterArray: [String]? {
-        didSet {
-            self.cinemaDetailView.collectionView.reloadSections(IndexSet(integer: 3))
-        }
-    }
 
     override func loadView() {
         view = cinemaDetailView
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        [configureDelegate(), configureNavigation(), favoriteButtonColorChanged()].forEach { $0 }
+        [configureDelegate(), configureNavigation(), favoriteButtonColorChanged(), bindData()].forEach { $0 }
+    }
+}
+
+// MARK: - bind
+extension CinemaDetailViewController {
+    private func bindData() {
+        viewModel.output.backdropArray.lazyBind { [weak self] array in
+            self?.cinemaDetailView.collectionView.reloadSections(IndexSet(integer: 0))
+        }
+        viewModel.output.castDTO.lazyBind { [weak self] data in
+            self?.cinemaDetailView.collectionView.reloadSections(IndexSet(integer: 2))
+        }
+        viewModel.output.posterArray.lazyBind { [weak self] array in
+            self?.cinemaDetailView.collectionView.reloadSections(IndexSet(integer: 3))
+        }
     }
 }
 
 // MARK: configure collection view
 extension CinemaDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return detailSection.count
+        return viewModel.detailSection.count
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return backdropArray?.count ?? 0
+            return viewModel.output.backdropArray.value?.count ?? 0
         case 1:
             return 1
         case 2:
-            return castDTO != nil ? castDTO!.count : 0
+            return viewModel.output.castDTO.value != nil ? viewModel.output.castDTO.value!.count : 0
         case 3:
-            return posterArray?.count ?? 0
+            return viewModel.output.posterArray.value?.count ?? 0
         default:
             return 0
         }
@@ -58,20 +54,20 @@ extension CinemaDetailViewController: UICollectionViewDelegate, UICollectionView
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BackdropCollectionViewCell.id, for: indexPath) as! BackdropCollectionViewCell
 
-            cell.configureImageCell(with: backdropArray?[indexPath.item])
+            cell.configureImageCell(with: viewModel.output.backdropArray.value?[indexPath.item])
 
             return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SynopsisCollectionViewCell.id, for: indexPath) as! SynopsisCollectionViewCell
 
-            cell.configureCell(with: synopsisDTO)
+            cell.configureCell(with: viewModel.output.synopsisDTO.value)
             cell.synopsisLabel.numberOfLines = isMoreTapped ? 0 : 3
 
             return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CastCollectionViewCell.id, for: indexPath) as! CastCollectionViewCell
-            if castDTO?.count ?? 0 > 0 {
-                guard let castDTO = castDTO else { return cell }
+            if viewModel.output.castDTO.value?.count ?? 0 > 0 {
+                guard let castDTO = viewModel.output.castDTO.value else { return cell }
                 cell.configureCell(with: castDTO[indexPath.item])
             }
 
@@ -79,7 +75,7 @@ extension CinemaDetailViewController: UICollectionViewDelegate, UICollectionView
         case 3:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterCollectionViewCell.id, for: indexPath) as! PosterCollectionViewCell
 
-            cell.configureImageCell(with: posterArray?[indexPath.item])
+            cell.configureImageCell(with: viewModel.output.posterArray.value?[indexPath.item])
 
             return cell
         default:
@@ -92,8 +88,8 @@ extension CinemaDetailViewController: UICollectionViewDelegate, UICollectionView
         if kind == UICollectionView.elementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CinemaDetailHeaderView.id, for: indexPath) as! CinemaDetailHeaderView
 
-            header.configureHeaderTitle(title: detailSection[indexPath.section])
-            header.configureMoreButton(title: detailSection[indexPath.section])
+            header.configureHeaderTitle(title: viewModel.detailSection[indexPath.section])
+            header.configureMoreButton(title: viewModel.detailSection[indexPath.section])
 
             header.moreButtonToggle = {
                 self.isMoreTapped.toggle()
@@ -104,8 +100,8 @@ extension CinemaDetailViewController: UICollectionViewDelegate, UICollectionView
         } else {
             let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: CinemaDetailFooterView.id, for: indexPath) as! CinemaDetailFooterView
 
-            footer.configureCell(with: footerDTO)
-            footer.pageControl.numberOfPages = backdropArray?.count ?? 5
+            footer.configureCell(with: viewModel.output.footerDTO.value)
+            footer.pageControl.numberOfPages = viewModel.output.backdropArray.value?.count ?? 5
 
             cinemaDetailView.currentPageChanged = { value in
                 footer.pageControl.currentPage = value
@@ -134,12 +130,12 @@ extension CinemaDetailViewController: DelegateConfiguration {
 // MARK: configure navigation
 extension CinemaDetailViewController: NavigationConfiguration {
     func configureNavigation() {
-        title = footerDTO.title
+        title = viewModel.output.footerDTO.value.title
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: cinemaDetailView.favoriteButton)
         cinemaDetailView.favoriteButton.addTarget(self, action: #selector(likeBarButtonTapped), for: .touchUpInside)
     }
     private func favoriteButtonColorChanged() {
-        let isFavorite = UserDefaultsManager.favoriteMovie.contains(footerDTO.id)
+        let isFavorite = UserDefaultsManager.favoriteMovie.contains(viewModel.output.footerDTO.value.id)
         cinemaDetailView.favoriteButton.setImage(UIImage(systemName: isFavorite ? "heart.fill" : "heart"), for: .normal)
     }
 }
@@ -147,7 +143,7 @@ extension CinemaDetailViewController: NavigationConfiguration {
 // MARK: @objc
 extension CinemaDetailViewController {
     @objc private func likeBarButtonTapped() {
-        CinemaDetailViewController.didFavoriteTapped(id: footerDTO.id)
+        CinemaDetailViewController.didFavoriteTapped(id: viewModel.output.footerDTO.value.id)
         favoriteButtonColorChanged()
     }
 }
