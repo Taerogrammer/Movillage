@@ -146,18 +146,18 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
             viewModel.input.clickedIndexPath.value = indexPath
             /// backdrop, poster
             viewModel.output.backdropArray.lazyBind { backdrops in
-                vc.backdropArray = backdrops
+                vc.viewModel.input.backdropArray.value = backdrops
             }
             viewModel.output.posterArray.lazyBind { posters in
-                vc.posterArray = posters
+                vc.viewModel.input.posterArray.value = posters
             }
             /// results - overview, genre_ids, release_date, vote_average
-            vc.footerDTO = viewModel.output.footerData.value
+            vc.viewModel.input.footerDTO.value = viewModel.output.footerData.value
             /// Synopsis
-            vc.synopsisDTO = viewModel.output.synopsisData.value
+            vc.viewModel.input.synopsisDTO.value = viewModel.output.synopsisData.value
             /// cast
             viewModel.output.castData.lazyBind { casts in
-                vc.castDTO = casts
+                vc.viewModel.input.castDTO.value = casts
             }
             setEmptyTitleBackButton()
             navigationController?.pushViewController(vc, animated: true)
