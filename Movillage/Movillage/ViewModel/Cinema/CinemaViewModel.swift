@@ -10,6 +10,7 @@ final class CinemaViewModel: BaseViewModel {
         let viewWillAppear: Observable<Void> = Observable(())
         let updateProfile: Observable<Void> = Observable(())
         let numberOfItemsInSection: Observable<Void> = Observable(())
+        let cellForItemAt: Observable<Void> = Observable(())
     }
     struct Output {
         let trendingMovie: Observable<TrendingResponse> = Observable(TrendingResponse(page: 1, results: []))
@@ -18,6 +19,7 @@ final class CinemaViewModel: BaseViewModel {
         let profileImageName: Observable<String> = Observable("")
         let nicknamelabel: Observable<String> = Observable("")
         let numberOfItemsInZeroSection: Observable<Int> = Observable(1)
+        let totalRecentSearch: Observable<Int> = Observable(0)
     }
 
     init() {
@@ -38,6 +40,9 @@ final class CinemaViewModel: BaseViewModel {
             self?.updatedProfileReceived()
         }
         input.numberOfItemsInSection.bind { [weak self] _ in
+            self?.countRecentSearchForSection()
+        }
+        input.cellForItemAt.bind { [weak self] _ in
             self?.countRecentSearch()
         }
     }
@@ -68,6 +73,9 @@ final class CinemaViewModel: BaseViewModel {
         output.nicknamelabel.value = UserDefaultsManager.nickname ?? ""
     }
     private func countRecentSearch() {
+        output.totalRecentSearch.value = UserDefaultsManager.recentSearch.count
+    }
+    private func countRecentSearchForSection() {
         output.numberOfItemsInZeroSection.value = max(UserDefaultsManager.recentSearch.count, 1)
     }
 }

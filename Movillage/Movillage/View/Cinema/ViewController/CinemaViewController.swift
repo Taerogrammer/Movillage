@@ -97,9 +97,10 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
         }
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        viewModel.input.cellForItemAt.value = ()
         switch indexPath.section {
         case 0:
-            if UserDefaultsManager.recentSearch.count == 0 {
+            if viewModel.output.totalRecentSearch.value == 0 {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchEmptyCell.id, for: indexPath) as! RecentSearchEmptyCell
                 return cell
             } else {
