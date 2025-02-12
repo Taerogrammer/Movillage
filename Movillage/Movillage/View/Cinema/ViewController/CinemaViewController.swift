@@ -124,8 +124,7 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 UIView.performWithoutAnimation {
                     collectionView.reloadItems(at: [indexPath])
                 }
-                /// 추후에 변경
-                self.getFavoriteMovieCount()
+                self.viewModel.input.updateFavoriteMovie.value = ()
             }
             return cell
         default:
@@ -170,14 +169,17 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CinemaHeaderView.id, for: indexPath) as! CinemaHeaderView
         header.configureHeaderTitle(title: viewModel.cinemaSection[indexPath.section])
         header.configureRemoveButton(title: viewModel.cinemaSection[indexPath.section])
-        if !isDataExists(data: UserDefaultsManager.recentSearch.count) { header.removeButton.isHidden = true }
 
+        if UserDefaultsManager.recentSearch.count <= 0 {
+            header.removeButton.isHidden = true
+        }
+
+        // TODO: - 클로저 이동 필요
         header.removeAllRecentSearch = {
             ["recentSearch"].forEach {
                 UserDefault<[String]>(key: $0, defaultValue: [], storage: .standard).removeObject()
             }
-            /// 없애기
-            self.sendDataToCollectionView()
+            self.viewModel.input.sendDataToCollectionViewTapped.value = ()
             collectionView.reloadSections(IndexSet(integer: 0))
         }
 
@@ -197,20 +199,6 @@ extension CinemaViewController: DelegateConfiguration {
     }
 }
 
-// MARK: method
-extension CinemaViewController {
-    // TODO: 없애기
-    private func sendDataToCollectionView() {
-        cinemaView.data = getDataCount(data: UserDefaultsManager.recentSearch)
-    }
-    private func isDataExists(data: Int) -> Bool { return data > 0 }
-    private func getDataCount(data: [String]) -> Int { return data.count }
-    // TODO: didLikeButtonTapped에서 변경
-    private func getFavoriteMovieCount() {
-        cinemaView.profileCardView.likeCountButton.setTitle("\(UserDefaultsManager.favoriteMovie.count)개의 무비박스 보관중", for: .normal)
-    }
-}
-
 // MARK: configure notification
 extension CinemaViewController: NotificationConfiguration {
     func configureNotification() {
@@ -220,11 +208,12 @@ extension CinemaViewController: NotificationConfiguration {
 
 // MARK: configure protocol delegate
 extension CinemaViewController: RecentSearchCloseDelegate {
+    // TODO: 델리게이트 이동
     func recentSearchCloseButtonTapped(at index: Int) {
         if UserDefaultsManager.recentSearch.count > 0 {
             UserDefaultsManager.recentSearch.remove(at: index)
             /// 없애기
-            sendDataToCollectionView()
+            viewModel.input.sendDataToCollectionViewTapped.value = ()
             UIView.performWithoutAnimation {
                 self.cinemaView.collectionView.reloadSections(IndexSet(integer: 0))
             }

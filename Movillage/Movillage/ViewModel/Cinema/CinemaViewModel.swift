@@ -12,6 +12,8 @@ final class CinemaViewModel: BaseViewModel {
         let numberOfItemsInSection: Observable<Void> = Observable(())
         let cellForItemAt: Observable<Void> = Observable(())
         let clickedIndexPath: Observable<IndexPath?> = Observable(nil)
+        let sendDataToCollectionViewTapped: Observable<Void> = Observable(())
+        let updateFavoriteMovie: Observable<Void> = Observable(())
     }
     struct Output {
         let trendingMovie: Observable<TrendingResponse> = Observable(TrendingResponse(page: 1, results: []))
@@ -59,6 +61,12 @@ final class CinemaViewModel: BaseViewModel {
             self?.fetchSynopsis(indexPath: indexPath)
             self?.fetchCast(indexPath: indexPath)
         }
+        input.sendDataToCollectionViewTapped.bind { [weak self] _ in
+            self?.sendDataToCollectionView()
+        }
+        input.updateFavoriteMovie.lazyBind { [weak self] _ in
+            self?.getFavoriteMovieCount()
+        }
     }
     private func fetchTrending() {
         NetworkManager.shared.fetchItem(api: TrendingDTO().toRequest(),
@@ -74,7 +82,6 @@ final class CinemaViewModel: BaseViewModel {
     }
     // 최근검색어 여부 전달
     private func sendDataToCollectionView() {
-        print(#function)
         output.totalData.value = getDataCount(data: UserDefaultsManager.recentSearch)
     }
     private func isDataExists(data: Int) -> Bool { return data > 0 }
