@@ -1,8 +1,8 @@
 import UIKit
 
 final class CinemaDetailViewController: UIViewController {
+    private let viewModel = CinemaDetailViewModel()
     private let cinemaDetailView = CinemaDetailView()
-    private let detailSection = ["", "Synopsis", "Cast", "Poster"]
     var backdropArray: [String]? {
         /// completionHandler로 값을 받기 때문에 이미 메인 스레드에서 실행됨 -> main.async에서 호출하면 에러 발생
         /// 첫 호출 때는 없기 때문에 didSet으로 감지를 적용해야 함
@@ -37,7 +37,7 @@ final class CinemaDetailViewController: UIViewController {
 // MARK: configure collection view
 extension CinemaDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return detailSection.count
+        return viewModel.detailSection.count
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
@@ -92,8 +92,8 @@ extension CinemaDetailViewController: UICollectionViewDelegate, UICollectionView
         if kind == UICollectionView.elementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CinemaDetailHeaderView.id, for: indexPath) as! CinemaDetailHeaderView
 
-            header.configureHeaderTitle(title: detailSection[indexPath.section])
-            header.configureMoreButton(title: detailSection[indexPath.section])
+            header.configureHeaderTitle(title: viewModel.detailSection[indexPath.section])
+            header.configureMoreButton(title: viewModel.detailSection[indexPath.section])
 
             header.moreButtonToggle = {
                 self.isMoreTapped.toggle()
