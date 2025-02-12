@@ -4,6 +4,11 @@ final class ProfileImageViewModel {
 
     private(set) var input: Input
     private(set) var output: Output
+    private(set) var profileImageList: [String] = [
+        "profile_0", "profile_1", "profile_2", "profile_3",
+        "profile_4", "profile_5", "profile_6", "profile_7",
+        "profile_8", "profile_9", "profile_10", "profile_11"
+    ]
 
     struct Input {
         let imageIndex: Observable<Int?> = Observable(nil)
